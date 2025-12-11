@@ -2,7 +2,13 @@
     <h1>Login</h1>
     <form action="handle_login.php" method="post">
         <input type="text" name="u" placeholder="Username" required="required" />
+        <?php if (isset($errors['u'])): ?>
+            <label style="color: red"><?php echo $errors['u']; ?></label>
+        <?php endif; ?>
         <input type="password" name="p" placeholder="Password" required="required" />
+        <?php if (isset($errors['p'])): ?>
+            <label style="color: red"><?php echo $errors['p']; ?></label>
+        <?php endif; ?>
         <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
     </form>
 </div>

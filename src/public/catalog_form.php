@@ -1,4 +1,5 @@
 <div class="container">
+    <a href="edit_profile.php">My profile</a>
     <h3>Catalog</h3>
     <div class="card-deck">
         <?php foreach ($products as $product) : ?>

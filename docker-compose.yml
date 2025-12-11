@@ -4,15 +4,16 @@ services:
     ports:
       - 81:80
     volumes:
-      - /home/dasha/projects/online-shop/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-      - /home/dasha/projects/online-shop:/var/www/html
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/html
   php-fpm:
-    image: php:8.1-fpm
-    build: dasha/env
+    build: /home/dasha/projects/online-shop/docker
     volumes:
-      - /home/dasha/projects/online-shop:/var/www/html
+      - .:/var/www/html
   postgres:
     image: postgres:13
+    volumes:
+      - /home/dasha/projects/online-shop/docker/postgres/data:/var/lib/postgres/data
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
