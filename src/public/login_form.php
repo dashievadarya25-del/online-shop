@@ -9,7 +9,7 @@
         <?php if (isset($errors['p'])): ?>
             <label style="color: red"><?php echo $errors['p']; ?></label>
         <?php endif; ?>
-        <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Login</button>
     </form>
 </div>
 
