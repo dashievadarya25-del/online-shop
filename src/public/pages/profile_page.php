@@ -8,7 +8,7 @@
 <body>
 <div class="profile-container">
     <h1><img src="https://storage.yandexcloud.net/moskvichmag/uploads/2024/03/angelll1.jpg" alt="User avatar">User profile</h1>
-    <form id="profile-form" action="edit_profile.php" method="post">
+    <form id="profile-form" action="profile" method="post">
         <div class="form-group">
             <label for="first-name">First Name</label>
             <input type="text" id="first-name" name="first-name" value="<?php echo $user['name'];?>" required>
@@ -21,10 +21,6 @@
             <label for="password">New Password (optional)</label>
             <!-- Это поле для установки нового пароля, старый пароль здесь не отображается -->
             <input type="password" id="password" name="password" value="">
-        </div>
-        <div class="buttons">
-            <!-- Одна кнопка "Сохранить" -->
-            <button type="submit" class="save">Save Profile</button>
         </div>
     </form>
 </div>
@@ -125,3 +121,4 @@
         opacity: 0.8;
     }
 </style>
+

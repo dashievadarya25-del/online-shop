@@ -1,6 +1,6 @@
 <div class="login">
     <h1>Login</h1>
-    <form action="handle_login.php" method="post">
+    <form action="" method="post">
         <input type="text" name="u" placeholder="Username" required="required" />
         <?php if (isset($errors['u'])): ?>
             <label style="color: red"><?php echo $errors['u']; ?></label>
