@@ -6,10 +6,12 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - .:/var/www/html
+
   php-fpm:
     build: /home/dasha/projects/online-shop/docker
     volumes:
       - .:/var/www/html
+      - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-xdebug.ini
   postgres:
     image: postgres:13
     volumes:

@@ -1,18 +1,3 @@
-<?php
-session_start();
-
-if (isset($_SESSION['userId'])) {
-$pdo = new PDO("pgsql:host=postgres; port=5432; dbname=mydb", 'user', 'pass');
-
-$stmt = $pdo->query('SELECT * FROM users WHERE id = ' . $_SESSION['userId']);
-$user = $stmt->fetch();
-
-require_once './classes/User.php';
-} else {
-header("Location: /login");
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,17 +10,26 @@ header("Location: /login");
     <h1><img src="https://storage.yandexcloud.net/moskvichmag/uploads/2024/03/angelll1.jpg" alt="User avatar">User profile</h1>
     <form id="profile-form" action="/edit-profile" method="POST">
         <div class="form-group">
-            <label for="first-name">First Name</label>
-            <input type="text" id="first-name" name="first-name" value="<?php echo $user['name'];?>" required>
+            <label for="name">First Name</label>
+            <?php if (isset($errors['name'])): ?>
+            <label style="color: red"><?php echo $errors['name']?></label>
+            <?php endif; ?>
+            <input type="text" name="name" id="name"  value="<?php echo $user['name'];?>" />
         </div>
         <div class="form-group">
-            <label for="address">Address</label>
-            <input type="text" id="address" name="address" value="<?php echo $user['email'];?>" required>
+            <label for="email">email</label>
+            <?php if (isset($errors['email'])): ?>
+            <label style="color: red"><?php echo $errors['email']?></label>
+            <?php endif; ?>
+            <input type="text" name="email" id="email"  value="<?php echo $user['email'];?>" />
         </div>
         <div class="form-group">
             <label for="password">New Password (optional)</label>
+            <?php if (isset($errors['password'])): ?>
+            <label style="color: red"><?php echo $errors['password'];?></label>
+            <?php endif; ?>
             <!-- Это поле для установки нового пароля, старый пароль здесь не отображается -->
-            <input type="password" id="password" name="password" value="">
+            <input type="password" name="password" id="password"  value="">
         </div>
         <div class="buttons">
             <!-- Одна кнопка "Сохранить" -->

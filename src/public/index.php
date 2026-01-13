@@ -31,9 +31,9 @@ if ($requestUri === '/registration') {
     require_once './classes/User.php';
     $user = new User();
     if ($requestMethod === 'GET') {
-        $user->editProfile();
-    } elseif ($requestMethod === 'POST') {
         $user->getEditprofile();
+    } elseif ($requestMethod === 'POST') {
+        $user->editProfile();
     }
 } elseif ($requestUri === '/profile') {
     require_once './classes/User.php';
