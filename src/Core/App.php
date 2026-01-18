@@ -63,6 +63,11 @@ class App
                 'method' => 'addProduct',
             ],
         ],
+        '/cart' => [
+            'GET' => [
+                'class' => 'CartController',
+                'method' => 'getcart',]
+        ],
     ];
     public function run()
     {
@@ -93,9 +98,6 @@ class App
 
         $controller = new $class();
         $controller->$method();
-
-
-
     }
 
 }

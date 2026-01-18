@@ -1,5 +1,6 @@
 <div class="container">
     <a href="edit-profile">My profile</a>
+    <a href="/cart">Корзина</a>
     <h3>Catalog</h3>
     <div class="card-deck">
         <?php foreach ($products as $product) : ?>

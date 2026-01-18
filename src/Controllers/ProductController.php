@@ -64,7 +64,7 @@ class ProductController
                 $productModel->updateByUserproducts($productId, $amount, $userId);
 
             }
-
+            header('Location: /catalog');
         }
     }
 
