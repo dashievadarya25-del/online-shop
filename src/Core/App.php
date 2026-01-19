@@ -26,10 +26,6 @@ class App
         '/catalog' => [
             'GET' => [
                 'class' => 'ProductController',
-                'method' => 'catalog',
-            ],
-            'POST' => [
-                'class' => 'ProductController',
                 'method' => 'getCatalog',
             ],
         ],
@@ -95,9 +91,15 @@ class App
 //        ];
         $class = $handler['class'];
         $method = $handler['method'];
-
+        $path = "../Controllers/" . $class . ".php";
+        if (file_exists($path)) {
+            require_once $path;
+        }
         $controller = new $class();
         $controller->$method();
     }
 
 }
+//$path = "../Controllers/" . $className . ".php";
+//    if (file_exists($path)) {
+//        require_once $path;

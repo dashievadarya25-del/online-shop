@@ -4,10 +4,6 @@ class UserController
 {
     public function getRegistrate()
     {
-        session_start();
-        if (!isset($_SESSION['userId'])) {
-            header('location: /catalog');
-        }
         require_once '../Views/registration_form.php';
     }
 

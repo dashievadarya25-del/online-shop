@@ -4,11 +4,6 @@ class ProductController
 {
     public function getCatalog()
     {
-        require_once '../Views/catalog_form.php';
-    }
-
-    public function catalog()
-    {
         session_start();
 
         if (isset($_SESSION['userId'])) {
