@@ -36,7 +36,7 @@ class ProductController
 
 
         $errors = $this->addproductValidate($_POST);
-        print_r($errors);
+        //print_r($errors);
 
         if (empty($errors)) {
             $pdo = new PDO("pgsql:host=postgres; port=5432; dbname=mydb", 'user', 'pass');
