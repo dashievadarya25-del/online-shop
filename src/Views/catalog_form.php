@@ -1,7 +1,7 @@
 <div class="container">
-    <a href="edit-profile">My profile</a>
+    <a href="/profile">My profile</a>
     <a href="/cart">Корзина</a>
-    <h3>Catalog</h3>
+    <h2>Каталог</h2>
     <div class="card-deck">
         <?php foreach ($products as $product) : ?>
             <div class="card text-center">

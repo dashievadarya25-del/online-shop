@@ -141,7 +141,9 @@ class UserController
 
     public function profile()
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
         if (isset($_SESSION['userId'])) {
             require_once '../Model/User.php';
@@ -157,17 +159,7 @@ class UserController
 
     public function getEditprofile()
     {
-        session_start();
-
-        if (isset($_SESSION['userId'])) {
-            require_once '../Model/User.php';
-            $userModel = new User();
-            $user = $userModel->getByUserId();
-
-            require_once '../Views/edit_profile_form.php';
-        } else {
-            header("Location: /login");
-        }
+        require_once '../Views/edit_profile_form.php';
     }
 
     public function editProfile()

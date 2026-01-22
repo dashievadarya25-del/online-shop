@@ -21,6 +21,7 @@
             <label for="password">New Password (optional)</label>
             <!-- Это поле для установки нового пароля, старый пароль здесь не отображается -->
             <input type="password" id="password" name="password" value="">
+            <a href="/edit-profile">Изменить профиль</a>
         </div>
     </form>
 </div>

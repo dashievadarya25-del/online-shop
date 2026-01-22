@@ -1,3 +1,13 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION['userId'])) {
+require_once '../Model/User.php';
+$userModel = new User();
+$user = $userModel->getByUserId();}?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +22,7 @@
         <div class="form-group">
             <label for="name">First Name</label>
             <?php if (isset($errors['name'])): ?>
-            <label style="color: red"><?php echo $errors['name']?></label>
+            <label style="color: red"><?php echo $errors['name'];?></label>
             <?php endif; ?>
             <input type="text" name="name" id="name"  value="<?php echo $user['name'];?>" />
         </div>
@@ -34,6 +44,7 @@
         <div class="buttons">
             <!-- Одна кнопка "Сохранить" -->
             <button type="submit" class="save">Save Profile</button>
+            <a href="/login">Выйти из профиля</a>
         </div>
     </form>
 </div>

@@ -14,9 +14,9 @@ class User
         $stmt = $this->PDO->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute([':email' => $email]);
 
-        $result = $stmt->fetch();
+        $user = $stmt->fetch();
 
-        return $result;
+        return $user;
     }
 
     public function updateEmailById(string $email, int $userId)
