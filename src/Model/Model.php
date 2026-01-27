@@ -11,3 +11,4 @@ class Model
         $this->PDO = new PDO("pgsql:host=postgres; port=5432; dbname=mydb", 'user', 'pass');
     }
 }
+//изменения внесены
