@@ -1,4 +1,5 @@
 <?php
+require_once "../Model/Model.php";
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -8,11 +9,8 @@ if (!isset($_SESSION['userId'])) {
     exit();
 }
 $userId = $_SESSION['userId'];
-$pdo = new PDO("pgsql:host=postgres; port=5432; dbname=mydb", 'user', 'pass');
-
-$stmt = $pdo->query("SELECT * FROM user_products WHERE user_id = {$userId}");
-$userProducts = $stmt->fetchAll();
-
+$productModel = new Model\Product();
+$userProducts = $productModel->getUserproductsById($userId);
 
 print_r($userProducts);
 $products = [];
@@ -24,8 +22,8 @@ foreach ($userProducts as $userProduct) {
 //        'amount' => 3,
 //    ];
     $productId = $userProduct['product_id'];
-    $stmt = $pdo->query("SELECT * FROM products WHERE id = $productId");
-    $product = $stmt->fetch();
+    $productModel = new Model\Product();
+    $product = $productModel->getProductByProductId($productId);
     $product['amount'] = $userProduct['amount'];
     $products[] = $product;
 }

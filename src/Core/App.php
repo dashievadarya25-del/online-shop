@@ -1,67 +1,70 @@
 <?php
-
+namespace Core;
+use Controllers\UserController;
+use Controllers\ProductController;
+use Controllers\CartController;
 class App
 {
     private array $routes = [
         '/registration' => [
             'GET' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'getRegistrate',
             ],
             'POST' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'registrate',
             ],
         ],
         '/login' => [
             'GET' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'getLogin',
             ],
             'POST' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'login',
             ],
         ],
         '/catalog' => [
             'GET' => [
-                'class' => 'ProductController',
+                'class' => ProductController::class,
                 'method' => 'getCatalog',
             ],
         ],
         '/edit-profile' => [
             'GET' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'getEditprofile',
             ],
             'POST' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'editProfile',
             ],
         ],
         '/profile' => [
             'GET' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'profile',
             ],
             'POST' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'getProfile',
             ],
         ],
         '/add-product' => [
             'GET' => [
-                'class' => 'ProductController',
+                'class' => ProductController::class,
                 'method' => 'getaddProducts',
             ],
             'POST' => [
-                'class' => 'ProductController',
+                'class' => ProductController::class,
                 'method' => 'addProduct',
             ],
         ],
         '/cart' => [
             'GET' => [
-                'class' => 'CartController',
+                'class' => CartController::class,
                 'method' => 'getcart',]
         ],
     ];
@@ -92,10 +95,10 @@ class App
 //        ];
                 $class = $handler['class'];
                 $method = $handler['method'];
-                $path = "../Controllers/" . $class . ".php"; // require_once "../Controller/$class.php"
-                if (file_exists($path)) {
-                    require_once $path;
-                }
+//                $path = "../Controllers/" . $class . ".php"; // require_once "../Controller/$class.php"
+//                if (file_exists($path)) {
+//                    require_once $path;
+//                }
                 $controller = new $class();
                 $controller->$method();
             } else {

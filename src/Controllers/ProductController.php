@@ -1,16 +1,23 @@
 <?php
+namespace Controllers;
+use Model\Product;
+
+
 
 class ProductController
 {
+    private Product $productModel;
+    public function __construct()
+    {
+        $this->productModel = new Product();
+    }
     public function getCatalog()
     {
         session_start();
 
         if (isset($_SESSION['userId'])) {
-            require_once '../Model/Product.php';
-            $productModel = new Product();
 
-            $products = $productModel->getByProducts();
+            $products = $this->productModel->getByProducts();
 
             require_once '../Views/catalog_form.php';
         } else {
@@ -39,24 +46,20 @@ class ProductController
         //print_r($errors);
 
         if (empty($errors)) {
-            $pdo = new PDO("pgsql:host=postgres; port=5432; dbname=mydb", 'user', 'pass');
             $userId = $_SESSION['userId'];
             $productId = $_POST['product_id'];
             $amount = $_POST['amount'];
 
-            require_once '../Model/Product.php';
-            $productModel = new Product();
-            $data = $productModel->getByProductIdUserId($productId, $userId);
+            $data = $this->productModel->getByProductIdUserId($productId, $userId);
 
             if ($data === false) {
-                require_once '../Model/Product.php';
-                $productModel = new Product();
-                $productModel->insertByUserproducts($productId, $amount);
+
+
+                $this->productModel->insertByUserproducts($productId, $amount);
             } else {
                 $amount = $data['amount'] + $amount;
-                require_once '../Model/Product.php';
-                $productModel = new Product();
-                $productModel->updateByUserproducts($productId, $amount, $userId);
+
+                $this->productModel->updateByUserproducts($productId, $amount, $userId);
 
             }
             header('Location: /catalog');
@@ -71,9 +74,9 @@ class ProductController
             $productId = (int)$data['product_id'];
 
 //  id == productId
-            require_once '../Model/Product.php';
-            $productModel = new Product();
-            $data = $productModel->getProductByProductId($productId);
+
+
+            $data = $this->productModel->getProductByProductId($productId);
 
             if ($data === false) {
                 $errors['product_id'] = 'Product id does not exist';

@@ -1,8 +1,22 @@
 <?php
 
-require_once '../Core/App.php';
+$autoload = function (string $classname) {
+    //  ./../Core/App.php
+    $path = str_replace('\\', '/', $classname); //Core/App
+    $path = $path . '.php'; // Core/App.php
+    $path = './../' . $path;
 
-$app = new App();
+    if (file_exists($path)) {
+        require_once $path;
+        return true;
+    }
+
+    return false;
+};
+
+spl_autoload_register($autoload);
+
+$app = new Core\App();
 $app->run();
 
 //$requestUri = $_SERVER['REQUEST_URI'];
