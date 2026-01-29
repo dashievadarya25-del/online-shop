@@ -11,7 +11,7 @@ class Product extends Model
         return $products;
     }
 
-    public function getByProductIdUserId(int $productId, int $userId)
+    public function getByProductIdUserId(int $productId, int $userId): array|false
     {
         $stmt = $this->PDO->prepare("SELECT * FROM user_products WHERE product_id = :productId AND user_id = :userId");
         $stmt->execute(['productId' => $productId, 'userId' => $userId]);

@@ -1,14 +1,3 @@
-<?php
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-if (isset($_SESSION['userId'])) {
-require_once '../Model/User.php';
-$userModel = new Model\User();
-$user = $userModel->getByUserId();}?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

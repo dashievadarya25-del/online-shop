@@ -166,6 +166,13 @@ class UserController
 
     public function getEditprofile()
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (isset($_SESSION['userId'])) {
+
+            $user = $this->userModel->getByUserId();}
         require_once '../Views/edit_profile_form.php';
     }
 

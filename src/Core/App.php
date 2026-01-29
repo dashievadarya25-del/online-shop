@@ -1,5 +1,6 @@
 <?php
 namespace Core;
+use Controllers\OrdersController;
 use Controllers\UserController;
 use Controllers\ProductController;
 use Controllers\CartController;
@@ -66,6 +67,16 @@ class App
             'GET' => [
                 'class' => CartController::class,
                 'method' => 'getcart',]
+        ],
+        '/order' => [
+            'GET' => [
+                'class' => OrdersController::class,
+                'method' => 'getorders',
+            ],
+            'POST' => [
+                'class' => OrdersController::class,
+                'method' => 'orders',
+            ],
         ],
     ];
     public function run()
