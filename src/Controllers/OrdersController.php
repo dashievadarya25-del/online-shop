@@ -2,42 +2,63 @@
 
 namespace Controllers;
 
-use Model\User;
+use Model\Order;
+use Model\OrderProduct;
+use Model\UserProduct;
 
 class OrdersController
 {
-    private User $userModel;
+    private Order $orderModel;
+
     public function __construct()
     {
-        $this->userModel = new User();
-    }
-
-    public function getOrders()
-    {
-        require_once '../Views/order_form.php';
+        $this->orderModel = new Order();
     }
 
 
-    public function orders()
+
+    public function getCheckoutForm()
     {
+
+        require_once './../Views/order_form.php';
+    }
+
+
+    public function handleCheckout()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['userId'])) {
+            header("Location: /login");
+            exit;
+        }
         $errors = $this->regOrders($_POST);
 
 // добавляем в БД, если нет ошибок
         if (empty($errors)) {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $password = $_POST['psw'];
-            $passwordrepeat = $_POST['psw-repeat'];
+            $address = $_POST['address'];
+            $contact_phone = $_POST['contact_phone'];
+            $contact_name = $_POST['contact_name'];
+            $comment = $_POST['comment'];
+            $userId = $_SESSION['userId'];
 
-            $password = password_hash($password, PASSWORD_DEFAULT);
+            $orderId = $this->orderModel->create($contact_name, $address, $contact_phone, $comment, $userId);
+            $userProductModel = new UserProduct();
+            $userProducts = $userProductModel->getAllByUserId($userId);
 
-            //require_once '../Model/User.php';
+            $orderProduct = new OrderProduct();
 
-            $this->userModel->insetUsers($name, $email, $password);
+            foreach ($userProducts as $userProduct) {
+                $productId = $userProduct['product_id'];
+                $amount = $userProduct['amount'];
 
-            $result = $this->userModel->getByEmail($email);
+                $orderProduct->create($orderId, $productId, $amount);
 
-            print_r($result);
+            }
+            $userProductModel->deleteByUserId($userId);
+
         }
         require_once '../Views/order_form.php';
     }
@@ -47,50 +68,32 @@ class OrdersController
         $errors = [];
 
         //объявление и валидация данных
-        if (isset($data['name'])) {
-            $name = $data['name'];
-            if (strlen($name) < 3) {
-                $errors['name'] = "Name must be at least 3 characters";
+        if (isset($data['contact_name'])) {
+            $contact_name = $data['contact_name'];
+            if (strlen($contact_name) < 2) {
+                $errors['contact_name'] = "Name must be at least 2 characters";
             }
         } else {
-            $errors['name'] = "Name is required";
+            $errors['contact_name'] = "Name is required";
         }
 
-        if (isset($data['email'])) {
-            $email = $data['email'];
+        if (isset($data['address'])) {
+            $address = $data['address'];
 
-            if (strlen($email) < 2) {
-                $errors['email'] = 'email не должен быть меньше 2 символов';
-            } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-                $errors['email'] = 'email некорректный';
-            } else {
-                //require_once '../Model/User.php';
-
-                $user = $this->userModel->getByEmail($email);
-                if ($user !== false) {
-                    $errors['email'] = "этот email уже существует";
-                }
+            if (strlen($address) < 5) {
+                $errors['address'] = 'address не должен быть меньше 5 символов';
             }
-        } else {
-            $errors['email'] = 'email должен быть заполнен';
         }
 
-        if (isset($data['psw'])) {
-            $password = $data ['psw'];
+        if (isset($data['contact_phone'])) {
+            $contact_phone = $data ['contact_phone'];
 
-            if (strlen($password) < 4) {
-                $errors['psw'] = 'Пароль не должен быть меньше 4';
+            if (strlen($contact_phone) < 11) {
+                $errors['phone'] = 'должно содержать не меньше 11 символов';
             }
-
-            $passwordrepeat = $data['psw-repeat'];
-            if ($password !== $passwordrepeat) {
-                $errors['psw-repeat'] = 'пароли не совпадают';
-            }
-        } else {
-            $errors['psw'] = 'Пароль должен быть заполнен';
         }
-
         return $errors;
     }
-
 }
+
+

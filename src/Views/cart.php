@@ -43,6 +43,7 @@
     </form>
     <?php endforeach; ?>
 </div>
+<a href="/order">Заказы</a>
 </div>
 
 <style>

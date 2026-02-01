@@ -68,14 +68,14 @@ class App
                 'class' => CartController::class,
                 'method' => 'getcart',]
         ],
-        '/order' => [
+        '/create-order' => [
             'GET' => [
                 'class' => OrdersController::class,
-                'method' => 'getorders',
+                'method' => 'getCheckoutForm',
             ],
             'POST' => [
                 'class' => OrdersController::class,
-                'method' => 'orders',
+                'method' => 'handleCheckout',
             ],
         ],
     ];
