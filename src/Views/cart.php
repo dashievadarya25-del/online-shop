@@ -1,6 +1,7 @@
 <div class="container">
     <a href="edit-profile">My profile</a>
     <a href="/cart">Корзина</a>
+    <a href="/user-order">Мои заказы</a>
     <h3>Catalog</h3>
     <div class="card-deck">
         <?php foreach ($products as $product) : ?>
@@ -43,7 +44,7 @@
     </form>
     <?php endforeach; ?>
 </div>
-<a href="/order">Заказы</a>
+<a href="/create-order">Заказы</a>
 </div>
 
 <style>

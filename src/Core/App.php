@@ -75,9 +75,13 @@ class App
             ],
             'POST' => [
                 'class' => OrdersController::class,
-                'method' => 'handleCheckout',
+                'method' => 'handleCheckout',]
             ],
-        ],
+        '/user-order' => [
+            'GET' => [
+                'class' => OrdersController::class,
+                'method' => 'getAllOrders',]
+            ],
     ];
     public function run()
     {

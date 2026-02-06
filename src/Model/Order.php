@@ -25,17 +25,11 @@ class Order extends Model
         return $data['id'];
     }
 
-//    public function getById(string $userId)
-//    {
-//        $stmt = $this->PDO->query("SELECT * FROM users WHERE id = '$userId'");
-//        $user = $stmt->fetch();
-//
-//        return $user;
-//    }
-//    public function updateNameById(string $name, int $userId)
-//    {
-//        $stmt = $this->PDO->prepare("UPDATE users SET name = :name WHERE id = $userId");
-//        $stmt->execute([':name' => $name]);
-//    }
+    public function getAllByUserId($userId): array
+    {
+        $stmt = $this->PDO->prepare('SELECT * FROM orders WHERE user_id = :userId');
+        $stmt->execute(['userId' => $userId]);
+        return $stmt->fetchAll();
+    }
 
 }

@@ -46,4 +46,11 @@ class Product extends Model
         return $userProducts;
     }
 
+    public function getOneById(int $productId): array|false
+    {
+        $stmt = $this->PDO->query("SELECT * FROM user_products WHERE id = $productId");
+        $product = $stmt->fetch();
+        return $product;
+    }
+
 }
