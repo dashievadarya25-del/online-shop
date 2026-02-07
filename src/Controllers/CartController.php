@@ -2,13 +2,16 @@
 namespace Controllers;
 
 use Model\Product;
+use Model\UserProduct;
 
 class CartController
 {
     private Product $productModel;
+    private UserProduct $userProductModel;
     public function __construct()
     {
         $this->productModel = new Product();
+        $this->userProductModel = new UserProduct();
     }
     public function getcart()
     {
@@ -23,7 +26,7 @@ class CartController
         }
         $userId = $_SESSION['userId'];
 
-        $userProducts = $this->productModel->getUserproductsById($userId);
+        $userProducts = $this->userProductModel->getUserproductsById($userId);
 
         print_r($userProducts);
         $products = [];

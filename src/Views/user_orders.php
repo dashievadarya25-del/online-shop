@@ -20,46 +20,40 @@
     </style>
 </head>
 <body>
-
-<h2></h2>
-
-<table>
-    <tr>
-        <th>Company</th>
-        <th>Contact</th>
-        <th>Country</th>
-    </tr>
-    <tr>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
-    </tr>
-    <tr>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td>
-        <td>Mexico</td>
-    </tr>
-    <tr>
-        <td>Ernst Handel</td>
-        <td>Roland Mendel</td>
-        <td>Austria</td>
-    </tr>
-    <tr>
-        <td>Island Trading</td>
-        <td>Helen Bennett</td>
-        <td>UK</td>
-    </tr>
-    <tr>
-        <td>Laughing Bacchus Winecellars</td>
-        <td>Yoshi Tannamuri</td>
-        <td>Canada</td>
-    </tr>
-    <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Giovanni Rovelli</td>
-        <td>Italy</td>
-    </tr>
-</table>
+<a href="/catalog">Каталог продуктов</a>
+<h2>My orders</h2>
+<div class="order-container">
+    <?php foreach ($newUserOrders as $newUserOrder) : ?>
+         <div class="order-cart">
+             <h2> Заказ № <?php echo $newUserOrder['id']?></h2>
+             <p><?php echo $newUserOrder['contact_name']?></p>
+             <p><?php echo $newUserOrder['contact_phone']?></p>
+             <p><?php echo $newUserOrder['comment']?></p>
+             <p><?php echo $newUserOrder['address']?></p>
+             <table>
+             <thead>
+                 <tr>
+                     <th>Наименование</th>
+                     <th>Количество</th>
+                     <th>Стоимость</th>
+                     <th>Сумма</th>
+                 </tr>
+             </thead>
+                 <tbody>
+                 <?php foreach ($newUserOrder['products'] as $newOrderProduct) : ?>
+                 <tr>
+                     <td><?php echo $newOrderProduct['name']?></td>
+                     <td><?php echo $newOrderProduct['amount']?></td>
+                     <td><?php echo $newOrderProduct['price']?></td>
+                     <td><?php echo $newOrderProduct['totalSum']?></td>
+                 </tr>
+                 <?php endforeach; ?>
+                 </tbody>
+             </table>
+            <p> Сумма заказа <?php echo $newUserOrder['total']?></p>
+         </div>
+    <?php endforeach; ?>
+</div>
 
 </body>
 </html>

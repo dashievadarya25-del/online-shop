@@ -1,6 +1,7 @@
 <form action="/create-order" method="post">
     <div class="container">
         <h1>Order form</h1>
+        <a href="/user-order">Мои заказы</a>
         <p>Please fill in this form to create an account.</p>
         <hr>
 

@@ -1,15 +1,18 @@
 <?php
 namespace Controllers;
 use Model\Product;
-
+use Model\UserProduct;
 
 
 class ProductController
 {
     private Product $productModel;
+
+    private UserProduct $userProductModel;
     public function __construct()
     {
         $this->productModel = new Product();
+        $this->userProductModel = new UserProduct();
     }
     public function getCatalog()
     {
@@ -50,16 +53,16 @@ class ProductController
             $productId = $_POST['product_id'];
             $amount = $_POST['amount'];
 
-            $data = $this->productModel->getByProductIdUserId($productId, $userId);
+            $data = $this->userProductModel->getByProductIdUserId($productId, $userId);
 
             if ($data === false) {
 
 
-                $this->productModel->insertByUserproducts($productId, $amount);
+                $this->userProductModel->insertByUserproducts($productId, $amount);
             } else {
                 $amount = $data['amount'] + $amount;
 
-                $this->productModel->updateByUserproducts($productId, $amount, $userId);
+                $this->userProductModel->updateByUserproducts($productId, $amount, $userId);
 
             }
             header('Location: /catalog');

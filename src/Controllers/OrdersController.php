@@ -104,100 +104,103 @@ class OrdersController
 
     public function getAllOrders()
     {
-//        if (session_status() === PHP_SESSION_NONE) {
-//            session_start();
-//        }
-//        if (!isset($_SESSION['userId'])) {
-//            header("Location: /login");
-//            exit();
-//        }
-//        $userId = $_SESSION['userId'];
-//
-//        $userOrders = $this->orderModel->getAllByUserId($userId);
-////        $userOrders = [
-////            [
-////                'id' => 1,
-////                'user_id' => 1,
-////                'contact_name' => 'test',
-////                'address' => 'test',
-////                'contact_phone' => 'test',
-////                'comment' => 'test',
-////            ],
-////            [
-////                'id' => 2,
-////                'user_id' => 1,
-////                'contact_name' => 'test',
-////                'address' => 'test',
-////                'contact_phone' => 'test',
-////                'comment' => 'test',
-////            ],
-////        ];
-//
-//        $newUserOrders = [];
-//
-//        foreach ($userOrders as $userOrder) {
-//            //$userOrder = [
-////                'id' => 1,
-////                'user_id' => 1,
-////                'contact_name' => 'test',
-////                'address' => 'test',
-////                'contact_phone' => 'test',
-////                'comment' => 'test',
-////            ],
-//
-//            $orderProducts = $this->orderProductModel->getAllByOrderId($userOrder['id']);
-//
-////            $orderProducts = [
-////                [
-////                    'id' => 1,
-////                    'order_id' => 1,
-////                    'product_id' => 1,
-////                    'amount' => 1,
-////                ],
-////                [
-////                    'id' => 2,
-////                    'order_id' => 1,
-////                    'product_id' => 2,
-////                    'amount' => 2,
-////                ],
-////            ];
-//            $newOrderProducts = [];
-//            $sum = 0;
-//            foreach ($orderProducts as $orderProduct) {
-////                $orderProduct = [
-////                    'id' => 1,
-////                    'order_id' => 1,
-////                    'product_id' => 1,
-////                    'amount' => 1,
-////                ];
-//                $product = $this->productModel->getOneById($orderProduct['product_id']);
-////                $product = [
-////                    'id' => 1,
-////                    'name' => 'вафли',
-////                    'description' => 'описание',
-////                    'price' => 100,
-////                    'image_url' => 'рисунок',
-////                ];
-//                $orderProduct['name'] = $product['name'];
-//                $orderProduct['price'] = $product['price'];
-//                $orderProduct['totalSum'] = $orderProduct['price'] * $orderProduct['amount'];
-////                $orderProduct = [
-////                    'id' => 1,
-////                    'order_id' => 1,
-////                    'product_id' => 1,
-////                    'amount' => 1,
-////                    'name' => $product['name'],
-////                    'price' => $product['price'],
-////                    'totalSum' => $orderProduct['price'] * $orderProduct['amount'],
-////                ];
-//                $newOrderProducts[] = $orderProduct;
-//
-//                $sum = $sum + $orderProduct['totalSum'];
-//            }
-//            $userOrder['total'] = $sum;
-//            $userOrder['products'] = $newOrderProducts;
-//            $newUserOrders[] = $userOrder;
-//        }
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!isset($_SESSION['userId'])) {
+            header("Location: /login");
+            exit();
+        }
+        $userId = $_SESSION['userId'];
+
+        $userOrders = $this->orderModel->getAllByUserId($userId);
+//        $userOrders = [
+//            [
+//                'id' => 1,
+//                'user_id' => 1,
+//                'contact_name' => 'test',
+//                'address' => 'test',
+//                'contact_phone' => 'test',
+//                'comment' => 'test',
+//            ],
+//            [
+//                'id' => 2,
+//                'user_id' => 1,
+//                'contact_name' => 'test',
+//                'address' => 'test',
+//                'contact_phone' => 'test',
+//                'comment' => 'test',
+//            ],
+//        ];
+
+        $newUserOrders = [];
+
+        foreach ($userOrders as $userOrder) {
+            //$userOrder = [
+//                'id' => 1,
+//                'user_id' => 1,
+//                'contact_name' => 'test',
+//                'address' => 'test',
+//                'contact_phone' => 'test',
+//                'comment' => 'test',
+//            ],
+
+            $orderProducts = $this->orderProductModel->getAllByOrderId($userOrder['id']);
+
+//            $orderProducts = [
+//                [
+//                    'id' => 1,
+//                    'order_id' => 1,
+//                    'product_id' => 1,
+//                    'amount' => 1,
+//                ],
+//                [
+//                    'id' => 2,
+//                    'order_id' => 1,
+//                    'product_id' => 2,
+//                    'amount' => 2,
+//                ],
+//            ];
+            $newOrderProducts = [];
+            $sum = 0;
+            foreach ($orderProducts as $orderProduct) {
+//                $orderProduct = [
+//                    'id' => 1,
+//                    'order_id' => 1,
+//                    'product_id' => 1,
+//                    'amount' => 1,
+//                ];
+
+                $product = $this->productModel->getOneById($orderProduct['product_id']);
+//                $product = [
+//                    'id' => 1,
+//                    'name' => 'вафли',
+//                    'description' => 'описание',
+//                    'price' => 100,
+//                    'image_url' => 'рисунок',
+//                ];
+
+                $orderProduct['name'] = $product['name'];
+                $orderProduct['price'] = $product['price'];
+                $orderProduct['totalSum'] = $orderProduct['price'] * $orderProduct['amount'];
+
+//                $orderProduct = [
+//                    'id' => 1,
+//                    'order_id' => 1,
+//                    'product_id' => 1,
+//                    'amount' => 1,
+//                    'name' => $product['name'],
+//                    'price' => $product['price'],
+//                    'totalSum' => $orderProduct['price'] * $orderProduct['amount'],
+//                ];
+                $newOrderProducts[] = $orderProduct;
+
+                $sum = $sum + $orderProduct['totalSum'];
+            }
+            $userOrder['total'] = $sum;
+            $userOrder['products'] = $newOrderProducts;
+            $newUserOrders[] = $userOrder;
+        }
         require_once './../Views/user_orders.php';
     }
 }
