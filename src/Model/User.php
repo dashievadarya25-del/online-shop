@@ -3,14 +3,30 @@ namespace Model;
 
 class User extends Model
 {
-    public function getByEmail(string $email): array|false
+    private int $id;
+    private string $name;
+    private string $email;
+    private string $password;
+
+    public function getByEmail(string $email): self|null
     {
         $stmt = $this->PDO->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute([':email' => $email]);
 
         $user = $stmt->fetch();
 
-        return $user;
+        if ($user === false) {
+            return null;
+        }
+
+        $obj = new self();
+        $obj->id = $user['id'];
+        $obj->name = $user['name'];
+        $obj->email = $user['email'];
+        $obj->password = $user['password'];
+
+
+        return $obj;
     }
 
     public function updateEmailById(string $email, int $userId)
@@ -39,18 +55,62 @@ class User extends Model
         $stmt->execute(['name' => $name, 'email' => $email, 'password' => $password]);
     }
 
-    public function getUsernameByEmail(string $username)
+    public function getUsernameByEmail(string $username): self|null
     {
         $stmt = $this->PDO->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute(['email' => $username]);
         $user = $stmt->fetch();
-        return $user;
+
+        if ($user === false) {
+            return null;
+        }
+
+        $obj = new self();
+        $obj->id = $user['id'];
+        $obj->name = $user['name'];
+        $obj->email = $user['email'];
+        $obj->password = $user['password'];
+
+        return $obj;
+
     }
 
-    public function getByUserId()
+    public function getByUserId(): self|null
     {
         $stmt = $this->PDO->query('SELECT * FROM users WHERE id = ' . $_SESSION['userId']);
         $user = $stmt->fetch();
-        return $user;
+
+        if ($user === false) {
+            return null;
+        }
+
+        $obj = new self();
+        $obj->id = $user['id'];
+        $obj->name = $user['name'];
+        $obj->email = $user['email'];
+        $obj->password = $user['password'];
+
+        return $obj;
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
 }

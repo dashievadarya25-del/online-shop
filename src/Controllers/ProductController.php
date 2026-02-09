@@ -20,7 +20,7 @@ class ProductController
 
         if (isset($_SESSION['userId'])) {
 
-            $products = $this->productModel->getByProducts();
+            $products = $this->productModel->getAll();
 
             require_once '../Views/catalog_form.php';
         } else {
@@ -79,7 +79,7 @@ class ProductController
 //  id == productId
 
 
-            $data = $this->productModel->getProductByProductId($productId);
+            $data = $this->productModel->getByProductId($productId);
 
             if ($data === false) {
                 $errors['product_id'] = 'Product id does not exist';

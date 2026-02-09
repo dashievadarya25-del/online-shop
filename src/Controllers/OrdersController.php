@@ -133,9 +133,9 @@ class OrdersController
 //            ],
 //        ];
 
-        $newUserOrders = [];
+        //$newUserOrders = [];
 
-        foreach ($userOrders as $userOrder) {
+        //foreach ($userOrders as $userOrder) {
             //$userOrder = [
 //                'id' => 1,
 //                'user_id' => 1,
@@ -145,7 +145,7 @@ class OrdersController
 //                'comment' => 'test',
 //            ],
 
-            $orderProducts = $this->orderProductModel->getAllByOrderId($userOrder['id']);
+           $orderProducts = $this->orderProductModel->getAllByOrderId($userOrder['id']);
 
 //            $orderProducts = [
 //                [
@@ -163,7 +163,7 @@ class OrdersController
 //            ];
             $newOrderProducts = [];
             $sum = 0;
-            foreach ($orderProducts as $orderProduct) {
+            //foreach ($orderProducts as $orderProduct) {
 //                $orderProduct = [
 //                    'id' => 1,
 //                    'order_id' => 1,
@@ -180,8 +180,8 @@ class OrdersController
 //                    'image_url' => 'рисунок',
 //                ];
 
-                $orderProduct['name'] = $product['name'];
-                $orderProduct['price'] = $product['price'];
+                $orderProduct['name'] = $product->getName();
+                $orderProduct['price'] = $product->getPrice();
                 $orderProduct['totalSum'] = $orderProduct['price'] * $orderProduct['amount'];
 
 //                $orderProduct = [
@@ -196,11 +196,11 @@ class OrdersController
                 $newOrderProducts[] = $orderProduct;
 
                 $sum = $sum + $orderProduct['totalSum'];
-            }
+            //}
             $userOrder['total'] = $sum;
             $userOrder['products'] = $newOrderProducts;
             $newUserOrders[] = $userOrder;
-        }
+        //}
         require_once './../Views/user_orders.php';
     }
 }

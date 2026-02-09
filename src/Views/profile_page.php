@@ -11,11 +11,11 @@
     <form id="profile-form" action="profile" method="post">
         <div class="form-group">
             <label for="first-name">First Name</label>
-            <input type="text" id="first-name" name="first-name" value="<?php echo $user['name'];?>" required>
+            <input type="text" id="first-name" name="first-name" value="<?php echo $user->getName();?>" required>
         </div>
         <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" id="address" name="address" value="<?php echo $user['email'];?>" required>
+            <input type="text" id="address" name="address" value="<?php echo $user->getEmail();?>" required>
         </div>
         <div class="form-group">
             <label for="password">New Password (optional)</label>

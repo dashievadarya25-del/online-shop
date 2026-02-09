@@ -39,7 +39,7 @@ class CartController
 //    ];
             $productId = $userProduct['product_id'];
 
-            $product = $this->productModel->getProductByProductId($productId);
+            $product = $this->productModel->getByProductId($productId);
             $product['amount'] = $userProduct['amount'];
             $products[] = $product;
         }

@@ -14,14 +14,14 @@
             <?php if (isset($errors['name'])): ?>
             <label style="color: red"><?php echo $errors['name'];?></label>
             <?php endif; ?>
-            <input type="text" name="name" id="name"  value="<?php echo $user['name'];?>" />
+            <input type="text" name="name" id="name"  value="<?php echo $user->getName(); ?>" />
         </div>
         <div class="form-group">
             <label for="email">email</label>
             <?php if (isset($errors['email'])): ?>
             <label style="color: red"><?php echo $errors['email']?></label>
             <?php endif; ?>
-            <input type="text" name="email" id="email"  value="<?php echo $user['email'];?>" />
+            <input type="text" name="email" id="email"  value="<?php echo $user->getEmail(); ?>" />
         </div>
         <div class="form-group">
             <label for="password">New Password (optional)</label>

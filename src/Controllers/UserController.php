@@ -108,12 +108,12 @@ class UserController
 
             $user = $this->userModel->getUsernameByEmail($username);
             if (!empty($user)) {
-                $passwordDb = $user['password'];
+                $passwordDb = $user->getPassword();
 
                 if (password_verify($password, $passwordDb)) {
                     //вход через сессии
                     session_start();
-                    $_SESSION['userId'] = $user['id'];
+                    $_SESSION['userId'] = $user->getId();
                     //вход через куки
                     // setcookie('user_id', $user['id']);
                     header("Location: /catalog");
@@ -243,7 +243,7 @@ class UserController
                 $user = $this->userModel->getByEmail($email);
 
                 $userId = $_SESSION['userId'];
-                if ($user['id'] !== $userId) {
+                if ($user->getId() !== $userId) {
                     $errors['email'] = "этот email уже существует";
                 }
             }

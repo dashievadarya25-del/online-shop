@@ -6,6 +6,13 @@ use PDO;
 
 class Order extends Model
 {
+    private $id;
+    private $contact_name;
+    private $contact_phone;
+    private $comment;
+    private $user_id;
+    private $address;
+
     public function create(string $contact_name, string $address, int $contact_phone, string $comment, int $userId)
     {
         $stmt = $this->PDO->prepare(
@@ -25,11 +32,78 @@ class Order extends Model
         return $data['id'];
     }
 
-    public function getAllByUserId($userId): array
+    public function getAllByUserId($userId): array|null
     {
         $stmt = $this->PDO->prepare('SELECT * FROM orders WHERE user_id = :userId');
         $stmt->execute(['userId' => $userId]);
-        return $stmt->fetchAll();
+        $userOrders = $stmt->fetchAll();
+
+        if (!$userOrders) {
+            return null;
+        }
+
+        $newUserOrders = [];
+        foreach ($userOrders as $userOrder) {
+            $obj = new self();
+            $obj->id = $userOrder['id'];
+            $obj->contact_name = $userOrder['contact_name'];
+            $obj->contact_phone = $userOrder['contact_phone'];
+            $obj->comment = $userOrder['comment'];
+            $obj->user_id = $userOrder['user_id'];
+
+            $newUserOrders[] = $obj;
+        }
+        return $newUserOrders;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContactName()
+    {
+        return $this->contact_name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContactPhone()
+    {
+        return $this->contact_phone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+
 }
+
