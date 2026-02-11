@@ -4,11 +4,30 @@ namespace Model;
 
 class UserProduct extends Model
 {
-    public function getUserproductsById (int $userId)
+    private $id;
+    private $user_id;
+    private $product_id;
+    private $amount;
+    public function getAllById (int $userId): array|null
     {
         $stmt = $this->PDO->query("SELECT * FROM user_products WHERE user_id = {$userId}");
         $userProducts = $stmt->fetchAll();
-        return $userProducts;
+
+        if(!$userProducts) {
+            return null;
+        }
+
+        $products = [];
+        foreach ($userProducts as $userProduct) {
+            $obj = new self;
+            $obj->id = $userProduct['id'];
+            $obj->user_id = $userProduct['user_id'];
+            $obj->product_id = $userProduct['product_id'];
+            $obj->amount = $userProduct['amount'];
+            $products[] = $obj;
+        }
+        return $products;
+
     }
     public function getByProductIdUserId(int $productId, int $userId): array|false
     {
@@ -30,17 +49,64 @@ class UserProduct extends Model
         $stmt->execute(['amount' => $amount, 'userId' => $userId, 'productId' => $productId]);
     }
 
-    public function getAllByUserId($userId): array
+    public function getAllByUserId($userId): array|null
     {
         $stmt = $this->PDO->prepare("SELECT * FROM user_products WHERE user_id = :userId");
         $stmt->execute([':userId' => $userId]);
-        $result = $stmt->fetchAll();
-        return $result;
+        $userProducts = $stmt->fetchAll();
+
+        if(!$userProducts) {
+            return null;
+        }
+
+        $products = [];
+        foreach ($userProducts as $userProduct) {
+            $obj = new self;
+            $obj->id = $userProduct['id'];
+            $obj->user_id = $userProduct['user_id'];
+            $obj->product_id = $userProduct['product_id'];
+            $obj->amount = $userProduct['amount'];
+            $products[] = $obj;
+        }
+        return $products;
     }
     public function deleteByUserId($userId)
     {
         $stmt = $this->PDO->prepare("DELETE FROM user_products WHERE user_id = :userId");
         $stmt->execute([':userId' => $userId]);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductId()
+    {
+        return $this->product_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
 
 }

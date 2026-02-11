@@ -15,7 +15,7 @@ class CartController
     }
     public function getcart()
     {
-        //require_once "../Model/Model.php";
+
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -26,7 +26,7 @@ class CartController
         }
         $userId = $_SESSION['userId'];
 
-        $userProducts = $this->userProductModel->getUserproductsById($userId);
+        $userProducts = $this->userProductModel->getAllById($userId);
 
         print_r($userProducts);
         $products = [];
@@ -37,11 +37,20 @@ class CartController
 //        'product_id' => 1,
 //        'amount' => 3,
 //    ];
-            $productId = $userProduct['product_id'];
+            $productId = $userProduct->getProductId();
 
             $product = $this->productModel->getByProductId($productId);
-            $product['amount'] = $userProduct['amount'];
-            $products[] = $product;
+            //для вьюхи
+            $newProducts = [
+                'id' => $product->getId(),
+                'name' => $product->getName(),
+                'price' => $product->getPrice(),
+                'image_url' => $product->getImageUrl(),
+                'description' => $product->getDescription(),
+                'amount' => $userProduct->getAmount(),
+            ];
+           // $product['amount'] = $userProduct->getAmount();
+            $products[] = $newProducts;
         }
         //print_r($products);
         require_once '../Views/cart.php';

@@ -32,12 +32,24 @@ class Product extends Model
 
     }
 
-    public function getByProductId(int $productId): array|null
+    public function getByProductId(int $productId): self|null
     {
         $stmt = $this->PDO->prepare('SELECT * FROM products WHERE id = :productId');
         $stmt->execute(['productId' => $productId]);
-        $data = $stmt->fetch();
-        return $data;
+        $product = $stmt->fetch();
+
+        if(!$product) {
+            return null;
+        }
+
+        $obj = new self();
+        $obj->id = $product['id'];
+        $obj->name = $product['name'];
+        $obj->description = $product['description'];
+        $obj->price = $product['price'];
+        $obj->image_url = $product['image_url'];
+
+        return $obj;
     }
 
        public function getOneById(int $productId): self|null
