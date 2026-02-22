@@ -41,15 +41,8 @@ class User extends Model
         $stmt->execute([':name' => $name]);
     }
 
-    public function getById(string $userId)
-    {
-        $stmt = $this->PDO->query("SELECT * FROM users WHERE id = '$userId'");
-        $result = $stmt->fetch();
 
-        return $result;
-    }
-
-    public function insetUsers(string $name, string $email, string $password)
+    public function insertUsers(string $name, string $email, string $password)
     {
         $stmt = $this->PDO->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
         $stmt->execute(['name' => $name, 'email' => $email, 'password' => $password]);
@@ -75,9 +68,9 @@ class User extends Model
 
     }
 
-    public function getByUserId(): self|null
+    public function getById(int $userId): self|null
     {
-        $stmt = $this->PDO->query('SELECT * FROM users WHERE id = ' . $_SESSION['userId']);
+        $stmt = $this->PDO->query('SELECT * FROM users WHERE id = ' . $userId);
         $user = $stmt->fetch();
 
         if ($user === false) {

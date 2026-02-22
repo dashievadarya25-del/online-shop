@@ -6,8 +6,9 @@ use Model\Order;
 use Model\OrderProduct;
 use Model\Product;
 use Model\UserProduct;
+use Service\AuthService;
 
-class OrdersController
+class OrdersController extends BaseController
 {
     private Order $orderModel;
     private OrderProduct $orderProductModel;
@@ -19,6 +20,7 @@ class OrdersController
 
     public function __construct()
     {
+        parent::__construct();
         $this->orderModel = new Order();
         $this->orderProductModel = new OrderProduct();
         $this->userProductModel = new UserProduct();
@@ -29,17 +31,14 @@ class OrdersController
     public function getCheckoutForm()
     {
 
+
         require_once './../Views/order_form.php';
     }
 
 
     public function handleCheckout()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (!isset($_SESSION['userId'])) {
+        if (!($this->authService->check())) {
             header("Location: /login");
             exit;
         }
@@ -51,11 +50,11 @@ class OrdersController
             $contact_phone = $_POST['contact_phone'];
             $contact_name = $_POST['contact_name'];
             $comment = $_POST['comment'];
-            $userId = $_SESSION['userId'];
+            $user = $this->authService->getCurrentUser();
 
-            $orderId = $this->orderModel->create($contact_name, $address, $contact_phone, $comment, $userId);
+            $orderId = $this->orderModel->create($contact_name, $address, $contact_phone, $comment, $user->getId());
 
-            $userProducts = $this->userProductModel->getAllByUserId($userId);
+            $userProducts = $this->userProductModel->getAllByUserId($user->getId());
 
             foreach ($userProducts as $userProduct) {
                 $productId = $userProduct->getProductId();
@@ -64,7 +63,7 @@ class OrdersController
                 $this->orderProductModel->create($orderId, $productId, $amount);
 
             }
-            $this->userProductModel->deleteByUserId($userId);
+            $this->userProductModel->deleteByUserId($user->getId());
 
         }
         require_once '../Views/order_form.php';
@@ -104,16 +103,13 @@ class OrdersController
 
     public function getAllOrders()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (!isset($_SESSION['userId'])) {
+        if (!$this->authService->check()) {
             header("Location: /login");
             exit();
         }
-        $userId = $_SESSION['userId'];
+        $user = $this->authService->getCurrentUser();
 
-        $userOrders = $this->orderModel->getAllByUserId($userId);
+        $userOrders = $this->orderModel->getAllByUserId($user->getId());
 
         if ($userOrders === null) {
             $userOrders = [];

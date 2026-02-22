@@ -1,14 +1,19 @@
 <div class="container">
     <a href="edit-profile">My profile</a>
     <a href="/user-order">Мои заказы</a>
-    <h3>Catalog</h3>
+    <h3>Моя корзина</h3>
     <div class="card-deck">
+        <?php if (empty($products)): ?>
+            <!-- Сообщение, если корзина пуста -->
+            <div class="empty-cart-message">
+                <p style="color: #ee962b">Корзина пуста.</p>
+                <a href="/catalog" class="btn">Перейти к покупкам</a>
+            </div>
+        <?php else: ?>
+        <!-- Список товаров, если они есть -->
         <?php foreach ($products as $product) : ?>
         <div class="card text-center">
             <a href="#">
-                <div class="card-header">
-                    Hit!
-                </div>
                 <img class="card-img-top" src="<?php echo $product['image_url']?>" alt="Card image">
                 <div class="card-body">
                     <p class="card-text text-muted"><?php echo $product['name'];?></p>
@@ -36,13 +41,10 @@
 
         <button type="submit" class="registerbtn">Add product</button>
     </div>
-
-    <div class="container signin">
-        <p>Already have an account? <a href="#">Sign in</a>.</p>
-    </div>
     </form>
     <?php endforeach; ?>
 </div>
+<?php endif; ?>
 <a href="/create-order">Оформление заказа</a>
 </div>
 

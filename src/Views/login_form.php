@@ -1,13 +1,19 @@
 <div class="login">
     <h1>Login</h1>
     <form action="" method="post">
-        <input type="text" name="u" placeholder="u" required="required" />
-        <?php if (isset($errors['u'])): ?>
-            <label style="color: red"><?php echo $errors['u']; ?></label>
+        <input type="text" name="email" placeholder="email" required="required" />
+        <?php if (isset($errors['email'])): ?>
+            <label style="color: red"><?php echo $errors['email']; ?></label>
         <?php endif; ?>
-        <input type="password" name="p" placeholder="Password" required="required" />
-        <?php if (isset($errors['p'])): ?>
-            <label style="color: red"><?php echo $errors['p']; ?></label>
+        <?php if (isset($errors['authorization'])): ?>
+            <label style="color: red"><?php echo $errors['authorization'] ?></label>
+        <?php endif; ?>
+        <input type="password" name="password" placeholder="Password" required="required" />
+        <?php if (isset($errors['password'])): ?>
+            <label style="color: red"><?php echo $errors['password']; ?></label>
+        <?php endif; ?>
+        <?php if (isset($errors['authorization'])): ?>
+            <label style="color: red"><?php echo $errors['authorization'] ?></label>
         <?php endif; ?>
         <button type="submit" class="btn btn-primary btn-block btn-large">Login</button>
     </form>

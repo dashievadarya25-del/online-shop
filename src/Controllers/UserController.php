@@ -2,11 +2,12 @@
 namespace Controllers;
 use Model\User;
 
-class UserController
+class UserController extends BaseController
 {
     private User $userModel;
     public function __construct()
     {
+        parent::__construct();
         $this->userModel = new User();
     }
 
@@ -31,7 +32,7 @@ class UserController
 
             //require_once '../Model/User.php';
 
-            $this->userModel->insetUsers($name, $email, $password);
+            $this->userModel->insertUsers($name, $email, $password);
 
             $result = $this->userModel->getByEmail($email);
 
@@ -65,7 +66,7 @@ class UserController
                 //require_once '../Model/User.php';
 
                 $user = $this->userModel->getByEmail($email);
-                if ($user !== false) {
+                if ($user === false) {
                     $errors['email'] = "этот email уже существует";
                 }
             }
@@ -98,30 +99,17 @@ class UserController
 
     public function login()
     {
-
-        $errors = $this->logValidate($_POST);
+        $data = $_POST;
+        $errors = $this->logValidate($data);
 
         if (empty($errors)) {
-            $username = $_POST["u"];
-            $password = $_POST["p"];
-            //require_once '../Model/User.php';
+            $result = $this->authService->auth($_POST['email'], $_POST['password']);
 
-            $user = $this->userModel->getUsernameByEmail($username);
-            if (!empty($user)) {
-                $passwordDb = $user->getPassword();
-
-                if (password_verify($password, $passwordDb)) {
-                    //вход через сессии
-                    session_start();
-                    $_SESSION['userId'] = $user->getId();
-                    //вход через куки
-                    // setcookie('user_id', $user['id']);
-                    header("Location: /catalog");
-                } else {
-                    $errors['u'] = 'username or password incorrect';
-                }
+            if ($result === true) {
+                header("Location: /catalog");
+                exit();
             } else {
-                $errors['u'] = 'пользователя с таким логином не существует';
+                $errors['autorization'] = 'email или пароль неверный';
             }
         }
 
@@ -132,11 +120,11 @@ class UserController
     {
         $errors = [];
 
-        if (!isset($data['u'])) {
-            $errors['u'] = 'Поле Username обязательно для заполнения';
+        if (!isset($data['email'])) {
+            $errors['email'] = 'Поле Email обязательно для заполнения';
         }
-        if (!isset($data['p'])) {
-            $errors['p'] = 'Поле Password обязательно для заполнения';
+        if (!isset($data['password'])) {
+            $errors['password'] = 'Поле Password обязательно для заполнения';
         }
         return $errors;
     }
@@ -148,41 +136,31 @@ class UserController
 
     public function profile()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (isset($_SESSION['userId'])) {
-            //require_once '../Model/User.php';
-
-            $user = $this->userModel->getByUserId();
+        if ($user = $this->authService->getCurrentUser()) {
 
             require_once '../Views/profile_page.php';
         } else {
             header("Location: /login");
         }
     }
-
+    public function logout()
+    {
+        parent::logout();
+        header("Location: /login");
+        exit();
+    }
 
     public function getEditprofile()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        $user = $this->authService->getCurrentUser();
 
-        if (isset($_SESSION['userId'])) {
-
-            $user = $this->userModel->getByUserId();}
         require_once '../Views/edit_profile_form.php';
     }
 
     public function editProfile()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
 
-        if (!isset($_SESSION['userId'])) {
+        if (!$this->authService->check()) {
             header("Location: /login");
             exit;
         }
@@ -193,22 +171,20 @@ class UserController
             $name = $_POST['name'];
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $userId = $_SESSION['userId'];
+
+
 
             $password = password_hash($password, PASSWORD_DEFAULT);
+            //            $user = $this->userModel->getById($userId);
+            $user = $this->authService->getCurrentUser();
 
-            //require_once '../Model/User.php';
-
-
-            $user = $this->userModel->getById($userId);
-
-            if ($user['name'] !== $name) {
-               $this->userModel->updateNameById($name, $userId);
+            if ($user->getName() !== $name) {
+               $this->userModel->updateNameById($name, $user->getId());
             }
 
-            if ($user['email'] !== $email) {
+            if ($user->getName() !== $email) {
 
-                $this->userModel->updateEmailById($email, $userId);
+                $this->userModel->updateEmailById($email, $user->getId());
             }
             header("Location: /profile");
             exit;
@@ -238,7 +214,6 @@ class UserController
             } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
                 $errors['email'] = 'email некорректный';
             } else {
-                //require_once '../Model/User.php';
 
                 $user = $this->userModel->getByEmail($email);
 
