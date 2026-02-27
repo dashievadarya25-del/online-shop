@@ -36,11 +36,10 @@
                 <button type="submit" class="registerbtn" formaction="/decrease-product">-</button>
             </div>
         </form>
-            <form method="post" action="/product"> <!-- По умолчанию идет на добавление -->
+            <form method="post" action="/feedback-product">
                 <div class="container">
-                    <!-- ID продукта (один на обе кнопки) -->
                     <input type="hidden" name="product_id" value="<?php echo $product->getId()?>" required>
-                    <button type="submit" class="registerbtn">Добавить отзыв</button>
+                    <button type="submit" class="registerbtn">Оставить отзыв</button>
                 </div>
             </form>
         <?php endforeach; ?>

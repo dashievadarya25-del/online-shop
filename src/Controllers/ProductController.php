@@ -156,18 +156,4 @@ class ProductController extends BaseController
                 return $errors;
     }
 
-    public function getFeedback()
-    {
-        require_once '../Views/feedback_form.php';
-    }
-
-    public function handleFeedback()
-    {
-
-    }
-
-
-
-
-
 }

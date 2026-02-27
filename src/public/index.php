@@ -4,6 +4,7 @@ use Controllers\CartController;
 use Controllers\OrdersController;
 use Controllers\ProductController;
 use Controllers\UserController;
+use Controllers\FeedbackController;
 
 require_once './../Core/Autoloader.php';
 $path = dirname(__DIR__);
@@ -28,8 +29,8 @@ $app->addRoute('/cart', 'GET', CartController::class, 'getcart');
 $app->addRoute('/create-order', 'GET', OrdersController::class, 'getCheckoutForm');
 $app->addRoute('/create-order', 'POST', OrdersController::class, 'handleCheckout');
 $app->addRoute('/user-order', 'GET', OrdersController::class, 'getAllOrders');
-$app->get('/feedback', ProductController::class, 'getFeedback');
-$app->post('/feedback', ProductController::class, 'handleFeedback');
+$app->get('/feedback-product', FeedbackController::class,'getFeedbackProduct');
+$app->post('/feedback-product', FeedbackController::class, 'handleFeedbackProduct');
 
 
 $app->run();
