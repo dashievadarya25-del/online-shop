@@ -7,10 +7,14 @@ class User extends Model
     private string $name;
     private string $email;
     private string $password;
+    protected function getTableName(): string
+    {
+        return 'users';
+    }
 
     public function getByEmail(string $email): self|null
     {
-        $stmt = $this->PDO->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt = $this->PDO->prepare("SELECT * FROM {$this->getTableName()} WHERE email = :email");
         $stmt->execute([':email' => $email]);
 
         $user = $stmt->fetch();
@@ -31,26 +35,26 @@ class User extends Model
 
     public function updateEmailById(string $email, int $userId)
     {
-        $stmt = $this->PDO->prepare("UPDATE users SET email = :email WHERE id = $userId");
+        $stmt = $this->PDO->prepare("UPDATE {$this->getTableName()} SET email = :email WHERE id = $userId");
         $stmt->execute([':email' => $email]);
     }
 
     public function updateNameById(string $name, int $userId)
     {
-        $stmt = $this->PDO->prepare("UPDATE users SET name = :name WHERE id = $userId");
+        $stmt = $this->PDO->prepare("UPDATE {$this->getTableName()} SET name = :name WHERE id = $userId");
         $stmt->execute([':name' => $name]);
     }
 
 
     public function insertUsers(string $name, string $email, string $password)
     {
-        $stmt = $this->PDO->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
+        $stmt = $this->PDO->prepare("INSERT INTO {$this->getTableName()} (name, email, password) VALUES (:name, :email, :password)");
         $stmt->execute(['name' => $name, 'email' => $email, 'password' => $password]);
     }
 
     public function getUsernameByEmail(string $username): self|null
     {
-        $stmt = $this->PDO->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt = $this->PDO->prepare("SELECT * FROM {$this->getTableName()} WHERE email = :email");
         $stmt->execute(['email' => $username]);
         $user = $stmt->fetch();
 
@@ -70,7 +74,7 @@ class User extends Model
 
     public function getById(int $userId): self|null
     {
-        $stmt = $this->PDO->query('SELECT * FROM users WHERE id = ' . $userId);
+        $stmt = $this->PDO->query("SELECT * FROM {$this->getTableName()} WHERE id = " . $userId);
         $user = $stmt->fetch();
 
         if ($user === false) {

@@ -2,7 +2,7 @@
 namespace Model;
 use PDO;
 
-class Model
+abstract class Model
 {
     protected PDO $PDO;
 
@@ -10,5 +10,6 @@ class Model
     {
         $this->PDO = new PDO("pgsql:host=postgres; port=5432; dbname=mydb", 'user', 'pass');
     }
+
+    abstract protected function getTableName(): string;
 }
-//изменения внесены

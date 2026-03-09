@@ -2,29 +2,34 @@
 
 namespace Controllers;
 
+use DTO\OrderCreateDTO;
 use Model\Order;
 use Model\OrderProduct;
 use Model\Product;
 use Model\UserProduct;
+use Request\OrderRequest;
 use Service\AuthService;
+use Service\OrderService;
 
 class OrdersController extends BaseController
 {
     private Order $orderModel;
-    private OrderProduct $orderProductModel;
+    private OrderProduct $orderProduct;
 
-    private UserProduct $userProductModel;
+    private UserProduct $userProduct;
 
     private Product $productModel;
+    private OrderService $orderService;
 
 
     public function __construct()
     {
         parent::__construct();
         $this->orderModel = new Order();
-        $this->orderProductModel = new OrderProduct();
-        $this->userProductModel = new UserProduct();
+        $this->orderProduct = new OrderProduct();
+        $this->userProduct = new UserProduct();
         $this->productModel = new Product();
+        $this->orderService = new OrderService();
     }
 
 
@@ -36,70 +41,34 @@ class OrdersController extends BaseController
     }
 
 
-    public function handleCheckout()
-    {
-        if (!($this->authService->check())) {
-            header("Location: /login");
+    public function handleCheckout(OrderRequest $request) {
+        // Проверка авторизации
+        if (!$this->authService->check()) {
+            header('Location: /login');
             exit;
         }
-        $errors = $this->regOrders($_POST);
 
-// добавляем в БД, если нет ошибок
+        $errors = $request->regOrders();
+        $user = $this->authService->getCurrentUser();
+
         if (empty($errors)) {
-            $address = $_POST['address'];
-            $contact_phone = $_POST['contact_phone'];
-            $contact_name = $_POST['contact_name'];
-            $comment = $_POST['comment'];
-            $user = $this->authService->getCurrentUser();
+            $dto = new OrderCreateDTO(
+                $request->getContactName(),
+                $request->getAddress(),
+                $request->getContactPhone(),
+                $request->getComment(),
+                $user
+            );
 
-            $orderId = $this->orderModel->create($contact_name, $address, $contact_phone, $comment, $user->getId());
-
-            $userProducts = $this->userProductModel->getAllByUserId($user->getId());
-
-            foreach ($userProducts as $userProduct) {
-                $productId = $userProduct->getProductId();
-                $amount = $userProduct->getAmount();
-
-                $this->orderProductModel->create($orderId, $productId, $amount);
-
-            }
-            $this->userProductModel->deleteByUserId($user->getId());
+                $this->orderService->placeOrder($dto);
 
         }
+
         require_once '../Views/order_form.php';
     }
 
-    private function regOrders(array $data): array
-    {
-        $errors = [];
 
-        //объявление и валидация данных
-        if (isset($data['contact_name'])) {
-            $contact_name = $data['contact_name'];
-            if (strlen($contact_name) < 2) {
-                $errors['contact_name'] = "Name must be at least 2 characters";
-            }
-        } else {
-            $errors['contact_name'] = "Name is required";
-        }
 
-        if (isset($data['address'])) {
-            $address = $data['address'];
-
-            if (strlen($address) < 5) {
-                $errors['address'] = 'address не должен быть меньше 5 символов';
-            }
-        }
-
-        if (isset($data['contact_phone'])) {
-            $contact_phone = $data ['contact_phone'];
-
-            if (strlen($contact_phone) < 11) {
-                $errors['phone'] = 'должно содержать не меньше 11 символов';
-            }
-        }
-        return $errors;
-    }
 
     public function getAllOrders()
     {
@@ -145,7 +114,7 @@ class OrdersController extends BaseController
 //                'comment' => 'test',
 //            ],
 
-           $orderProducts = $this->orderProductModel->getAllByOrderId($userOrder->getId());
+           $orderProducts = $this->orderProduct->getAllByOrderId($userOrder->getId());
 
 
 //            $orderProducts = [
@@ -162,8 +131,13 @@ class OrdersController extends BaseController
 //                    'amount' => 2,
 //                ],
 //            ];
+            if ($orderProducts === null) {
+                $orderProducts = [];
+            }
+
             $newOrderProducts = [];
             $sum = 0;
+
             foreach ($orderProducts as $orderProduct) {
 //                $orderProduct = [
 //                    'id' => 1,

@@ -14,10 +14,15 @@ class FeedbackProduct extends Model
     private $estimation;
     private $averagegrade;
 
+    protected function getTableName(): string
+    {
+        return 'feedback_products';
+    }
+
 
     public function saveFeedbackProductByAll(string $name, int $productId, string $review, int $estimation)
     {
-        $stmt = $this->PDO->prepare("INSERT INTO feedback_products (name, product_id, review, estimation, created_at) VALUES (:name, :product_id, :review, :estimation, NOW())");
+        $stmt = $this->PDO->prepare("INSERT INTO {$this->getTableName()} (name, product_id, review, estimation, created_at) VALUES (:name, :product_id, :review, :estimation, NOW())");
         $stmt->execute([
             ':name' => $name,
             ':product_id' => $productId,
@@ -26,21 +31,26 @@ class FeedbackProduct extends Model
         ]);
     }
 
-    public function getAverageRating($productId) {
-        $stmt = $this->PDO->prepare("SELECT AVG(estimation) as average FROM feedback_products WHERE product_id = :id");
+    public function getAverageRating(int $productId) {
+        $stmt = $this->PDO->prepare("SELECT AVG(estimation) as average FROM {$this->getTableName()} WHERE product_id = :id");
         $stmt->execute(['id' => $productId]);
 
         // 2. Извлекаем строку в виде ассоциативного массива
         $row = $stmt->fetch();
 
         // 3. Проверяем, есть ли результат, и округляем
-        return $row ? round((float)$row['average'], 1) : 0;
+        if ($row) {
+            $result = round((float)$row['average'], 1);
+        } else {
+            $result = 0;
+        }
+        return $result;
     }
 
     public function getAllByProductId(int $productId): array
     {
        $stmt = $this->PDO->prepare("SELECT id, name, review, estimation, created_at 
-            FROM feedback_products 
+            FROM {$this->getTableName()} 
             WHERE product_id = :product_id 
             ORDER BY created_at DESC");
         $stmt->execute(['product_id' => $productId]);

@@ -9,9 +9,14 @@ class Product extends Model
     private $price;
     private $image_url;
 
+    protected function getTableName(): string
+    {
+        return 'products';
+    }
+
     public function getAll(): array|null
     {
-        $stmt =$this->PDO ->query('SELECT * FROM products');
+        $stmt =$this->PDO ->query("SELECT * FROM {$this->getTableName()}");
         $productsData = $stmt->fetchAll();
 
         if ($productsData === false) {
@@ -34,7 +39,7 @@ class Product extends Model
 
     public function getByProductId(int $productId): self|null
     {
-        $stmt = $this->PDO->prepare('SELECT * FROM products WHERE id = :productId');
+        $stmt = $this->PDO->prepare("SELECT * FROM {$this->getTableName()} WHERE id = :productId");
         $stmt->execute(['productId' => $productId]);
         $product = $stmt->fetch();
 
@@ -54,7 +59,7 @@ class Product extends Model
 
        public function getOneById(int $productId): self|null
     {
-        $stmt = $this->PDO->query("SELECT * FROM products WHERE id = {$productId}");
+        $stmt = $this->PDO->query("SELECT * FROM {$this->getTableName()} WHERE id = {$productId}");
         $product = $stmt->fetch();
 
         if(!$product) {

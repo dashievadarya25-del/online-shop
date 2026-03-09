@@ -1,6 +1,9 @@
 <?php
 namespace Controllers;
 use Model\User;
+use Request\EditprofileRequest;
+use Request\LoginRequest;
+use Request\RegistrateRequest;
 
 class UserController extends BaseController
 {
@@ -17,93 +20,42 @@ class UserController extends BaseController
     }
 
 
-    public function registrate()
+    public function registrate(RegistrateRequest $request)
     {
-        $errors = $this->regValidate($_POST);
+        $errors = $request->validate();
 
 // добавляем в БД, если нет ошибок
         if (empty($errors)) {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $password = $_POST['psw'];
-            $passwordrepeat = $_POST['psw-repeat'];
+//            $name = $_POST['name'];
+//            $email = $_POST['email'];
+//            $password = $_POST['psw'];
+//            $passwordrepeat = $_POST['psw-repeat'];
 
-            $password = password_hash($password, PASSWORD_DEFAULT);
+            $password = password_hash($request->getPassword(), PASSWORD_DEFAULT);
 
-            //require_once '../Model/User.php';
+            $this->userModel->insertUsers($request->getName(), $request->getEmail(), $request->getPassword());
 
-            $this->userModel->insertUsers($name, $email, $password);
-
-            $result = $this->userModel->getByEmail($email);
+            $result = $this->userModel->getByEmail($request->getEmail());
 
             print_r($result);
         }
         require_once '../Views/registration_form.php';
     }
 
-    private function regValidate(array $data): array
-    {
-        $errors = [];
 
-        //объявление и валидация данных
-        if (isset($data['name'])) {
-            $name = $data['name'];
-            if (strlen($name) < 3) {
-                $errors['name'] = "Name must be at least 3 characters";
-            }
-        } else {
-            $errors['name'] = "Name is required";
-        }
-
-        if (isset($data['email'])) {
-            $email = $data['email'];
-
-            if (strlen($email) < 2) {
-                $errors['email'] = 'email не должен быть меньше 2 символов';
-            } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-                $errors['email'] = 'email некорректный';
-            } else {
-                //require_once '../Model/User.php';
-
-                $user = $this->userModel->getByEmail($email);
-                if ($user === false) {
-                    $errors['email'] = "этот email уже существует";
-                }
-            }
-        } else {
-            $errors['email'] = 'email должен быть заполнен';
-        }
-
-        if (isset($data['psw'])) {
-            $password = $data ['psw'];
-
-            if (strlen($password) < 4) {
-                $errors['psw'] = 'Пароль не должен быть меньше 4';
-            }
-
-            $passwordrepeat = $data['psw-repeat'];
-            if ($password !== $passwordrepeat) {
-                $errors['psw-repeat'] = 'пароли не совпадают';
-            }
-        } else {
-            $errors['psw'] = 'Пароль должен быть заполнен';
-        }
-
-        return $errors;
-    }
 
     public function getLogin()
     {
         require_once '../Views/login_form.php';
     }
 
-    public function login()
+    public function login(LoginRequest $request)
     {
-        $data = $_POST;
-        $errors = $this->logValidate($data);
+
+        $errors = $request->logValidate();
 
         if (empty($errors)) {
-            $result = $this->authService->auth($_POST['email'], $_POST['password']);
+            $result = $this->authService->auth($request->getEmail(), $request->getPassword());
 
             if ($result === true) {
                 header("Location: /catalog");
@@ -116,18 +68,7 @@ class UserController extends BaseController
         require_once '../Views/login_form.php';
     }
 
-    function logValidate(array $data): array
-    {
-        $errors = [];
 
-        if (!isset($data['email'])) {
-            $errors['email'] = 'Поле Email обязательно для заполнения';
-        }
-        if (!isset($data['password'])) {
-            $errors['password'] = 'Поле Password обязательно для заполнения';
-        }
-        return $errors;
-    }
 
     public function getProfile()
     {
@@ -157,7 +98,7 @@ class UserController extends BaseController
         require_once '../Views/edit_profile_form.php';
     }
 
-    public function editProfile()
+    public function editProfile(EditprofileRequest $request)
     {
 
         if (!$this->authService->check()) {
@@ -165,26 +106,24 @@ class UserController extends BaseController
             exit;
         }
 
-        $errors = $this->editProfilevalidate($_POST);
+        $errors = $request->editProfilevalidate();
 
         if (empty($errors)) {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+//            $name = $data['name'];
+//            $email = $data['email'];
+//            $password = $data['password'];
 
+            $password = password_hash($request->getPassword(), PASSWORD_DEFAULT);
 
-
-            $password = password_hash($password, PASSWORD_DEFAULT);
-            //            $user = $this->userModel->getById($userId);
             $user = $this->authService->getCurrentUser();
 
-            if ($user->getName() !== $name) {
-               $this->userModel->updateNameById($name, $user->getId());
+            if ($user->getName() !== $request->getName()) {
+               $this->userModel->updateNameById($request->getName(), $user->getId());
             }
 
-            if ($user->getName() !== $email) {
+            if ($user->getName() !== $request->getEmail()) {
 
-                $this->userModel->updateEmailById($email, $user->getId());
+                $this->userModel->updateEmailById($request->getEmail(), $user->getId());
             }
             header("Location: /profile");
             exit;
@@ -194,46 +133,7 @@ class UserController extends BaseController
         require_once '../Views/edit_profile_form.php';
     }
 
-    private function editProfilevalidate(array $data): array
-    {
-        $errors = [];
 
-        //объявление и валидация данных
-        if (isset($data['name'])) {
-            $name = $data['name'];
-            if (strlen($name) < 3) {
-                $errors['name'] = "Name must be at least 3 characters";
-            }
-        }
-
-        if (isset($data['email'])) {
-            $email = $data['email'];
-
-            if (strlen($email) < 2) {
-                $errors['email'] = 'email не должен быть меньше 2 символов';
-            } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-                $errors['email'] = 'email некорректный';
-            } else {
-
-                $user = $this->userModel->getByEmail($email);
-
-                $userId = $_SESSION['userId'];
-                if ($user->getId() !== $userId) {
-                    $errors['email'] = "этот email уже существует";
-                }
-            }
-        }
-
-        if (isset($data['password'])) {
-            $password = $data ['password'];
-
-            if (strlen($password) < 4) {
-                $errors['password'] = 'Пароль не должен быть меньше 4';
-            }
-        }
-
-        return $errors;
-    }
 
 }
 

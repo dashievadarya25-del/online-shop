@@ -2,19 +2,25 @@
 
 namespace Controllers;
 
+
 use Model\FeedbackProduct;
 use Model\Product;
+use Request\FeedbackRequest;
+
 
 class FeedbackController extends BaseController
 {
     private Product $productModel;
     private FeedbackProduct $feedbackProductModel;
+
     public function __construct()
     {
         parent::__construct();
         $this->productModel = new Product();
         $this->feedbackProductModel = new FeedbackProduct();
+
     }
+
 
     public function getFeedbackProduct()
     {
@@ -22,16 +28,18 @@ class FeedbackController extends BaseController
             header('Location: /login');
             exit;
         }
+
+
     }
 
-    public function handleFeedbackProduct() {
+    public function handleFeedbackProduct(FeedbackRequest $request) {
         if (!$this->authService->check()) {
             header("Location: /login.php");
             exit;
         }
 
-        // Получаем ID из POST (при сохранении) или из GET (при просмотре)
-        $productId = $_POST['product_id'] ?? $_GET['id'] ?? null;
+//        // Получаем ID из POST (при сохранении) или из GET (при просмотре)
+        $productId = $request->getProductId() ?? $_GET['id'] ?? null;
         $productId = (int)$productId;
 
         if (!$productId) {
@@ -43,22 +51,23 @@ class FeedbackController extends BaseController
             die("Продукт не найден");
         }
 
+        $data = $_POST;
         // Сохранение (POST)
-        if (isset($_POST['review'])) {
-            $name = $_POST['name'];
-            $review = $_POST['review'];
-            $estimation = $_POST['estimation'];
+        if (isset($data['review'])) {
+            $name = $request->getName();
+            $review = $request->getReview();
+            $estimation = $request->getEstimation();
 
             $this->feedbackProductModel->saveFeedbackProductByAll($name, $productId, $review, $estimation);
 
             header("Location: /catalog");
             exit;
         }
+        $averageRating = $this->feedbackProductModel->getAverageRating($request->getProductId());
+        $feedbacks = $this->feedbackProductModel->getAllByProductId($request->getProductId());
 
-
-        $averageRating = $this->feedbackProductModel->getAverageRating($productId);
-        $feedbacks = $this->feedbackProductModel->getAllByProductId($productId);
         require_once '../Views/feedback_product_form.php';
+
     }
 
 }

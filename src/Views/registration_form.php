@@ -17,12 +17,12 @@
 
 <input type="text" placeholder="Enter Email" name="email" id="email" required>
 
-<label for="psw"><b>Password</b></label>
-<?php if (isset($errors['psw'])): ?>
-<label style="color: red"><?php echo $errors['psw']; ?></label>
+<label for="password"><b>Password</b></label>
+<?php if (isset($errors['password'])): ?>
+<label style="color: red"><?php echo $errors['password']; ?></label>
 <?php endif; ?>
 
-<input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+<input type="password" placeholder="Enter Password" name="password" id="password" required>
 
 <label for="psw-repeat"><b>Repeat Password</b></label>
 <?php if (isset($errors['psw-repeat'])): ?>

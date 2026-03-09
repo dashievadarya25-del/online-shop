@@ -9,8 +9,8 @@
         <!-- Форма для перехода к отзыву -->
         <!--<form action="/handleFeedbackProduct" method="post"> -->
             <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>">
-         <!--   <button type="submit" class="btn btn-primary">Оставить отзыв</button>
-        </form> -->
+           <button type="submit" class="btn btn-primary">Оставить отзыв</button>
+        <!--</form> -->
     </div>
 </div>
 <div class="feedback-container">

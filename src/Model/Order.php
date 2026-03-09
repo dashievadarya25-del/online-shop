@@ -13,6 +13,11 @@ class Order extends Model
     private $user_id;
     private $address;
 
+    protected function getTableName(): string
+    {
+        return 'orders';
+    }
+
     public function create(string $contact_name, string $address, int $contact_phone, string $comment, int $userId)
     {
         $stmt = $this->PDO->prepare(

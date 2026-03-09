@@ -1,26 +1,32 @@
 <?php
 namespace Controllers;
 
+use DTO\CartCreateDTO;
 use Model\Product;
 use Model\UserProduct;
+use Request\AddProductRequest;
+use Request\DecreaseRequest;
 use Service\AuthService;
+use Service\CartService;
 
 class CartController extends BaseController
 {
     private Product $productModel;
-    private UserProduct $userProductModel;
+    private UserProduct $userProduct;
+    private CartService $cartService;
     public function __construct()
     {
         parent::__construct();
         $this->productModel = new Product();
-        $this->userProductModel = new UserProduct();
+        $this->userProduct = new UserProduct();
+        $this->cartService = new CartService();
     }
     public function getcart()
     {
         if ($this->authService->check()) {
             $user = $this->authService->getCurrentUser();
 
-            $userProducts = $this->userProductModel->getAllUserProductsByUserId($user->getId());
+            $userProducts = $this->userProduct->getAllUserProductsByUserId($user->getId());
 
             $products = [];
 
@@ -54,5 +60,68 @@ class CartController extends BaseController
             exit();
         }
     }
+
+
+    public function getaddProducts()
+    {
+        require_once '../Views/add_product_form.php';
+    }
+
+    public function addProduct(AddProductRequest $request)
+    {
+
+        if (!($this->authService->check())) {
+            header('Location: /login');
+            exit;
+        }
+        $errors = $request->addproductValidate();
+        //print_r($errors);
+
+        if (empty($errors)) {
+            $user = $this->authService->getCurrentUser();
+
+            $dto = new CartCreateDTO($user, $request->getProductId(),$request->getAmount());
+            $this->cartService->addProduct($dto);
+        }
+
+        header('Location: /catalog');
+
+    }
+
+
+
+
+
+    public function getdecreaseProducts()
+    {
+        require_once '../Views/decrease_product.php';
+    }
+
+    public function decreaseProducts(DecreaseRequest $request)
+    {
+        if (!$this->authService->check()) {
+            header('Location: /login');
+            exit;
+        }
+
+        $errors = $request->removeProductValidate();
+        if (empty($errors)) {
+            $user = $this->authService->getCurrentUser();
+
+            $dto = new CartCreateDTO($user, $request->getProductId(), $request->getAmount());
+
+
+            // Получаем текущие данные товара в корзине
+            $this->cartService->decreaseProducts($dto);
+
+
+            header('Location: /catalog');
+            exit;
+        } else {
+            print_r($errors);
+        }
+    }
+
+
 
 }
