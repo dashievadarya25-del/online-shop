@@ -28,7 +28,7 @@ $app->post('/decrease-product', CartController::class, 'decreaseProducts',\Reque
 $app->get('/cart', CartController::class, 'getcart');
 $app->get('/create-order', OrdersController::class, 'getCheckoutForm');
 $app->post('/create-order', OrdersController::class, 'handleCheckout', \Request\OrderRequest::class);
-$app->get('/user-order', OrdersController::class, 'getAllOrders');
+$app->get('/user-orders', OrdersController::class, 'getAllOrders');
 $app->get('/feedback-product', FeedbackController::class,'getFeedbackProduct');
 $app->post('/feedback-product', FeedbackController::class, 'handleFeedbackProduct', \Request\FeedbackRequest::class);
 

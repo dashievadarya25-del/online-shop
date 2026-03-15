@@ -8,6 +8,7 @@ class Product extends Model
     private $description;
     private $price;
     private $image_url;
+    public $amount;
 
     protected function getTableName(): string
     {
@@ -114,6 +115,11 @@ class Product extends Model
     public function getImageUrl()
     {
         return $this->image_url;
+    }
+
+    public function getAmount()
+    {
+        return $this->amount;
     }
 
 

@@ -3,7 +3,6 @@
 namespace Request;
 
 use Model\User;
-use Service\AuthService;
 
 class RegistrateRequest
 {

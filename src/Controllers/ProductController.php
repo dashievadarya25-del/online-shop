@@ -2,7 +2,6 @@
 namespace Controllers;
 use Model\Product;
 use Model\UserProduct;
-use Service\AuthService;
 
 
 class ProductController extends BaseController

@@ -6,7 +6,6 @@ use Model\Product;
 use Model\UserProduct;
 use Request\AddProductRequest;
 use Request\DecreaseRequest;
-use Service\AuthService;
 use Service\CartService;
 
 class CartController extends BaseController
@@ -24,40 +23,28 @@ class CartController extends BaseController
     public function getcart()
     {
         if ($this->authService->check()) {
-            $user = $this->authService->getCurrentUser();
+            $userProducts = $this->cartService->getUserProducts();
 
-            $userProducts = $this->userProduct->getAllUserProductsByUserId($user->getId());
+                    $products = [];
+                    foreach ($userProducts as $userProduct) {
+                        // Получаем объект продукта напрямую из модели
+                        $product = $this->productModel->getByProductId($userProduct->getProductId());
 
-            $products = [];
+                        if ($product) {
+                            $product->amount = $userProduct->getAmount();
 
-            if (!empty($userProducts) && is_iterable($userProducts))
-            {
-                foreach ($userProducts as $userProduct) {
-
-                    $productId = $userProduct->getProductId();
-
-                    $product = $this->productModel->getByProductId($productId);
-                    //для вьюхи
-                    $newProducts = [
-                        'id' => $product->getId(),
-                        'name' => $product->getName(),
-                        'price' => $product->getPrice(),
-                        'image_url' => $product->getImageUrl(),
-                        'description' => $product->getDescription(),
-                        'amount' => $userProduct->getAmount(),
-                    ];
-                    $products[] = $newProducts;
-
-                }
-            }
+                            // Складываем объект в массив для вьюхи
+                            $products[] = $product;
+                        }
+                    }
 
 
 
             //print_r($products);
             require_once '../Views/cart.php';
-        } else {
-            header('Location: /login');
-            exit();
+//        } else {
+//            header('Location: /login');
+//            exit();
         }
     }
 
@@ -80,7 +67,7 @@ class CartController extends BaseController
         if (empty($errors)) {
             $user = $this->authService->getCurrentUser();
 
-            $dto = new CartCreateDTO($user, $request->getProductId(),$request->getAmount());
+            $dto = new CartCreateDTO($request->getProductId(), $request->getAmount());
             $this->cartService->addProduct($dto);
         }
 
@@ -106,9 +93,9 @@ class CartController extends BaseController
 
         $errors = $request->removeProductValidate();
         if (empty($errors)) {
-            $user = $this->authService->getCurrentUser();
+//            $user = $this->authService->getCurrentUser();
 
-            $dto = new CartCreateDTO($user, $request->getProductId(), $request->getAmount());
+            $dto = new CartCreateDTO($request->getProductId(), $request->getAmount());
 
 
             // Получаем текущие данные товара в корзине

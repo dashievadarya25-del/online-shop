@@ -6,7 +6,7 @@
         <?php foreach ($products as $product) : ?>
             <div class="card text-center">
                 <a href="#">
-                    <img class="card-img-top" src="<?php echo $product->getImageUrl()?>" alt="Card image">
+                    <img class="card-img-top" src="<?php echo $product->getImageUrl()?>" alt="Card image" height="480" width="480">
                     <div class="card-body">
                         <p class="card-text text-muted"><?php echo $product->getName()?></p>
                         <a href="#"><h5 class="card-title"><?php echo $product->getDescription()?></h5></a>

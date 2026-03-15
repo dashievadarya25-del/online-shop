@@ -7,14 +7,9 @@ use Model\User;
 
 class CartCreateDTO
 {
-    public function __construct(private User $user, private int $productId, private int $amount)
+    public function __construct(private int $productId, private int $amount)
     {
 
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
     }
 
     public function getProductId(): int

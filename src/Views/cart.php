@@ -1,6 +1,6 @@
 <div class="container">
     <a href="edit-profile">My profile</a>
-    <a href="/user-order">Мои заказы</a>
+    <a href="/user-orders">Мои заказы</a>
     <h3>Моя корзина</h3>
     <div class="card-deck">
         <?php if (empty($products)): ?>
@@ -14,22 +14,22 @@
         <?php foreach ($products as $product) : ?>
         <div class="card text-center">
             <a href="#">
-                <img class="card-img-top" src="<?php echo $product['image_url']?>" alt="Card image">
+                <img class="card-img-top" src="<?php echo $product->getImageUrl();?>" alt="Card image" height="480" width="480">
                 <div class="card-body">
-                    <p class="card-text text-muted"><?php echo $product['name'];?></p>
-                    <a href="#"><h5 class="card-title"><?php echo $product['description'];?></h5></a>
+                    <p class="card-text text-muted"><?php echo $product->getName();?></p>
+                    <a href="#"><h5 class="card-title"><?php echo $product->getDescription();?></h5></a>
                     <div class="card-footer">
-                        <?php echo $product['price'];?>
+                        <?php echo $product->getPrice();?>
                     </div>
                     <div>
-                        Количество: <?php echo $product['amount'];?>
+                        Количество: <?php echo $product->getAmount();?>
                     </div>
                 </div>
             </a>
         </div>
         <form action="/add-product" method="post">
             <div class="container">
-                <input type="hidden" placeholder="Enter product-id" name="product_id" value="<?php echo $product['id']; ?>" id="product_id" required>
+                <input type="hidden" placeholder="Enter product-id" name="product_id" value="<?php echo $product->getId(); ?>" id="product_id" required>
 
                 <label for="amount"><b>Amount</b></label>
                 <?php if (isset($errors['amount'])): ?>

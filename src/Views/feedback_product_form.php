@@ -1,6 +1,6 @@
 
 <div class="card text-center">
-    <img class="card-img-top" src="<?php echo $product->getImageUrl()?>" alt="Card image">
+    <img class="card-img-top" src="<?php echo $product->getImageUrl()?>" alt="Card image" width="600" height="600">
     <div class="card-body">
         <p class="card-text text-muted"><?php echo $product->getName()?></p>
         <h5 class="card-title"><?php echo $product->getDescription()?></h5>
