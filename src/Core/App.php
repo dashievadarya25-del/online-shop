@@ -7,6 +7,7 @@ use Controllers\CartController;
 use Controllers\FeedbackController;
 use Request\AddProductRequest;
 use Request\RegistrateRequest;
+use Service\LoggerService;
 
 class App
 {
@@ -44,12 +45,18 @@ class App
 //                }
                 $controller = new $class();
                 $requestClass = $handler['request'];
-
-                if ($requestClass !== null) {
+                try {
+                    if ($requestClass !== null) {
                     $request = new $requestClass($_POST);
                     $controller->$method($request);
-                } else {
+                    } else {
                     $controller->$method();
+                    }
+
+                } catch (\Throwable $exception) {
+                    $logger = new LoggerService();
+                    $logger->error($exception);
+                   require_once '../Views/500.php';
                 }
 
             } else {

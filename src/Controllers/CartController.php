@@ -2,52 +2,32 @@
 namespace Controllers;
 
 use DTO\CartCreateDTO;
-use Model\Product;
-use Model\UserProduct;
 use Request\AddProductRequest;
 use Request\DecreaseRequest;
 use Service\CartService;
 
+
 class CartController extends BaseController
 {
-    private Product $productModel;
-    private UserProduct $userProduct;
-    private CartService $cartService;
+      private CartService $cartService;
+
+
     public function __construct()
     {
         parent::__construct();
-        $this->productModel = new Product();
-        $this->userProduct = new UserProduct();
+
         $this->cartService = new CartService();
     }
     public function getcart()
     {
-        if ($this->authService->check()) {
-            $userProducts = $this->cartService->getUserProducts();
-
-                    $products = [];
-                    foreach ($userProducts as $userProduct) {
-                        // Получаем объект продукта напрямую из модели
-                        $product = $this->productModel->getByProductId($userProduct->getProductId());
-
-                        if ($product) {
-                            $product->amount = $userProduct->getAmount();
-
-                            // Складываем объект в массив для вьюхи
-                            $products[] = $product;
-                        }
-                    }
-
-
-
-            //print_r($products);
-            require_once '../Views/cart.php';
-//        } else {
-//            header('Location: /login');
-//            exit();
+        if (!$this->authService->check()) {
+            header("Location: /login");
+            exit;
         }
-    }
+        $userProducts = $this->cartService->getUserProducts();
 
+        require_once '../Views/cart.php';
+    }
 
     public function getaddProducts()
     {
@@ -75,10 +55,6 @@ class CartController extends BaseController
 
     }
 
-
-
-
-
     public function getdecreaseProducts()
     {
         require_once '../Views/decrease_product.php';
@@ -93,10 +69,7 @@ class CartController extends BaseController
 
         $errors = $request->removeProductValidate();
         if (empty($errors)) {
-//            $user = $this->authService->getCurrentUser();
-
             $dto = new CartCreateDTO($request->getProductId(), $request->getAmount());
-
 
             // Получаем текущие данные товара в корзине
             $this->cartService->decreaseProducts($dto);

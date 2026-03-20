@@ -1,6 +1,6 @@
 <div class="container">
     <a href="/profile">My profile</a>
-    <a href="/cart">Корзина</a>
+    <a href="/cart">Перейти в корзину</a>
     <h2>Каталог</h2>
     <div class="card-deck">
         <?php foreach ($products as $product) : ?>
@@ -21,7 +21,7 @@
                 <!-- ID продукта (один на обе кнопки) -->
                 <input type="hidden" name="product_id" value="<?php echo $product->getId()?>" required>
 
-                <label for="amount"><b>Amount</b></label>
+                <label for="amount"><b>Корзина</b></label>
                 <?php if (isset($errors['amount'])): ?>
                     <span style="color: red"><?php echo $errors['amount']; ?></span>
                 <?php endif; ?>

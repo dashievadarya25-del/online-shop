@@ -3,6 +3,7 @@
 namespace Service;
 
 use DTO\CartCreateDTO;
+use Model\Product;
 use Model\UserProduct;
 use Service\Auth\AuthInterface;
 use Service\Auth\AuthSessionService;
@@ -11,19 +12,43 @@ class CartService
 {
     private UserProduct $userProduct;
     private AuthInterface $authService;
+    private Product $productModel;
 
     public function __construct()
     {
         $this->userProduct = new UserProduct();
         $this->authService = new AuthSessionService();
+        $this->productModel = new Product();
     }
 
     public function getUserProducts():array
     {
         $user = $this->authService->getCurrentUser();
+
+        if($user === null) {
+            return [];
+        }
+
         $userProducts = $this->userProduct->getAllUserProductsByUserId($user->getId());
+        if ($userProducts === null) {
+            header('Location: /catalog');
+        }
+//        var_dump($userProducts);
+//        die();
+        foreach ($userProducts as $userProduct) {
+            $product = $this->productModel->getOneById($userProduct->getProductId());
+            if ($product) {
+                $userProduct->setProduct($product);
+
+                $totalSum = $userProduct->getAmount() * $userProduct->getProduct()->getPrice();//получили сумму
+                $userProduct->setTotalSum($totalSum);//и привязываем к $userProduct
+            }
+
+        }
         return $userProducts;
     }
+
+
 
     public function addProduct(CartCreateDTO $data)
     {
@@ -61,6 +86,16 @@ class CartService
         }
 
     }
+
+    public function getSum(): int
+    {
+        $total = 0;
+        foreach ($this->getUserProducts() as $userProduct) {
+            $total += $userProduct->getTotalSum();
+        }
+        return $total;
+    }
+
 
 
 

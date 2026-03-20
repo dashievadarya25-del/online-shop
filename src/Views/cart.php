@@ -3,7 +3,7 @@
     <a href="/user-orders">Мои заказы</a>
     <h3>Моя корзина</h3>
     <div class="card-deck">
-        <?php if (empty($products)): ?>
+        <?php if (empty($userProducts)): ?>
             <!-- Сообщение, если корзина пуста -->
             <div class="empty-cart-message">
                 <p style="color: #ee962b">Корзина пуста.</p>
@@ -11,41 +11,45 @@
             </div>
         <?php else: ?>
         <!-- Список товаров, если они есть -->
-        <?php foreach ($products as $product) : ?>
+        <?php foreach ($userProducts as &$userProduct) : ?>
         <div class="card text-center">
             <a href="#">
-                <img class="card-img-top" src="<?php echo $product->getImageUrl();?>" alt="Card image" height="480" width="480">
+                <img class="card-img-top" src="<?php echo $userProduct->getProduct()->getImageUrl();?>" alt="Card image" height="480" width="480">
                 <div class="card-body">
-                    <p class="card-text text-muted"><?php echo $product->getName();?></p>
-                    <a href="#"><h5 class="card-title"><?php echo $product->getDescription();?></h5></a>
+                    <p class="card-text text-muted"><?php echo $userProduct->getProduct()->getName();?></p>
+                    <a href="#"><h5 class="card-title"><?php echo $userProduct->getProduct()->getDescription();?></h5></a>
                     <div class="card-footer">
-                        <?php echo $product->getPrice();?>
+                       Стоимость <?php echo $userProduct->getProduct()->getPrice();?> рублей
                     </div>
                     <div>
-                        Количество: <?php echo $product->getAmount();?>
+                        Общее количество: <?php echo $userProduct->getAmount();?>
                     </div>
                 </div>
             </a>
         </div>
-        <form action="/add-product" method="post">
+        <form method="post" action="/add-product"> <!-- По умолчанию идет на добавление -->
             <div class="container">
-                <input type="hidden" placeholder="Enter product-id" name="product_id" value="<?php echo $product->getId(); ?>" id="product_id" required>
+                <!-- ID продукта (один на обе кнопки) -->
+                <input type="hidden" name="product_id" value="<?php echo $userProduct->getProduct()->getId()?>" required>
 
-                <label for="amount"><b>Amount</b></label>
+                <label for="amount"><b>количество</b></label>
                 <?php if (isset($errors['amount'])): ?>
-                <label style="color: red"><?php echo $errors['amount']; ?></form>
-    <?php endif; ?>
+                    <span style="color: red"><?php echo $errors['amount']; ?></span>
+                <?php endif; ?>
 
-        <input type="text" placeholder="Enter amount" name="amount" id="amount" required>
+                <!-- Поле ввода количества -->
+                <input type="text" name="amount" id="amount" value="1" required>
 
+                <!-- Кнопка ПЛЮС (использует action формы по умолчанию) -->
+                <button type="submit" class="registerbtn">+</button>
 
-        <button type="submit" class="registerbtn">Add product</button>
-    </div>
-    </form>
+                <!-- Кнопка МИНУС (переопределяет action на другой путь) -->
+                <button type="submit" class="registerbtn" formaction="/decrease-product">-</button>
+            </div>
     <?php endforeach; ?>
-</div>
+
 <?php endif; ?>
-<a href="/create-order">Оформление заказа</a>
+<a href="/create-order">Оформить заказ</a>
 </div>
 
 <style>

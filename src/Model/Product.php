@@ -3,12 +3,12 @@ namespace Model;
 
 class Product extends Model
 {
-    private $id;
-    private $name;
-    private $description;
-    private $price;
-    private $image_url;
-    public $amount;
+    private int $id;
+    private string $name;
+    private string $description;
+    private  int $price;
+    private string $image_url;
+
 
     protected function getTableName(): string
     {
@@ -80,7 +80,7 @@ class Product extends Model
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -88,7 +88,7 @@ class Product extends Model
     /**
      * @return mixed
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -96,7 +96,7 @@ class Product extends Model
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -104,7 +104,7 @@ class Product extends Model
     /**
      * @return mixed
      */
-    public function getPrice()
+    public function getPrice(): int
     {
         return $this->price;
     }
@@ -112,15 +112,11 @@ class Product extends Model
     /**
      * @return mixed
      */
-    public function getImageUrl()
+    public function getImageUrl(): string
     {
         return $this->image_url;
     }
 
-    public function getAmount()
-    {
-        return $this->amount;
-    }
 
 
 }
