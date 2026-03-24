@@ -12,13 +12,13 @@ class CartService
 {
     private UserProduct $userProduct;
     private AuthInterface $authService;
-    private Product $productModel;
+//    private Product $productModel;
 
     public function __construct()
     {
         $this->userProduct = new UserProduct();
         $this->authService = new AuthSessionService();
-        $this->productModel = new Product();
+//        $this->productModel = new Product();
     }
 
     public function getUserProducts():array
@@ -29,21 +29,20 @@ class CartService
             return [];
         }
 
-        $userProducts = $this->userProduct->getAllUserProductsByUserId($user->getId());
+        $userProducts = UserProduct::getAllByUserIdWithProducts($user->getId());
         if ($userProducts === null) {
             header('Location: /catalog');
         }
 //        var_dump($userProducts);
 //        die();
-        foreach ($userProducts as $userProduct) {
-            $product = $this->productModel->getOneById($userProduct->getProductId());
-            if ($product) {
-                $userProduct->setProduct($product);
+        foreach ($userProducts as $userProduct)
+        {
+//            $product = Product::getOneById($userProduct->getProductId());
+//            if ($product) {
+//                $userProduct->setProduct($product);
 
                 $totalSum = $userProduct->getAmount() * $userProduct->getProduct()->getPrice();//получили сумму
                 $userProduct->setTotalSum($totalSum);//и привязываем к $userProduct
-            }
-
         }
         return $userProducts;
     }

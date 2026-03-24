@@ -41,7 +41,7 @@ class OrderService
 
         $user = $this->authService->getCurrentUser();
         // 2. Получаем товары из корзины пользователя
-        $userProducts = $this->userProduct->getAllUserProductsByUserId($user->getId());
+        $userProducts = UserProduct::getAllUserProductsByUserId($user->getId());
 
         // 1. Создаем основной заказ
         $orderId = $this->orderModel->create(

@@ -8,10 +8,10 @@ use Model\Product;
 
 class DecreaseRequest
 {
-    private Product $productModel;
+//    private Product $productModel;
     public function __construct(private array $data)
     {
-        $this->productModel = new Product();
+//        $this->productModel = new Product();
 
     }
 
@@ -33,7 +33,7 @@ class DecreaseRequest
             $productId = $this->data['product_id'];
 
             // Получаем данные о продукте из базы
-            $data = $this->productModel->getByProductId($productId);
+            $data = Product::getByProductId($productId);
 
             if (!$data) {
                 $errors['product_id'] = "Product id does not exist.";

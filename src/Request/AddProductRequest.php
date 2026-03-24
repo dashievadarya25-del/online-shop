@@ -30,7 +30,7 @@ class AddProductRequest
         if (isset($this->data['product_id'])) {
             $productId = $this->data['product_id'];
 
-            $data = $this->productModel->getByProductId($productId);
+            $data = Product::getByProductId($productId);
 
             if ($data === false) {
                 $errors['product_id'] = 'Product id does not exist';

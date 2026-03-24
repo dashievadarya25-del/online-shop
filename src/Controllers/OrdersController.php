@@ -13,10 +13,10 @@ use Service\OrderService;
 
 class OrdersController extends BaseController
 {
-    private Order $orderModel;
-    private OrderProduct $orderProduct;
+//    private Order $orderModel;
+//    private OrderProduct $orderProduct;
 
-    private Product $productModel;
+//    private Product $productModel;
     private CartService $cartService;
     private OrderService $orderService;
 
@@ -24,9 +24,9 @@ class OrdersController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->orderModel = new Order();
-        $this->orderProduct = new OrderProduct();
-        $this->productModel = new Product();
+//        $this->orderModel = new Order();
+//        $this->orderProduct = new OrderProduct();
+//        $this->productModel = new Product();
         $this->cartService = new CartService();
         $this->orderService = new OrderService();
     }
@@ -84,7 +84,7 @@ class OrdersController extends BaseController
         }
         $user = $this->authService->getCurrentUser();
 
-        $userOrders = $this->orderModel->getAllByUserId($user->getId());
+        $userOrders = Order::getAllByUserId($user->getId());
 
         if ($userOrders === null) {
             $userOrders = [];
@@ -92,7 +92,7 @@ class OrdersController extends BaseController
         $newUserOrders = [];
 
         foreach ($userOrders as $userOrder) {
-           $orderProducts = $this->orderProduct->getAllByOrderId($userOrder->getId());
+           $orderProducts = OrderProduct::getAllByOrderId($userOrder->getId());
             if ($orderProducts === null) {
                 $orderProducts = [];
             }
@@ -101,7 +101,7 @@ class OrdersController extends BaseController
             $sum = 0;
 
             foreach ($orderProducts as $orderProduct) {
-                $product = $this->productModel->getOneById($orderProduct->getProductId());
+                $product = Product::getOneById($orderProduct->getProductId());
                 $orderProductData = [
                     'id' => $orderProduct->getProductId(),
                     'order_id' => $orderProduct->getOrderId(),

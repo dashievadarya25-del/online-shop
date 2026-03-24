@@ -45,7 +45,7 @@ class CartController extends BaseController
         //print_r($errors);
 
         if (empty($errors)) {
-            $user = $this->authService->getCurrentUser();
+//            $user = $this->authService->getCurrentUser();
 
             $dto = new CartCreateDTO($request->getProductId(), $request->getAmount());
             $this->cartService->addProduct($dto);

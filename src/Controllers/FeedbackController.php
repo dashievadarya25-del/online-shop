@@ -10,13 +10,13 @@ use Request\FeedbackRequest;
 
 class FeedbackController extends BaseController
 {
-    private Product $productModel;
+//    private Product $productModel;
     private FeedbackProduct $feedbackProductModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->productModel = new Product();
+//        $this->productModel = new Product();
         $this->feedbackProductModel = new FeedbackProduct();
 
     }
@@ -46,7 +46,7 @@ class FeedbackController extends BaseController
             die("ID продукта не указан");
         }
 
-        $product = $this->productModel->getOneById($productId);
+        $product = Product::getOneById($productId);
         if (!$product) {
             die("Продукт не найден");
         }
@@ -63,8 +63,8 @@ class FeedbackController extends BaseController
             header("Location: /catalog");
             exit;
         }
-        $averageRating = $this->feedbackProductModel->getAverageRating($request->getProductId());
-        $feedbacks = $this->feedbackProductModel->getAllByProductId($request->getProductId());
+        $averageRating = FeedbackProduct::getAverageRating($request->getProductId());
+        $feedbacks = FeedbackProduct::getAllByProductId($request->getProductId());
 
         require_once '../Views/feedback_product_form.php';
 

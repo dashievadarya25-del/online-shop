@@ -6,16 +6,9 @@ use Model\UserProduct;
 
 class ProductController extends BaseController
 {
-    private Product $productModel;
-
-    private UserProduct $userProductModel;
-
     public function __construct()
     {
         parent::__construct();
-        $this->productModel = new Product();
-        $this->userProductModel = new UserProduct();
-
     }
     public function getCatalog()
     {
@@ -23,7 +16,7 @@ class ProductController extends BaseController
 
         if ($this->authService->check()) {
 
-            $products = $this->productModel->getAll();
+            $products = Product::getAll();
 
             require_once '../Views/catalog_form.php';
         } else {
