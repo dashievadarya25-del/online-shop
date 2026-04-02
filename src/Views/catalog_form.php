@@ -16,9 +16,8 @@
                     </div>
                 </a>
             </div>
-        <form method="post" action="/add-product"> <!-- По умолчанию идет на добавление -->
+        <form method="post" action="/add-product" class="js-cart-form">
             <div class="container">
-                <!-- ID продукта (один на обе кнопки) -->
                 <input type="hidden" name="product_id" value="<?php echo $product->getId()?>" required>
 
                 <label for="amount"><b>Корзина</b></label>
@@ -26,16 +25,14 @@
                     <span style="color: red"><?php echo $errors['amount']; ?></span>
                 <?php endif; ?>
 
-                <!-- Поле ввода количества -->
                 <input type="text" name="amount" id="amount" value="1" required>
 
-                <!-- Кнопка ПЛЮС (использует action формы по умолчанию) -->
                 <button type="submit" class="registerbtn">+</button>
 
-                <!-- Кнопка МИНУС (переопределяет action на другой путь) -->
                 <button type="submit" class="registerbtn" formaction="/decrease-product">-</button>
             </div>
         </form>
+
             <form method="post" action="/feedback-product">
                 <div class="container">
                     <input type="hidden" name="product_id" value="<?php echo $product->getId()?>" required>
@@ -45,6 +42,36 @@
         <?php endforeach; ?>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        // Вешаем событие на форму
+        $('.js-cart-form').on('submit', function(e) {
+            e.preventDefault();
+
+            var $form = $(this);
+
+            var targetUrl = $(e.originalEvent.submitter).attr('formaction') || $form.attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: targetUrl,
+                data: $form.serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    console.log('Успешно выполнено для:', targetUrl);
+                    // Здесь обновляйте количество в корзине, если сервер прислал его
+                    // $('.badge').text(response.count);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Ошибка при запросе:', error);
+                }
+            });
+        });
+    });
+
+</script>
+
 
 <style>
     body {

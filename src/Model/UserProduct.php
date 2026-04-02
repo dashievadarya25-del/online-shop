@@ -37,19 +37,20 @@ class UserProduct extends Model
         $stmt = static::getPDO()->prepare("SELECT * FROM $tableName WHERE product_id = :productId AND user_Id = :userId");
         $stmt->execute(['productId' => $productId, 'userId' => $userId]);
         $userProduct = $stmt->fetch();
-//        if(!$userProduct) {
-//            return null;
-//        }$_SESSION['userId']
-//
-//            $obj = new self;
-//            $obj->id = $userProduct['id'];
-//            $obj->user_id = $userProduct['user_id'];
-//            $obj->product_id = $userProduct['product_id'];
-//            $obj->amount = $userProduct['amount'];
-//
-//
-//        return $obj;
-        return static::createObj($userProduct);
+
+        if(!$userProduct) {
+            return null;
+        }
+
+            $obj = new self;
+            $obj->id = $userProduct['id'];
+            $obj->user_id = $userProduct['user_id'];
+            $obj->product_id = $userProduct['product_id'];
+            $obj->amount = $userProduct['amount'];
+
+
+        return $obj;
+
 
 
     }

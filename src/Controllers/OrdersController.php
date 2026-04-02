@@ -76,48 +76,46 @@ class OrdersController extends BaseController
         require_once 'Views/order_form.php';
     }
 
+
     public function getAllOrders()
     {
         if (!$this->authService->check()) {
             header("Location: /login");
             exit();
         }
+
         $user = $this->authService->getCurrentUser();
-
-        $userOrders = Order::getAllByUserId($user->getId());
-
-        if ($userOrders === null) {
-            $userOrders = [];
-        }
+        $userOrders = Order::getAllByUserId($user->getId()) ?? [];
         $newUserOrders = [];
 
         foreach ($userOrders as $userOrder) {
-           $orderProducts = OrderProduct::getAllByOrderId($userOrder->getId());
-            if ($orderProducts === null) {
-                $orderProducts = [];
-            }
+
+            $orderProducts = OrderProduct::getAllByOrderIdWithProducts($userOrder->getId()) ?? [];
 
             $newOrderProducts = [];
             $sum = 0;
 
             foreach ($orderProducts as $orderProduct) {
-                $product = Product::getOneById($orderProduct->getProductId());
-                $orderProductData = [
-                    'id' => $orderProduct->getProductId(),
+                $product = $orderProduct->getProduct();
+
+                $amount = $orderProduct->getAmount();
+                $price = $product->getPrice();
+                $totalSum = $price * $amount;
+
+                $newOrderProducts[] = [
+                    'id' => $orderProduct->getId(),
                     'order_id' => $orderProduct->getOrderId(),
                     'product_id' => $orderProduct->getProductId(),
-                    'amount' => $orderProduct->getAmount(),
+                    'amount' => $amount,
                     'name' => $product->getName(),
-                    'price' => $product->getPrice(),
-                    'totalSum' => $product->getPrice() * $orderProduct->getAmount(),
-                    ];
+                    'price' => $price,
+                    'totalSum' => $totalSum,
+                ];
 
-                $newOrderProducts[] = $orderProductData;
-
-                $sum = $sum + $orderProductData['totalSum'];
+                $sum += $totalSum;
             }
 
-            $userOrderData = [
+            $newUserOrders[] = [
                 'id' => $userOrder->getId(),
                 'user_id' => $userOrder->getUserId(),
                 'contact_name' => $userOrder->getContactName(),
@@ -127,10 +125,8 @@ class OrdersController extends BaseController
                 'total' => $sum,
                 'products' => $newOrderProducts,
             ];
-
-            $newUserOrders[] = $userOrderData;
-
         }
+
         require_once './../Views/user_orders.php';
     }
 }

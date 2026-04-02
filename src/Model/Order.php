@@ -12,6 +12,7 @@ class Order extends Model
     private $comment;
     private $user_id;
     private $address;
+    private int $totalSum;
 
     protected static function getTableName(): string
     {
@@ -60,6 +61,33 @@ class Order extends Model
         }
         return $newUserOrders;
     }
+//
+//    public static function getAllByUserIdWithProducts($userId): array|null
+//    {
+//        $stmt = static::getPDO()->prepare(
+//            "SELECT * FROM orders o
+//                   INNER JOIN order_products op ON o.id = op.order_id
+//                   WHERE user_id = :userId");
+//        $stmt->execute(['userId' => $userId]);
+//        $userOrders = $stmt->fetchAll();
+//
+//        if (!$userOrders) {
+//            return null;
+//        }
+//
+//        $newUserOrders = [];
+//        foreach ($userOrders as $userOrder) {
+//            $obj = new self();
+//            $obj->id = $userOrder['id'];
+//            $obj->contact_name = $userOrder['contact_name'];
+//            $obj->contact_phone = $userOrder['contact_phone'];
+//            $obj->comment = $userOrder['comment'];
+//            $obj->user_id = $userOrder['user_id'];
+//
+//            $newUserOrders[] = $obj;
+//        }
+//        return $newUserOrders;
+//    }
 
     /**
      * @return mixed
@@ -107,6 +135,14 @@ class Order extends Model
     public function getAddress()
     {
         return $this->address;
+    }
+    public function setTotalSum(int $totalSum): void
+    {
+        $this->totalSum = $totalSum;
+    }
+    public function getTotalSum(): int
+    {
+        return $this->totalSum;
     }
 
 

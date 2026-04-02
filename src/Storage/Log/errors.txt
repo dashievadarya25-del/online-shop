@@ -11,3 +11,24 @@
 [2026-03-24 04:54:59] Ошибка: /n Cannot assign null to property Model\Product::$id of type int в файле /var/www/html/src/Model/Product.php на строке 92
 [2026-03-24 05:19:50] Ошибка: /n Non-static method Model\UserProduct::getByProductIdUserId() cannot be called statically в файле /var/www/html/src/Service/CartService.php на строке 73
 [2026-03-24 05:20:19] Ошибка: /n Non-static method Model\UserProduct::getByProductIdUserId() cannot be called statically в файле /var/www/html/src/Service/CartService.php на строке 73
+[2026-03-25 06:01:21] Ошибка: /n Model\UserProduct::createObj(): Argument #1 ($userProduct) must be of type array, false given, called in /var/www/html/src/Model/UserProduct.php on line 52 в файле /var/www/html/src/Model/UserProduct.php на строке 130
+[2026-03-25 06:02:00] Ошибка: /n Model\UserProduct::createObj(): Argument #1 ($userProduct) must be of type array, false given, called in /var/www/html/src/Model/UserProduct.php on line 52 в файле /var/www/html/src/Model/UserProduct.php на строке 130
+[2026-03-25 06:02:06] Ошибка: /n Model\UserProduct::createObj(): Argument #1 ($userProduct) must be of type array, false given, called in /var/www/html/src/Model/UserProduct.php on line 52 в файле /var/www/html/src/Model/UserProduct.php на строке 130
+[2026-03-25 06:02:10] Ошибка: /n Model\UserProduct::createObj(): Argument #1 ($userProduct) must be of type array, false given, called in /var/www/html/src/Model/UserProduct.php on line 52 в файле /var/www/html/src/Model/UserProduct.php на строке 130
+[2026-03-25 06:03:10] Ошибка: /n Model\UserProduct::createObj(): Argument #1 ($userProduct) must be of type array, false given, called in /var/www/html/src/Model/UserProduct.php on line 52 в файле /var/www/html/src/Model/UserProduct.php на строке 130
+[2026-03-25 06:05:36] Ошибка: /n Model\UserProduct::createObj(): Argument #1 ($userProduct) must be of type array, false given, called in /var/www/html/src/Model/UserProduct.php on line 52 в файле /var/www/html/src/Model/UserProduct.php на строке 130
+[2026-03-25 06:11:18] Ошибка: /n Model\UserProduct::createObj(): Argument #1 ($userProduct) must be of type array, false given, called in /var/www/html/src/Model/UserProduct.php on line 52 в файле /var/www/html/src/Model/UserProduct.php на строке 130
+[2026-03-25 06:12:06] Ошибка: /n Model\UserProduct::createObj(): Argument #1 ($userProduct) must be of type array, false given, called in /var/www/html/src/Model/UserProduct.php on line 52 в файле /var/www/html/src/Model/UserProduct.php на строке 130
+[2026-03-28 02:45:07] Ошибка: /n Call to undefined method Model\Order::setTotalSum() в файле /var/www/html/src/Service/OrderService.php на строке 94
+[2026-03-28 02:48:39] Ошибка: /n Call to undefined method Model\Order::setTotalSum() в файле /var/www/html/src/Service/OrderService.php на строке 128
+[2026-03-28 02:48:40] Ошибка: /n Call to undefined method Model\Order::setTotalSum() в файле /var/www/html/src/Service/OrderService.php на строке 128
+[2026-03-28 03:00:03] Ошибка: /n Call to a member function setTotalSum() on null в файле /var/www/html/src/Service/OrderService.php на строке 128
+[2026-03-28 03:05:54] Ошибка: /n Call to undefined method Model\Order::setTotalSum() в файле /var/www/html/src/Service/OrderService.php на строке 128
+[2026-03-28 05:07:01] Ошибка: /n Для оформления заказа сумма корзины должн быть больше 1000 в файле /var/www/html/src/Service/OrderService.php на строке 39
+[2026-04-02 09:58:40] Ошибка: /n Request\AddProductRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 23
+[2026-04-02 10:00:44] Ошибка: /n Request\AddProductRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 23
+[2026-04-02 10:01:22] Ошибка: /n Request\AddProductRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 23
+[2026-04-02 10:01:48] Ошибка: /n Request\AddProductRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 23
+[2026-04-02 10:04:00] Ошибка: /n Request\AddProductRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 23
+[2026-04-02 10:04:19] Ошибка: /n Request\AddProductRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 23
+[2026-04-02 10:04:46] Ошибка: /n Request\DecreaseRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/DecreaseRequest.php на строке 24
