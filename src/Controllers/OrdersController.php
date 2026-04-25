@@ -13,10 +13,6 @@ use Service\OrderService;
 
 class OrdersController extends BaseController
 {
-//    private Order $orderModel;
-//    private OrderProduct $orderProduct;
-
-//    private Product $productModel;
     private CartService $cartService;
     private OrderService $orderService;
 
@@ -24,9 +20,6 @@ class OrdersController extends BaseController
     public function __construct()
     {
         parent::__construct();
-//        $this->orderModel = new Order();
-//        $this->orderProduct = new OrderProduct();
-//        $this->productModel = new Product();
         $this->cartService = new CartService();
         $this->orderService = new OrderService();
     }
@@ -73,7 +66,7 @@ class OrdersController extends BaseController
             exit;
         }
 
-        require_once 'Views/order_form.php';
+        require_once './../Views/order_form.php';
     }
 
 

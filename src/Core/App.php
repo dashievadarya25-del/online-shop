@@ -14,18 +14,8 @@ class App
     private array $routes = [];
     public function run()
     {
-        $requestUri = $_SERVER['REQUEST_URI']; // /registration
-        $requestMethod = $_SERVER['REQUEST_METHOD']; // GET
-        //        $routeMethods = [
-//            'GET' => [
-//                'class' => 'UserController',
-//                'method' => 'getRegistrate',
-//            ],
-//            'POST' => [
-//                'class' => 'UserController',
-//                'method' => 'registrate',
-//            ],
-//        ];
+        $requestUri = $_SERVER['REQUEST_URI'];
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         if (isset($this->routes[$requestUri])) {
             $routeMethods = $this->routes[$requestUri];
@@ -33,16 +23,9 @@ class App
             if (isset($routeMethods[$requestMethod])) {
                 $handler = $routeMethods[$requestMethod];
 
-//        $handler = [
-//            'class' => 'UserController',
-//            'method' => 'getRegistrate',
-//        ];
                 $class = $handler['class'];
                 $method = $handler['method'];
-//                $path = "../Controllers/" . $class . ".php"; // require_once "../Controller/$class.php"
-//                if (file_exists($path)) {
-//                    require_once $path;
-//                }
+
                 $controller = new $class();
                 $requestClass = $handler['request'];
                 try {

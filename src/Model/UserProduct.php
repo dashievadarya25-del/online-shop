@@ -20,10 +20,6 @@ class UserProduct extends Model
         $stmt = static::getPDO()->query("SELECT * FROM $tableName WHERE user_id = {$userId}");
         $userProducts = $stmt->fetchAll();
 
-//        if(!$userProducts) {
-//            return null;
-//        }
-
         $products = [];
         foreach ($userProducts as $userProduct) {
             $products[] = static::createObj($userProduct);
@@ -148,21 +144,8 @@ class UserProduct extends Model
         {
             return null;
         }
-//
-//        $obj = new self;
-//        $obj->id = $userProduct['id'];
-//        $obj->user_id = $userProduct['user_id'];
-//        $obj->product_id = $userProduct['product_id'];
-//        $obj->amount = $userProduct['amount'];
-         $obj = static::createObj($userProduct);
 
-//        $productData = [
-//            'id' =>$userProduct['id'],
-//            'name' =>$userProduct['name'],
-//            'description' =>$userProduct['description'],
-//            'price' =>$userProduct['price'],
-//            'image_url' =>$userProduct['image_url'],
-//        ];
+         $obj = static::createObj($userProduct);
 
         $product = Product::createObj($userProduct, $userProduct['product_id']);
         $obj->setProduct($product);
@@ -174,7 +157,7 @@ class UserProduct extends Model
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -182,7 +165,7 @@ class UserProduct extends Model
     /**
      * @return mixed
      */
-    public function getProductId()
+    public function getProductId(): int
     {
         return $this->product_id;
     }
@@ -190,7 +173,7 @@ class UserProduct extends Model
     /**
      * @return mixed
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -198,7 +181,7 @@ class UserProduct extends Model
     /**
      * @return mixed
      */
-    public function getAmount()
+    public function getAmount(): int
     {
         return $this->amount;
     }
@@ -219,8 +202,5 @@ class UserProduct extends Model
     {
         return $this->totalSum;
     }
-
-
-
 
 }

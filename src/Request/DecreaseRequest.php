@@ -8,10 +8,8 @@ use Model\Product;
 
 class DecreaseRequest
 {
-//    private Product $productModel;
     public function __construct(private array $data)
     {
-//        $this->productModel = new Product();
 
     }
 
@@ -28,11 +26,9 @@ class DecreaseRequest
     {
         $errors = [];
 
-        // 1. Проверка наличия ID продукта в запросе
         if (isset($this->data['product_id'])) {
             $productId = $this->data['product_id'];
 
-            // Получаем данные о продукте из базы
             $data = Product::getByProductId($productId);
 
             if (!$data) {

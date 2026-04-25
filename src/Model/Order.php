@@ -6,12 +6,12 @@ use PDO;
 
 class Order extends Model
 {
-    private $id;
-    private $contact_name;
-    private $contact_phone;
-    private $comment;
-    private $user_id;
-    private $address;
+    private int $id;
+    private string $contact_name;
+    private string $contact_phone;
+    private string $comment;
+    private int $user_id;
+    private string $address;
     private int $totalSum;
 
     protected static function getTableName(): string
@@ -56,43 +56,17 @@ class Order extends Model
             $obj->contact_phone = $userOrder['contact_phone'];
             $obj->comment = $userOrder['comment'];
             $obj->user_id = $userOrder['user_id'];
+            $obj->address = $userOrder['address'];
 
             $newUserOrders[] = $obj;
         }
         return $newUserOrders;
     }
-//
-//    public static function getAllByUserIdWithProducts($userId): array|null
-//    {
-//        $stmt = static::getPDO()->prepare(
-//            "SELECT * FROM orders o
-//                   INNER JOIN order_products op ON o.id = op.order_id
-//                   WHERE user_id = :userId");
-//        $stmt->execute(['userId' => $userId]);
-//        $userOrders = $stmt->fetchAll();
-//
-//        if (!$userOrders) {
-//            return null;
-//        }
-//
-//        $newUserOrders = [];
-//        foreach ($userOrders as $userOrder) {
-//            $obj = new self();
-//            $obj->id = $userOrder['id'];
-//            $obj->contact_name = $userOrder['contact_name'];
-//            $obj->contact_phone = $userOrder['contact_phone'];
-//            $obj->comment = $userOrder['comment'];
-//            $obj->user_id = $userOrder['user_id'];
-//
-//            $newUserOrders[] = $obj;
-//        }
-//        return $newUserOrders;
-//    }
 
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -100,7 +74,7 @@ class Order extends Model
     /**
      * @return mixed
      */
-    public function getContactName()
+    public function getContactName(): string
     {
         return $this->contact_name;
     }
@@ -108,7 +82,7 @@ class Order extends Model
     /**
      * @return mixed
      */
-    public function getContactPhone()
+    public function getContactPhone(): string
     {
         return $this->contact_phone;
     }
@@ -116,7 +90,7 @@ class Order extends Model
     /**
      * @return mixed
      */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
@@ -124,7 +98,7 @@ class Order extends Model
     /**
      * @return mixed
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -132,7 +106,7 @@ class Order extends Model
     /**
      * @return mixed
      */
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
@@ -144,7 +118,6 @@ class Order extends Model
     {
         return $this->totalSum;
     }
-
 
 }
 

@@ -10,17 +10,13 @@ use Request\FeedbackRequest;
 
 class FeedbackController extends BaseController
 {
-//    private Product $productModel;
     private FeedbackProduct $feedbackProductModel;
 
     public function __construct()
     {
         parent::__construct();
-//        $this->productModel = new Product();
         $this->feedbackProductModel = new FeedbackProduct();
-
     }
-
 
     public function getFeedbackProduct()
     {
@@ -28,8 +24,6 @@ class FeedbackController extends BaseController
             header('Location: /login');
             exit;
         }
-
-
     }
 
     public function handleFeedbackProduct(FeedbackRequest $request) {
@@ -38,7 +32,7 @@ class FeedbackController extends BaseController
             exit;
         }
 
-//        // Получаем ID из POST (при сохранении) или из GET (при просмотре)
+//      Получаем ID из POST (при сохранении) или из GET (при просмотре)
         $productId = $request->getProductId() ?? $_GET['id'] ?? null;
         $productId = (int)$productId;
 
@@ -52,7 +46,6 @@ class FeedbackController extends BaseController
         }
 
         $data = $_POST;
-        // Сохранение (POST)
         if (isset($data['review'])) {
             $name = $request->getName();
             $review = $request->getReview();

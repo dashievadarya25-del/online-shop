@@ -4,10 +4,10 @@ namespace Model;
 
 class OrderProduct extends Model
 {
-    private $id;
-    private $order_id;
-    private $product_id;
-    private $amount;
+    private int $id;
+    private int $order_id;
+    private int $product_id;
+    private int $amount;
     private Product $product;
 
 
@@ -38,11 +38,6 @@ class OrderProduct extends Model
 
         $newOrderProducts = [];
         foreach ($orderProducts as $orderProduct) {
-//            $obj = new self();
-//            $obj->id = $orderProduct['id'];
-//            $obj->order_id = $orderProduct['order_id'];
-//            $obj->product_id = $orderProduct['product_id'];
-//            $obj->amount = $orderProduct['amount'];
             $newOrderProducts[] = static::createObj($orderProduct);
         }
         return $newOrderProducts;
@@ -63,11 +58,6 @@ class OrderProduct extends Model
 
         $newOrderProducts = [];
         foreach ($orderProducts as $orderProduct) {
-//            $obj = new self();
-//            $obj->id = $orderProduct['id'];
-//            $obj->order_id = $orderProduct['order_id'];
-//            $obj->product_id = $orderProduct['product_id'];
-//            $obj->amount = $orderProduct['amount'];
             $newOrderProducts[] = static::createObjWithProducts($orderProduct);
         }
         return $newOrderProducts;
@@ -97,11 +87,10 @@ class OrderProduct extends Model
 
     }
 
-
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -109,7 +98,7 @@ class OrderProduct extends Model
     /**
      * @return mixed
      */
-    public function getOrderId()
+    public function getOrderId(): int
     {
         return $this->order_id;
     }
@@ -117,7 +106,7 @@ class OrderProduct extends Model
     /**
      * @return mixed
      */
-    public function getProductId()
+    public function getProductId(): int
     {
         return $this->product_id;
     }
@@ -125,7 +114,7 @@ class OrderProduct extends Model
     /**
      * @return mixed
      */
-    public function getAmount()
+    public function getAmount(): int
     {
         return $this->amount;
     }
@@ -138,7 +127,5 @@ class OrderProduct extends Model
     {
         return $this->product;
     }
-
-
 
 }

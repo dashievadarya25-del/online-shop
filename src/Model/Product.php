@@ -21,18 +21,8 @@ class Product extends Model
         $stmt = static::getPDO()->query("SELECT * FROM $tableName");
         $productsData = $stmt->fetchAll();
 
-//        if ($productsData === false) {
-//            return null;
-//        }
         $result = [];
         foreach ($productsData as $product) {
-//            $obj = new self();
-//            $obj->id = $product['id'];
-//            $obj->name = $product['name'];
-//            $obj->description = $product['description'];
-//            $obj->price = $product['price'];
-//            $obj->image_url = $product['image_url'];
-
             $result[] = static::createObj($product);
         }
         return $result;
@@ -46,18 +36,6 @@ class Product extends Model
         $stmt->execute(['productId' => $productId]);
         $product = $stmt->fetch();
 
-//        if(!$product) {
-//            return null;
-//        }
-//
-//        $obj = new self();
-//        $obj->id = $product['id'];
-//        $obj->name = $product['name'];
-//        $obj->description = $product['description'];
-//        $obj->price = $product['price'];
-//        $obj->image_url = $product['image_url'];
-//
-//        return $obj;
         return static::createObj($product);
     }
 
@@ -67,22 +45,10 @@ class Product extends Model
         $stmt = static::getPDO()->query("SELECT * FROM $tableName WHERE id = {$productId}");
         $product = $stmt->fetch();
 
-//        if(!$product) {
-//            return null;
-//        }
-//
-//        $obj = new self();
-//        $obj->id = $product['id'];
-//        $obj->name = $product['name'];
-//        $obj->description = $product['description'];
-//        $obj->price = $product['price'];
-//        $obj->image_url = $product['image_url'];
-//
-//        return $obj;
-           return static::createObj($product);
+        return static::createObj($product);
     }
 
-    public static function createObj(array $product, int $id = null):self|null
+    public static function createObj(array $product, ?int $id = null):self|null
     {
         if(!$product) {
             return null;

@@ -6,10 +6,8 @@ use Model\Product;
 
 class AddProductRequest
 {
-    private Product $productModel;
     public function __construct(private array $data)
     {
-        $this->productModel = new Product();
 
     }
 

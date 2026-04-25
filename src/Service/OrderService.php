@@ -40,10 +40,9 @@ class OrderService
         }
 
         $user = $this->authService->getCurrentUser();
-        // 2. Получаем товары из корзины пользователя
+
         $userProducts = UserProduct::getAllUserProductsByUserId($user->getId());
 
-        // 1. Создаем основной заказ
         $orderId = $this->orderModel->create(
             $data->getContactName(),
             $data->getAddress(),
@@ -53,8 +52,6 @@ class OrderService
         );
 
 
-
-        // 3. Переносим товары в состав заказа
         foreach ($userProducts as $userProduct) {
             $this->orderProduct->create(
                 $orderId,
@@ -63,7 +60,6 @@ class OrderService
             );
         }
 
-        // 4. Очищаем корзину
         $this->userProduct->deleteByUserId($user->getId());
 
         return $orderId;

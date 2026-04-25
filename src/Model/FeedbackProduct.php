@@ -8,11 +8,11 @@ class FeedbackProduct extends Model
 {
     private int $id;
     private string $name;
-    private $product_id;
-    private $review;
-    private $created_at;
-    private $estimation;
-    private $averagegrade;
+    private int $product_id;
+    private string $review;
+    private int $created_at;
+    private int $estimation;
+    private float $averagegrade;
 
     protected static function getTableName(): string
     {
@@ -80,7 +80,7 @@ class FeedbackProduct extends Model
     /**
      * @return mixed
      */
-    public function getProductId()
+    public function getProductId(): int
     {
         return $this->product_id;
     }
@@ -88,7 +88,7 @@ class FeedbackProduct extends Model
     /**
      * @return mixed
      */
-    public function getReview()
+    public function getReview(): string
     {
         return $this->review;
     }
@@ -96,7 +96,7 @@ class FeedbackProduct extends Model
     /**
      * @return mixed
      */
-    public function getEstimation()
+    public function getEstimation(): int
     {
         return $this->estimation;
     }
@@ -104,7 +104,7 @@ class FeedbackProduct extends Model
     /**
      * @return mixed
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): int
     {
         return $this->created_at;
     }
@@ -112,10 +112,8 @@ class FeedbackProduct extends Model
     /**
      * @return mixed
      */
-    public function getAveragegrade()
+    public function getAveragegrade(): float
     {
         return $this->averagegrade;
     }
-
-
 }

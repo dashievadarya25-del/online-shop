@@ -1,6 +1,6 @@
 <?php
 namespace Controllers;
-// test
+
 use DTO\CartCreateDTO;
 use Request\AddProductRequest;
 use Request\DecreaseRequest;
@@ -9,8 +9,7 @@ use Service\CartService;
 
 class CartController extends BaseController
 {
-      private CartService $cartService;
-
+    private CartService $cartService;
 
     public function __construct()
     {
@@ -42,11 +41,8 @@ class CartController extends BaseController
             exit;
         }
         $errors = $request->addproductValidate();
-        //print_r($errors);
 
         if (empty($errors)) {
-//            $user = $this->authService->getCurrentUser();
-
             $dto = new CartCreateDTO($request->getProductId(), $request->getAmount());
             $this->cartService->addProduct($dto);
         }
@@ -71,9 +67,7 @@ class CartController extends BaseController
         if (empty($errors)) {
             $dto = new CartCreateDTO($request->getProductId(), $request->getAmount());
 
-            // Получаем текущие данные товара в корзине
             $this->cartService->decreaseProducts($dto);
-
 
             header('Location: /catalog');
             exit;
@@ -81,7 +75,5 @@ class CartController extends BaseController
             print_r($errors);
         }
     }
-
-
 
 }

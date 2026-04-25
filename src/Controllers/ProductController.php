@@ -12,8 +12,6 @@ class ProductController extends BaseController
     }
     public function getCatalog()
     {
-
-
         if ($this->authService->check()) {
 
             $products = Product::getAll();

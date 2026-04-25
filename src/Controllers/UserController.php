@@ -24,12 +24,7 @@ class UserController extends BaseController
     {
         $errors = $request->validate();
 
-// добавляем в БД, если нет ошибок
         if (empty($errors)) {
-//            $name = $_POST['name'];
-//            $email = $_POST['email'];
-//            $password = $_POST['psw'];
-//            $passwordrepeat = $_POST['psw-repeat'];
 
             $password = password_hash($request->getPassword(), PASSWORD_DEFAULT);
 
@@ -109,9 +104,6 @@ class UserController extends BaseController
         $errors = $request->editProfilevalidate();
 
         if (empty($errors)) {
-//            $name = $data['name'];
-//            $email = $data['email'];
-//            $password = $data['password'];
 
             $password = password_hash($request->getPassword(), PASSWORD_DEFAULT);
 
