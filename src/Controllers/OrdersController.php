@@ -33,8 +33,7 @@ class OrdersController extends BaseController
         }
         $userProducts = $this->cartService->getUserProducts();
         $total = $this->cartService->getSum();
-        if(empty($userProducts))
-        {
+        if (empty($userProducts)) {
             header('Location: /catalog');
             exit;
         }

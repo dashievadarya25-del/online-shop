@@ -1,5 +1,7 @@
 <?php
+
 namespace Controllers;
+
 use Model\User;
 use Request\EditprofileRequest;
 use Request\LoginRequest;
@@ -86,7 +88,7 @@ class UserController extends BaseController
         exit();
     }
 
-    public function getEditprofile()
+    public function getEditProfile()
     {
         $user = $this->authService->getCurrentUser();
 
@@ -101,7 +103,7 @@ class UserController extends BaseController
             exit;
         }
 
-        $errors = $request->editProfilevalidate();
+        $errors = $request->editProfileValidate();
 
         if (empty($errors)) {
 
@@ -121,11 +123,8 @@ class UserController extends BaseController
             exit;
         }
 
-
         require_once '../Views/edit_profile_form.php';
     }
-
-
 
 }
 

@@ -4,7 +4,7 @@ namespace Request;
 
 use Model\User;
 
-class EditprofileRequest
+class EditProfileRequest
 {
     private User $userModel;
 
@@ -18,19 +18,19 @@ class EditprofileRequest
     {
         return $this->data['name'];
     }
-    public function getPassword (): string
+    public function getPassword(): string
     {
         return $this->data['password'];
     }
 
 
-    public function getEmail (): string
+    public function getEmail(): string
     {
         return $this->data['email'];
     }
 
 
-    public function editProfilevalidate(): array
+    public function editProfileValidate(): array
     {
         $errors = [];
 

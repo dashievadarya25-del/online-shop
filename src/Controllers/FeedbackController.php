@@ -2,11 +2,9 @@
 
 namespace Controllers;
 
-
 use Model\FeedbackProduct;
 use Model\Product;
 use Request\FeedbackRequest;
-
 
 class FeedbackController extends BaseController
 {
@@ -26,7 +24,8 @@ class FeedbackController extends BaseController
         }
     }
 
-    public function handleFeedbackProduct(FeedbackRequest $request) {
+    public function handleFeedbackProduct(FeedbackRequest $request)
+    {
         if (!$this->authService->check()) {
             header("Location: /login.php");
             exit;

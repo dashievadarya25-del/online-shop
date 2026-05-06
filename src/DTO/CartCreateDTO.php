@@ -2,9 +2,6 @@
 
 namespace DTO;
 
-use Model\Product;
-use Model\User;
-
 class CartCreateDTO
 {
     public function __construct(private int $productId, private int $amount)

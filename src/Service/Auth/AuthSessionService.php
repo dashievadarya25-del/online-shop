@@ -15,11 +15,6 @@ class AuthSessionService implements AuthInterface
     public function check(): bool
     {
         $this->startSession();
-//        if(isset($_SESSION['userId'])) {
-//        return true;
-//        } else {
-//            return false;
-//        }
         return isset($_SESSION['userId']);
     }
 

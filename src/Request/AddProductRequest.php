@@ -21,7 +21,7 @@ class AddProductRequest
         return $this->data['amount'];
     }
 
-    public function addproductValidate(): array
+    public function addProductValidate(): array
     {
         $errors = [];
 

@@ -2,8 +2,6 @@
 
 namespace Request;
 
-
-
 use Model\Product;
 
 class DecreaseRequest
@@ -22,7 +20,7 @@ class DecreaseRequest
         return $this->data['amount'];
     }
 
-    function removeProductValidate(): array
+    public function removeProductValidate(): array
     {
         $errors = [];
 

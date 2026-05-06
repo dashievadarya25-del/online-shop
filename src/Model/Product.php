@@ -6,7 +6,7 @@ class Product extends Model
     private int $id;
     private string $name;
     private string $description;
-    private  int $price;
+    private int $price;
     private string $image_url;
 
 
@@ -50,7 +50,7 @@ class Product extends Model
 
     public static function createObj(array $product, ?int $id = null):self|null
     {
-        if(!$product) {
+        if (!$product) {
             return null;
         }
 
@@ -69,9 +69,6 @@ class Product extends Model
 
     }
 
-    /**
-     * @return mixed
-     */
     public function getId(): int
     {
         return $this->id;

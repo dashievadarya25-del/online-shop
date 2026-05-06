@@ -1,5 +1,7 @@
 <?php
+
 namespace Model;
+
 use PDO;
 
 abstract class Model
@@ -8,9 +10,11 @@ abstract class Model
 
     public static function getPDO(): PDO
     {
-        static::$PDO = new PDO("pgsql:host=postgres; port=5432; dbname=mydb", 'user', 'pass');
+        if (!isset(self::$PDO)) {
+            static::$PDO = new PDO("pgsql:host=postgres; port=5432; dbname=mydb", 'user', 'pass');
+        }
         return static::$PDO;
     }
 
-    abstract static protected function getTableName(): string;
+    abstract protected static function getTableName(): string;
 }

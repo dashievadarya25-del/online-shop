@@ -32,7 +32,7 @@ class OrderProduct extends Model
         $stmt->execute(['orderId' => $orderId]);
         $orderProducts = $stmt->fetchAll();
 
-        if(!$orderProducts) {
+        if (!$orderProducts) {
             return null;
         }
 
@@ -52,7 +52,7 @@ class OrderProduct extends Model
         $stmt->execute(['orderId' => $orderId]);
         $orderProducts = $stmt->fetchAll();
 
-        if(!$orderProducts) {
+        if (!$orderProducts) {
             return null;
         }
 

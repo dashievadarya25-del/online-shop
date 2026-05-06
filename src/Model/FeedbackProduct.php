@@ -2,8 +2,6 @@
 
 namespace Model;
 
-use PDO;
-
 class FeedbackProduct extends Model
 {
     private int $id;
@@ -32,7 +30,8 @@ class FeedbackProduct extends Model
         ]);
     }
 
-    public static function getAverageRating(int $productId) {
+    public static function getAverageRating(int $productId): float
+    {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("SELECT AVG(estimation) as average FROM $tableName WHERE product_id = :id");
         $stmt->execute(['id' => $productId]);

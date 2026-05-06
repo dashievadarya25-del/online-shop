@@ -2,8 +2,6 @@
 
 namespace Model;
 
-use PDO;
-
 class Order extends Model
 {
     private int $id;

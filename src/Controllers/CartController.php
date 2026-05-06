@@ -1,11 +1,11 @@
 <?php
+
 namespace Controllers;
 
 use DTO\CartCreateDTO;
 use Request\AddProductRequest;
 use Request\DecreaseRequest;
 use Service\CartService;
-
 
 class CartController extends BaseController
 {
@@ -17,7 +17,7 @@ class CartController extends BaseController
 
         $this->cartService = new CartService();
     }
-    public function getcart()
+    public function getCart()
     {
         if (!$this->authService->check()) {
             header("Location: /login");
@@ -28,7 +28,7 @@ class CartController extends BaseController
         require_once '../Views/cart.php';
     }
 
-    public function getaddProducts()
+    public function getAddProducts()
     {
         require_once '../Views/add_product_form.php';
     }
@@ -40,7 +40,7 @@ class CartController extends BaseController
             header('Location: /login');
             exit;
         }
-        $errors = $request->addproductValidate();
+        $errors = $request->addProductValidate();
 
         if (empty($errors)) {
             $dto = new CartCreateDTO($request->getProductId(), $request->getAmount());
@@ -51,7 +51,7 @@ class CartController extends BaseController
 
     }
 
-    public function getdecreaseProducts()
+    public function getDecreaseProducts()
     {
         require_once '../Views/decrease_product.php';
     }

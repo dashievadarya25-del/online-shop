@@ -13,30 +13,26 @@ use Service\Auth\AuthSessionService;
 
 class OrderService
 {
-    protected User $userModel;
     private UserProduct $userProduct;
     private OrderProduct $orderProduct;
     private Order $orderModel;
     private AuthInterface $authService;
     private CartService $cartService;
-    private Product $productModel;
     public function __construct()
     {
         $this->userProduct = new UserProduct();
         $this->orderProduct = new OrderProduct();
         $this->orderModel = new Order();
-        $this->userModel = new User();
         $this->authService = new AuthSessionService();
         $this->cartService = new CartService();
-        $this->productModel = new Product();
     }
 
     public function placeOrder(OrderCreateDTO $data)
     {
 
         $sum = $this->cartService->getSum();
-        if($sum < 1000) {
-            throw new \Exception('Для оформления заказа сумма корзины должн быть больше 1000');
+        if ($sum < 1000) {
+            throw new \Exception('Для оформления заказа сумма корзины должна быть больше 1000');
         }
 
         $user = $this->authService->getCurrentUser();

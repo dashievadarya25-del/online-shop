@@ -2,14 +2,12 @@
 
 namespace DTO;
 
-use Model\User;
-
 class OrderCreateDTO
 {
     public function __construct(
-        private string $contact_name,
+        private string $contactName,
         private string $address,
-        private string $contact_phone,
+        private string $contactPhone,
         private string $comment,
 
     ){
@@ -17,7 +15,7 @@ class OrderCreateDTO
 
     public function getContactName(): string
     {
-        return $this->contact_name;
+        return $this->contactName;
     }
 
     public function getAddress(): string
@@ -27,7 +25,7 @@ class OrderCreateDTO
 
     public function getContactPhone(): string
     {
-        return $this->contact_phone;
+        return $this->contactPhone;
     }
 
     public function getComment(): string

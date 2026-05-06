@@ -2,7 +2,6 @@
 
 namespace Request;
 
-
 class LoginRequest
 {
     public function __construct(private array $data)
@@ -10,11 +9,11 @@ class LoginRequest
 
     }
 
-    public function getEmail (): string
+    public function getEmail(): string
     {
         return $this->data['email'];
     }
-    public function getPassword (): string
+    public function getPassword(): string
     {
         return $this->data['password'];
     }

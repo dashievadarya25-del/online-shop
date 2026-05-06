@@ -2,8 +2,6 @@
 
 namespace Controllers;
 
-
-
 use Service\Auth\AuthInterface;
 use Service\Auth\AuthSessionService;
 

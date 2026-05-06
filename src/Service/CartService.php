@@ -19,11 +19,11 @@ class CartService
         $this->authService = new AuthSessionService();
     }
 
-    public function getUserProducts():array
+    public function getUserProducts(): array
     {
         $user = $this->authService->getCurrentUser();
 
-        if($user === null) {
+        if ($user === null) {
             return [];
         }
 
@@ -32,8 +32,7 @@ class CartService
             header('Location: /catalog');
         }
 
-        foreach ($userProducts as $userProduct)
-        {
+        foreach ($userProducts as $userProduct) {
             $totalSum = $userProduct->getAmount() * $userProduct->getProduct()->getPrice();
             $userProduct->setTotalSum($totalSum);
         }

@@ -34,11 +34,11 @@ class UserProduct extends Model
         $stmt->execute(['productId' => $productId, 'userId' => $userId]);
         $userProduct = $stmt->fetch();
 
-        if(!$userProduct) {
+        if (!$userProduct) {
             return null;
         }
 
-            $obj = new self;
+            $obj = new self();
             $obj->id = $userProduct['id'];
             $obj->user_id = $userProduct['user_id'];
             $obj->product_id = $userProduct['product_id'];
@@ -130,7 +130,7 @@ class UserProduct extends Model
             return null;
         }
 
-        $obj = new self;
+        $obj = new self();
         $obj->id = $userProduct['id'];
         $obj->user_id = $userProduct['user_id'];
         $obj->product_id = $userProduct['product_id'];
@@ -140,8 +140,7 @@ class UserProduct extends Model
 
     private static function createObjWithProducts(array $userProduct): self|null
     {
-        if(!$userProduct)
-        {
+        if (!$userProduct) {
             return null;
         }
 

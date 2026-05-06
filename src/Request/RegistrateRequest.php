@@ -8,7 +8,6 @@ class RegistrateRequest
 {
     private User $userModel;
 
-
     public function __construct(private array $data)
     {
         $this->userModel = new User();
