@@ -57,7 +57,7 @@ class RegistrateRequest
 
 
                 $user = $this->userModel->getByEmail($email);
-                if ($user === false) {
+                if ($user !== null) {
                     $errors['email'] = "этот email уже существует";
                 }
             }

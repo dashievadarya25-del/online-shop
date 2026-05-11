@@ -28,9 +28,6 @@ class CartService
         }
 
         $userProducts = UserProduct::getAllByUserIdWithProducts($user->getId());
-        if ($userProducts === null) {
-            header('Location: /catalog');
-        }
 
         foreach ($userProducts as $userProduct) {
             $totalSum = $userProduct->getAmount() * $userProduct->getProduct()->getPrice();
