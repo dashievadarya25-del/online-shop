@@ -3,15 +3,17 @@
 namespace Request;
 
 use Model\User;
+use Service\Auth\AuthSessionService;
 
 class EditProfileRequest
 {
     private User $userModel;
-
+    private AuthSessionService $authService;
 
     public function __construct(private array $data)
     {
         $this->userModel = new User();
+        $this->authService = new AuthSessionService();
 
     }
     public function getName(): string
@@ -50,12 +52,12 @@ class EditProfileRequest
             } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
                 $errors['email'] = 'email некорректный';
             } else {
+                $currentUser = $this->authService->getCurrentUser();
 
-                $user = $this->userModel->getByEmail($email);
+                $userWithRequestedEmail = $this->userModel->getByEmail($email);
 
-                $userId = $_SESSION['userId'];
-                if ($user->getId() !== $userId) {
-                    $errors['email'] = "этот email уже существует";
+                if ($userWithRequestedEmail && $userWithRequestedEmail->getId() !== $currentUser->getId()) {
+                    $errors['email'] = "Этот email уже занят другим пользователем";
                 }
             }
         }

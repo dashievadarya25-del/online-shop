@@ -19,7 +19,7 @@ $app->get('/login', UserController::class, 'getLogin');
 $app->post('/login', UserController::class, 'login', \Request\LoginRequest::class);
 $app->get('/catalog', ProductController::class, 'getCatalog');
 $app->get('/edit-profile', UserController::class, 'getEditProfile');
-$app->post('/edit-profile', UserController::class, 'editProfile', \Request\EditprofileRequest::class);
+$app->post('/edit-profile', UserController::class, 'editProfile', \Request\EditProfileRequest::class);
 $app->get('/profile', UserController::class, 'profile');
 $app->get('/add-product',CartController::class, 'getAddProducts');
 $app->post('/add-product', CartController::class, 'addProduct', \Request\AddProductRequest::class);

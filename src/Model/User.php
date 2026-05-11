@@ -48,6 +48,13 @@ class User extends Model
         $stmt->execute([':name' => $name]);
     }
 
+    public function updatePasswordById(string $password, int $userId)
+    {
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare("UPDATE $tableName SET password = :password WHERE id = $userId");
+        $stmt->execute([':password' => $password]);
+    }
+
 
     public function insertUsers(string $name, string $email, string $password)
     {

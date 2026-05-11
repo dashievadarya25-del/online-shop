@@ -32,3 +32,12 @@
 [2026-04-02 10:04:00] Ошибка: /n Request\AddProductRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 23
 [2026-04-02 10:04:19] Ошибка: /n Request\AddProductRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 23
 [2026-04-02 10:04:46] Ошибка: /n Request\DecreaseRequest::getAmount(): Return value must be of type int, null returned в файле /var/www/html/src/Request/DecreaseRequest.php на строке 24
+[2026-05-06 14:41:52] Ошибка: /n Class "Request\EditprofileRequest" not found в файле /var/www/html/src/Core/App.php на строке 33
+[2026-05-06 09:26:40] Ошибка: /n Class "Request\EditprofileRequest" not found в файле /var/www/html/src/Core/App.php на строке 33
+[2026-05-10 23:13:32] Ошибка: /n Class "Request\EditprofileRequest" not found в файле /var/www/html/src/Core/App.php на строке 33
+[2026-05-10 23:24:31] Ошибка: /n Class "Request\EditprofileRequest" not found в файле /var/www/html/src/Core/App.php на строке 33
+[2026-05-10 23:27:37] Ошибка: /n Class "Request\EditprofileRequest" not found в файле /var/www/html/src/Core/App.php на строке 34
+[2026-05-11 00:04:07] Ошибка: /n Call to a member function getName() on null в файле /var/www/html/src/Views/edit_profile_form.php на строке 17
+[2026-05-11 00:18:15] Ошибка: /n Call to a member function getId() on null в файле /var/www/html/src/Request/EditProfileRequest.php на строке 57
+[2026-05-11 01:09:34] Ошибка: /n Call to a member function getId() on null в файле /var/www/html/src/Request/EditProfileRequest.php на строке 60
+[2026-05-11 01:10:03] Ошибка: /n Call to a member function getId() on null в файле /var/www/html/src/Request/EditProfileRequest.php на строке 60

@@ -3,7 +3,7 @@
 namespace Controllers;
 
 use Model\User;
-use Request\EditprofileRequest;
+use Request\EditProfileRequest;
 use Request\LoginRequest;
 use Request\RegistrateRequest;
 
@@ -30,11 +30,11 @@ class UserController extends BaseController
 
             $password = password_hash($request->getPassword(), PASSWORD_DEFAULT);
 
-            $this->userModel->insertUsers($request->getName(), $request->getEmail(), $request->getPassword());
+            $this->userModel->insertUsers($request->getName(), $request->getEmail(), $password);
 
             $result = $this->userModel->getByEmail($request->getEmail());
-
-            print_r($result);
+            header('Location: /login');
+            exit();
         }
         require_once '../Views/registration_form.php';
     }
@@ -83,7 +83,7 @@ class UserController extends BaseController
     }
     public function logout()
     {
-        parent::logout();
+        $this->authService->logout();
         header("Location: /login");
         exit();
     }
@@ -95,7 +95,7 @@ class UserController extends BaseController
         require_once '../Views/edit_profile_form.php';
     }
 
-    public function editProfile(EditprofileRequest $request)
+    public function editProfile(EditProfileRequest $request)
     {
 
         if (!$this->authService->check()) {
@@ -115,10 +115,15 @@ class UserController extends BaseController
                $this->userModel->updateNameById($request->getName(), $user->getId());
             }
 
-            if ($user->getName() !== $request->getEmail()) {
+            if ($user->getEmail() !== $request->getEmail()) {
 
                 $this->userModel->updateEmailById($request->getEmail(), $user->getId());
             }
+
+            if ($user->getPassword() !== $password) {
+                $this->userModel->updatePasswordById($password, $user->getId());
+            }
+
             header("Location: /profile");
             exit;
         }

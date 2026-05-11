@@ -9,6 +9,7 @@ use Request\AddProductRequest;
 use Request\RegistrateRequest;
 use Service\LoggerService;
 
+
 class App
 {
     private array $routes = [];
