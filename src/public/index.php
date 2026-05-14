@@ -21,19 +21,26 @@ $app->get('/catalog', ProductController::class, 'getCatalog');
 $app->get('/edit-profile', UserController::class, 'getEditProfile');
 $app->post('/edit-profile', UserController::class, 'editProfile', \Request\EditProfileRequest::class);
 $app->get('/profile', UserController::class, 'profile');
-$app->get('/add-product',CartController::class, 'getAddProducts');
+$app->get('/add-product', CartController::class, 'getAddProducts');
 $app->post('/add-product', CartController::class, 'addProduct', \Request\AddProductRequest::class);
 $app->get('/decrease-product', CartController::class, 'getDecreaseProducts');
-$app->post('/decrease-product', CartController::class, 'decreaseProducts',\Request\DecreaseRequest::class);
+$app->post('/decrease-product', CartController::class, 'decreaseProducts', \Request\DecreaseRequest::class);
 $app->get('/cart', CartController::class, 'getCart');
 $app->get('/create-order', OrdersController::class, 'getCheckoutForm');
 $app->post('/create-order', OrdersController::class, 'handleCheckout', \Request\OrderRequest::class);
 $app->get('/user-orders', OrdersController::class, 'getAllOrders');
-$app->get('/feedback-product', FeedbackController::class,'getFeedbackProduct');
+$app->get('/feedback-product', FeedbackController::class, 'getFeedbackProduct');
 $app->post('/feedback-product', FeedbackController::class, 'handleFeedbackProduct', \Request\FeedbackRequest::class);
 
 
 $app->run();
+
+$envFile = __DIR__ . '/.env';
+if (file_exists($envFile)) {
+    foreach (parse_ini_file($envFile) as $key => $value) {
+        putenv("$key=$value");
+    }
+}
 
 
 

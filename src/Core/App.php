@@ -1,12 +1,6 @@
 <?php
 namespace Core;
-use Controllers\OrdersController;
-use Controllers\UserController;
-use Controllers\ProductController;
-use Controllers\CartController;
-use Controllers\FeedbackController;
-use Request\AddProductRequest;
-use Request\RegistrateRequest;
+
 use Service\LoggerService;
 
 
@@ -52,11 +46,12 @@ class App
         }
 
     }
-    public function addRoute(string $route, string $routeMethod, string $className, string $method)
+    public function addRoute(string $route, string $routeMethod, string $className, string $method): void
     {
         $this->routes[$route][$routeMethod]= [
                 'class' => $className,
                 'method' => $method,
+                'request' => null,
         ];
     }
 
@@ -78,18 +73,20 @@ class App
         ];
 
     }
-    public function put(string $route, string $className, string $method)
+    public function put(string $route, string $className, string $method): void
     {
         $this->routes[$route]['PUT']= [
             'class' => $className,
             'method' => $method,
+            'request' => null,
         ];
     }
-    public function delete(string $route, string $className, string $method)
+    public function delete(string $route, string $className, string $method): void
     {
         $this->routes[$route]['DELETE']= [
             'class' => $className,
             'method' => $method,
+            'request' => null,
         ];
     }
 }

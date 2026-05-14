@@ -58,7 +58,7 @@ class CartService
         $userProduct = $this->userProduct->getByProductIdUserId($data->getProductId(), $user->getId());
 
         if ($userProduct) {
-            $newAmount = $userProduct->getAmount() - 1;
+            $newAmount = $userProduct->getAmount() - $data->getAmount();
 
             if ($newAmount > 0) {
                 $this->userProduct->updateByUserproducts($data->getProductId(), $newAmount, $user->getId());

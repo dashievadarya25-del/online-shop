@@ -32,7 +32,6 @@
                 <button type="submit" class="registerbtn" formaction="/decrease-product">-</button>
             </div>
         </form>
-
             <form method="post" action="/feedback-product">
                 <div class="container">
                     <input type="hidden" name="product_id" value="<?php echo $product->getId()?>" required>

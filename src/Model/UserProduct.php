@@ -17,7 +17,8 @@ class UserProduct extends Model
     public static function getAllUserProductsByUserId (int $userId): array|null
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->query("SELECT * FROM $tableName WHERE user_id = {$userId}");
+        $stmt = static::getPDO()->prepare("SELECT * FROM $tableName WHERE user_id = :userId");
+        $stmt->execute([':userId' => $userId]);
         $userProducts = $stmt->fetchAll();
 
         $products = [];
@@ -30,7 +31,7 @@ class UserProduct extends Model
     public function getByProductIdUserId(int $productId, int $userId): self|null
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->prepare("SELECT * FROM $tableName WHERE product_id = :productId AND user_Id = :userId");
+        $stmt = static::getPDO()->prepare("SELECT * FROM $tableName WHERE product_id = :productId AND user_id = :userId");
         $stmt->execute(['productId' => $productId, 'userId' => $userId]);
         $userProduct = $stmt->fetch();
 
@@ -51,7 +52,7 @@ class UserProduct extends Model
 
     }
 
-    public function insertByUserproducts(int $userId, int $productId, int $amount)
+    public function insertByUserproducts(int $userId, int $productId, int $amount): void
     {
         $stmt = static::getPDO()->prepare(
             "INSERT INTO user_products (user_id, product_id, amount) VALUES (:userId, :productId, :amount)"
@@ -63,7 +64,7 @@ class UserProduct extends Model
         ]);
     }
 
-    public function updateByUserproducts(int $productId, int $amount, int $userId)
+    public function updateByUserproducts(int $productId, int $amount, int $userId): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
@@ -79,10 +80,11 @@ class UserProduct extends Model
     public static function getAllByUserIdWithProducts (int $userId): array|null
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->query(
+        $stmt = static::getPDO()->prepare(
             "SELECT * FROM $tableName up 
                    INNER JOIN products p ON up.product_id = p.id 
-                   WHERE user_id = $userId");
+                   WHERE user_id = :userId");
+        $stmt->execute([':userId' => $userId]);
         $userProducts = $stmt->fetchAll();
 
         $products = [];
@@ -107,14 +109,14 @@ class UserProduct extends Model
         }
         return $products;
     }
-    public function deleteByUserId($userId)
+    public function deleteByUserId(int $userId): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("DELETE FROM $tableName WHERE user_id = :userId");
         $stmt->execute([':userId' => $userId]);
     }
 
-    public function deleteByUserproducts($productId, $userId)
+    public function deleteByUserproducts(int $productId, int $userId): void
     {
         $tableName = static::getTableName();
         $stmt =  static::getPDO()->prepare("DELETE FROM $tableName WHERE product_id = :product_id AND user_id = :user_id");
@@ -184,7 +186,7 @@ class UserProduct extends Model
     {
         return $this->amount;
     }
-    public function setProduct(Product $product)
+    public function setProduct(Product $product): void
     {
         $this->product = $product;
     }

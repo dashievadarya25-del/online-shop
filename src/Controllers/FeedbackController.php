@@ -22,12 +22,13 @@ class FeedbackController extends BaseController
             header('Location: /login');
             exit;
         }
+        require_once '../Views/feedback_product_form.php';
     }
 
     public function handleFeedbackProduct(FeedbackRequest $request)
     {
         if (!$this->authService->check()) {
-            header("Location: /login.php");
+            header("Location: /login");
             exit;
         }
 

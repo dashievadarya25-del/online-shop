@@ -17,7 +17,7 @@ class Order extends Model
         return 'orders';
     }
 
-    public function create(string $contact_name, string $address, int $contact_phone, string $comment, int $userId)
+    public function create(string $contact_name, string $address, string $contact_phone, string $comment, int $userId): int
     {
         $stmt = static::getPDO()->prepare(
             "INSERT INTO orders (contact_name, address, contact_phone, comment, user_id)

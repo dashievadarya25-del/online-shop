@@ -25,14 +25,13 @@ class OrderRequest
 
     public function getComment(): string
     {
-        return $this->data['comment'];
+        return $this->data['comment'] ?? '';
     }
 
     public function regOrders(): array
     {
         $errors = [];
 
-        //объявление и валидация данных
         if (isset($this->data['contact_name'])) {
             $contact_name = $this->data['contact_name'];
             if (strlen($contact_name) < 2) {
@@ -48,17 +47,20 @@ class OrderRequest
             if (strlen($address) < 5) {
                 $errors['address'] = 'address не должен быть меньше 5 символов';
             }
+        } else {
+            $errors['address'] = "Адрес обязателен для заполнения";
         }
 
         if (isset($this->data['contact_phone'])) {
-            $contact_phone = $this->data ['contact_phone'];
+            $contact_phone = $this->data['contact_phone'];
 
             if (strlen($contact_phone) < 11) {
                 $errors['phone'] = 'должно содержать не меньше 11 символов';
             }
+        } else {
+            $errors['phone'] = 'Телефон обязателен для заполнения';
         }
         return $errors;
     }
-
 
 }

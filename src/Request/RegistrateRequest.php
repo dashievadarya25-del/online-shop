@@ -18,11 +18,11 @@ class RegistrateRequest
        return $this->data['name'];
     }
 
-    public function getEmail (): string
+    public function getEmail(): string
     {
         return $this->data['email'];
     }
-    public function getPassword (): string
+    public function getPassword(): string
     {
         return $this->data['password'];
     }
@@ -53,9 +53,6 @@ class RegistrateRequest
             } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
                 $errors['email'] = 'email некорректный';
             } else {
-                //require_once '../Model/User.php';
-
-
                 $user = $this->userModel->getByEmail($email);
                 if ($user !== null) {
                     $errors['email'] = "этот email уже существует";

@@ -21,9 +21,9 @@ class FeedbackRequest
     {
         return $this->data['review'];
     }
-    public function getEstimation(): string
+    public function getEstimation(): int
     {
-        return $this->data['estimation'];
+        return (int) $this->data['estimation'];
     }
 
 

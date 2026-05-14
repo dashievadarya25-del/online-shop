@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 class User extends Model
@@ -34,60 +35,41 @@ class User extends Model
         return $obj;
     }
 
-    public function updateEmailById(string $email, int $userId)
+    public function updateEmailById(string $email, int $userId): void
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->prepare("UPDATE $tableName SET email = :email WHERE id = $userId");
-        $stmt->execute([':email' => $email]);
+        $stmt = static::getPDO()->prepare("UPDATE $tableName SET email = :email WHERE id = :userId");
+        $stmt->execute([':email' => $email, ':userId' => $userId]);
     }
 
-    public function updateNameById(string $name, int $userId)
+    public function updateNameById(string $name, int $userId): void
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->prepare("UPDATE $tableName SET name = :name WHERE id = $userId");
-        $stmt->execute([':name' => $name]);
+        $stmt = static::getPDO()->prepare("UPDATE $tableName SET name = :name WHERE id = :userId");
+        $stmt->execute([':name' => $name, ':userId' => $userId]);
     }
 
-    public function updatePasswordById(string $password, int $userId)
+    public function updatePasswordById(string $password, int $userId): void
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->prepare("UPDATE $tableName SET password = :password WHERE id = $userId");
-        $stmt->execute([':password' => $password]);
+        $stmt = static::getPDO()->prepare("UPDATE $tableName SET password = :password WHERE id = :userId");
+        $stmt->execute([':password' => $password, ':userId' => $userId]);
     }
 
 
-    public function insertUsers(string $name, string $email, string $password)
+    public function insertUsers(string $name, string $email, string $password): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("INSERT INTO $tableName (name, email, password) VALUES (:name, :email, :password)");
         $stmt->execute(['name' => $name, 'email' => $email, 'password' => $password]);
     }
 
-    public function getUsernameByEmail(string $username): self|null
-    {
-        $tableName = static::getTableName();
-        $stmt = static::getPDO()->prepare("SELECT * FROM $tableName WHERE email = :email");
-        $stmt->execute(['email' => $username]);
-        $user = $stmt->fetch();
-
-        if ($user === false) {
-            return null;
-        }
-
-        $obj = new self();
-        $obj->id = $user['id'];
-        $obj->name = $user['name'];
-        $obj->email = $user['email'];
-        $obj->password = $user['password'];
-
-        return $obj;
-
-    }
 
     public function getById(int $userId): self|null
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->query("SELECT * FROM $tableName WHERE id = " . $userId);
+        $stmt = static::getPDO()->prepare("SELECT * FROM $tableName WHERE id = :userId");
+        $stmt->execute([':userId' => $userId]);
         $user = $stmt->fetch();
 
         if ($user === false) {

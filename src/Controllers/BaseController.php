@@ -8,9 +8,10 @@ use Service\Auth\AuthSessionService;
 abstract class BaseController
 {
     protected AuthInterface $authService;
+
     public function __construct()
     {
-       $this->authService = new AuthSessionService();
+        $this->authService = new AuthSessionService();
     }
 
 }

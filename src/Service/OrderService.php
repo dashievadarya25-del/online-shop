@@ -29,7 +29,6 @@ class OrderService
 
     public function placeOrder(OrderCreateDTO $data)
     {
-
         $sum = $this->cartService->getSum();
         if ($sum < 1000) {
             throw new \Exception('Для оформления заказа сумма корзины должна быть больше 1000');
@@ -46,7 +45,6 @@ class OrderService
             $data->getComment(),
             $user->getId()
         );
-
 
         foreach ($userProducts as $userProduct) {
             $this->orderProduct->create(

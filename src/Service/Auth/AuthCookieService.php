@@ -29,7 +29,7 @@ class AuthCookieService implements AuthInterface
 
     }
 
-    public function logout()
+    public function logout(): void
     {
         setcookie('userId', '', time() - 3600, '/');
         unset($_COOKIE['userId']);
@@ -43,7 +43,7 @@ class AuthCookieService implements AuthInterface
         } else {
             $passwordDb = $user->getPassword();
             if (password_verify($password, $passwordDb)) {
-                setcookie('userId', $user->getId());
+                setcookie('userId', $user->getId(), time()+86400*30, '/', true, true);
                 return true;
             } else {
                 return false;

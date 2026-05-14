@@ -1,4 +1,3 @@
-
 <div class="card text-center">
     <img class="card-img-top" src="<?php echo $product->getImageUrl()?>" alt="Card image" width="600" height="600">
     <div class="card-body">

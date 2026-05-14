@@ -31,7 +31,7 @@ class AuthSessionService implements AuthInterface
 
     }
 
-    public function logout()
+    public function logout(): void
     {
         $this->startSession();
         session_destroy();

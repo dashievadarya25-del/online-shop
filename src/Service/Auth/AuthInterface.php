@@ -11,7 +11,7 @@ interface AuthInterface
 
     public function getCurrentUser(): ?User;
 
-    public function logout();
+    public function logout(): void;
 
     public function auth(string $email, string $password): bool;
 

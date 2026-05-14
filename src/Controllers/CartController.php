@@ -72,7 +72,7 @@ class CartController extends BaseController
             header('Location: /catalog');
             exit;
         } else {
-            print_r($errors);
+            require_once '../Views/decrease_product.php';
         }
     }
 

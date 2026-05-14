@@ -8,7 +8,7 @@ class FeedbackProduct extends Model
     private string $name;
     private int $product_id;
     private string $review;
-    private int $created_at;
+    private string $created_at;
     private int $estimation;
     private float $averagegrade;
 
@@ -18,7 +18,7 @@ class FeedbackProduct extends Model
     }
 
 
-    public function saveFeedbackProductByAll(string $name, int $productId, string $review, int $estimation)
+    public function saveFeedbackProductByAll(string $name, int $productId, string $review, int $estimation): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("INSERT INTO $tableName (name, product_id, review, estimation, created_at) VALUES (:name, :product_id, :review, :estimation, NOW())");
@@ -36,10 +36,8 @@ class FeedbackProduct extends Model
         $stmt = static::getPDO()->prepare("SELECT AVG(estimation) as average FROM $tableName WHERE product_id = :id");
         $stmt->execute(['id' => $productId]);
 
-        // 2. Извлекаем строку в виде ассоциативного массива
         $row = $stmt->fetch();
 
-        // 3. Проверяем, есть ли результат, и округляем
         if ($row) {
             $result = round((float)$row['average'], 1);
         } else {
@@ -103,7 +101,7 @@ class FeedbackProduct extends Model
     /**
      * @return mixed
      */
-    public function getCreatedAt(): int
+    public function getCreatedAt(): string
     {
         return $this->created_at;
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 class Product extends Model
@@ -15,7 +16,7 @@ class Product extends Model
         return 'products';
     }
 
-    public static function getAll(): array|null
+    public static function getAll(): array
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->query("SELECT * FROM $tableName");
@@ -29,7 +30,7 @@ class Product extends Model
 
     }
 
-    public static function getByProductId(int $productId): self|null
+    public static function getOneById(int $productId): self|null
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("SELECT * FROM $tableName WHERE id = :productId");
@@ -39,16 +40,7 @@ class Product extends Model
         return static::createObj($product);
     }
 
-       public static function getOneById(int $productId): self|null
-    {
-        $tableName = static::getTableName();
-        $stmt = static::getPDO()->query("SELECT * FROM $tableName WHERE id = {$productId}");
-        $product = $stmt->fetch();
-
-        return static::createObj($product);
-    }
-
-    public static function createObj(array $product, ?int $id = null):self|null
+    public static function createObj(array $product, ?int $id = null): self|null
     {
         if (!$product) {
             return null;
@@ -56,7 +48,7 @@ class Product extends Model
 
         $obj = new self();
         if ($id !== null) {
-            $obj->id = $id;//передаем аргумент
+            $obj->id = $id;
         } else {
             $obj->id = $product['id'];
         }
@@ -74,9 +66,7 @@ class Product extends Model
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getName(): string
     {
         return $this->name;

@@ -41,3 +41,20 @@
 [2026-05-11 00:18:15] Ошибка: /n Call to a member function getId() on null в файле /var/www/html/src/Request/EditProfileRequest.php на строке 57
 [2026-05-11 01:09:34] Ошибка: /n Call to a member function getId() on null в файле /var/www/html/src/Request/EditProfileRequest.php на строке 60
 [2026-05-11 01:10:03] Ошибка: /n Call to a member function getId() on null в файле /var/www/html/src/Request/EditProfileRequest.php на строке 60
+[2026-05-11 10:37:35] Ошибка: /n Call to a member function getImageUrl() on null в файле /var/www/html/src/Views/feedback_product_form.php на строке 3
+[2026-05-11 10:48:57] Ошибка: /n Model\Product::createObj(): Argument #1 ($product) must be of type array, false given, called in /var/www/html/src/Model/Product.php on line 48 в файле /var/www/html/src/Model/Product.php на строке 51
+[2026-05-11 10:50:28] Ошибка: /n Model\Product::createObj(): Argument #1 ($product) must be of type array, false given, called in /var/www/html/src/Model/Product.php on line 48 в файле /var/www/html/src/Model/Product.php на строке 51
+[2026-05-11 11:00:37] Ошибка: /n Model\Product::createObj(): Argument #1 ($product) must be of type array, false given, called in /var/www/html/src/Model/Product.php on line 48 в файле /var/www/html/src/Model/Product.php на строке 51
+[2026-05-11 11:10:10] Ошибка: /n Call to a member function getName() on null в файле /var/www/html/src/Views/feedback_product_form.php на строке 184
+[2026-05-11 11:10:55] Ошибка: /n Call to a member function getImageUrl() on null в файле /var/www/html/src/Views/feedback_product_form.php на строке 3
+[2026-05-11 11:12:12] Ошибка: /n Call to a member function getImageUrl() on null в файле /var/www/html/src/Views/feedback_product_form.php на строке 2
+[2026-05-11 11:12:29] Ошибка: /n Call to undefined method Model\FeedbackProduct::db() в файле /var/www/html/src/Model/FeedbackProduct.php на строке 37
+[2026-05-14 01:55:50] Ошибка: /n Call to a member function getName() on null в файле /var/www/html/src/Views/edit_profile_form.php на строке 17
+[2026-05-14 01:57:07] Ошибка: /n Call to a member function getImageUrl() on null в файле /var/www/html/src/Views/feedback_product_form.php на строке 2
+[2026-05-14 02:08:37] Ошибка: /n Call to a member function getImageUrl() on null в файле /var/www/html/src/Views/feedback_product_form.php на строке 2
+[2026-05-14 02:09:04] Ошибка: /n Cannot access private property Model\Product::$id в файле /var/www/html/src/Views/catalog_form.php на строке 35
+[2026-05-14 11:24:35] Ошибка: /n Call to a member function getImageUrl() on null в файле /var/www/html/src/Views/feedback_product_form.php на строке 2
+[2026-05-14 14:29:11] Ошибка: 
+ Для оформления заказа сумма корзины должна быть больше 1000 в файле /var/www/html/src/Service/OrderService.php на строке 34
+[2026-05-14 14:30:33] Ошибка: 
+ Для оформления заказа сумма корзины должна быть больше 1000 в файле /var/www/html/src/Service/OrderService.php на строке 34

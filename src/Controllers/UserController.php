@@ -10,6 +10,7 @@ use Request\RegistrateRequest;
 class UserController extends BaseController
 {
     private User $userModel;
+
     public function __construct()
     {
         parent::__construct();
@@ -65,13 +66,6 @@ class UserController extends BaseController
         require_once '../Views/login_form.php';
     }
 
-
-
-    public function getProfile()
-    {
-        require_once '../Views/profile_page.php';
-    }
-
     public function profile()
     {
         if ($user = $this->authService->getCurrentUser()) {
@@ -120,7 +114,7 @@ class UserController extends BaseController
                 $this->userModel->updateEmailById($request->getEmail(), $user->getId());
             }
 
-            if ($user->getPassword() !== $password) {
+            if (!password_verify($request->getPassword(), $user->getPassword())) {
                 $this->userModel->updatePasswordById($password, $user->getId());
             }
 
