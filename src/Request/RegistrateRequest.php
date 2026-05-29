@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Request;
 
 use Model\User;
@@ -11,21 +13,23 @@ class RegistrateRequest
     public function __construct(private array $data)
     {
         $this->userModel = new User();
-
     }
+
     public function getName(): string
     {
-       return $this->data['name'];
+        return $this->data['name'];
     }
 
     public function getEmail(): string
     {
         return $this->data['email'];
     }
+
     public function getPassword(): string
     {
         return $this->data['password'];
     }
+
     public function getPasswordRepeat(): string
     {
         return $this->data['psw-repeat'];
@@ -35,7 +39,6 @@ class RegistrateRequest
     {
         $errors = [];
 
-        //объявление и валидация данных
         if (isset($this->data['name'])) {
             $name = $this->data['name'];
             if (strlen($name) < 3) {

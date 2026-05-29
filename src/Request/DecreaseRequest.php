@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Request;
 
 use Model\Product;
@@ -13,11 +15,12 @@ class DecreaseRequest
 
     public function getProductId(): int
     {
-        return $this->data['product_id'];
+        return (int) $this->data['product_id'];
     }
+
     public function getAmount(): int
     {
-        return $this->data['amount'];
+        return (int) $this->data['amount'];
     }
 
     public function removeProductValidate(): array
@@ -27,7 +30,7 @@ class DecreaseRequest
         if (isset($this->data['product_id'])) {
             $productId = $this->data['product_id'];
 
-            $data = Product::getOneById($productId);
+            $data = Product::getOneById((int) $productId);
 
             if (!$data) {
                 $errors['product_id'] = "Product id does not exist.";

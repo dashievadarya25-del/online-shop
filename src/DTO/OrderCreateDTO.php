@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DTO;
 
 class OrderCreateDTO
@@ -32,7 +34,4 @@ class OrderCreateDTO
     {
         return $this->comment;
     }
-
-
-
 }

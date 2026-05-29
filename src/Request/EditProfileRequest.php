@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Request;
 
 use Model\User;
@@ -16,27 +18,26 @@ class EditProfileRequest
         $this->authService = new AuthSessionService();
 
     }
+
     public function getName(): string
     {
         return $this->data['name'];
     }
+
     public function getPassword(): string
     {
         return $this->data['password'];
     }
-
 
     public function getEmail(): string
     {
         return $this->data['email'];
     }
 
-
     public function editProfileValidate(): array
     {
         $errors = [];
 
-        //объявление и валидация данных
         if (isset($this->data['name'])) {
             $name = $this->data['name'];
             if (strlen($name) < 3) {
@@ -63,7 +64,7 @@ class EditProfileRequest
         }
 
         if (isset($this->data['password'])) {
-            $password = $this->data ['password'];
+            $password = $this->data['password'];
 
             if (strlen($password) < 4) {
                 $errors['password'] = 'Пароль не должен быть меньше 4';

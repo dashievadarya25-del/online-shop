@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 class User extends Model
@@ -8,6 +10,7 @@ class User extends Model
     private string $name;
     private string $email;
     private string $password;
+
     protected static function getTableName(): string
     {
         return 'users';
@@ -56,14 +59,12 @@ class User extends Model
         $stmt->execute([':password' => $password, ':userId' => $userId]);
     }
 
-
     public function insertUsers(string $name, string $email, string $password): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("INSERT INTO $tableName (name, email, password) VALUES (:name, :email, :password)");
         $stmt->execute(['name' => $name, 'email' => $email, 'password' => $password]);
     }
-
 
     public function getById(int $userId): self|null
     {

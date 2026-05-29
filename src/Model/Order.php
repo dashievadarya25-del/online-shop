@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 class Order extends Model
 {
     private int $id;
-    private string $contact_name;
-    private string $contact_phone;
+    private string $contactName;
+    private string $contactPhone;
     private string $comment;
-    private int $user_id;
+    private int $userId;
     private string $address;
     private int $totalSum;
 
@@ -24,11 +26,11 @@ class Order extends Model
                    VALUES (:contact_name, :address, :contact_phone,  :comment, :user_id) RETURNING id"
         );
         $stmt->execute([
-            'contact_name' =>$contact_name,
-            'address' =>$address,
-            'contact_phone' =>$contact_phone,
+            'contact_name' => $contact_name,
+            'address' => $address,
+            'contact_phone' => $contact_phone,
             'comment' => $comment,
-            'user_id' =>$userId
+            'user_id' => $userId
         ]);
 
         $data = $stmt->fetch();
@@ -50,10 +52,10 @@ class Order extends Model
         foreach ($userOrders as $userOrder) {
             $obj = new self();
             $obj->id = $userOrder['id'];
-            $obj->contact_name = $userOrder['contact_name'];
-            $obj->contact_phone = $userOrder['contact_phone'];
+            $obj->contactName = $userOrder['contact_name'];
+            $obj->contactPhone = $userOrder['contact_phone'];
             $obj->comment = $userOrder['comment'];
-            $obj->user_id = $userOrder['user_id'];
+            $obj->userId = $userOrder['user_id'];
             $obj->address = $userOrder['address'];
 
             $newUserOrders[] = $obj;
@@ -74,7 +76,7 @@ class Order extends Model
      */
     public function getContactName(): string
     {
-        return $this->contact_name;
+        return $this->contactName;
     }
 
     /**
@@ -82,7 +84,7 @@ class Order extends Model
      */
     public function getContactPhone(): string
     {
-        return $this->contact_phone;
+        return $this->contactPhone;
     }
 
     /**
@@ -98,7 +100,7 @@ class Order extends Model
      */
     public function getUserId(): int
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     /**

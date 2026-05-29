@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Controllers;
 
 use Model\User;
@@ -22,7 +24,6 @@ class UserController extends BaseController
         require_once '../Views/registration_form.php';
     }
 
-
     public function registrate(RegistrateRequest $request)
     {
         $errors = $request->validate();
@@ -39,8 +40,6 @@ class UserController extends BaseController
         }
         require_once '../Views/registration_form.php';
     }
-
-
 
     public function getLogin()
     {
@@ -75,6 +74,7 @@ class UserController extends BaseController
             header("Location: /login");
         }
     }
+
     public function logout()
     {
         $this->authService->logout();
@@ -124,10 +124,4 @@ class UserController extends BaseController
 
         require_once '../Views/edit_profile_form.php';
     }
-
 }
-
-
-
-
-

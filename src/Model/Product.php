@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 class Product extends Model
@@ -8,7 +10,7 @@ class Product extends Model
     private string $name;
     private string $description;
     private int $price;
-    private string $image_url;
+    private string $imageUrl;
 
 
     protected static function getTableName(): string
@@ -54,8 +56,8 @@ class Product extends Model
         }
         $obj->name = $product['name'];
         $obj->description = $product['description'];
-        $obj->price = $product['price'];
-        $obj->image_url = $product['image_url'];
+        $obj->price = (int) $product['price'];
+        $obj->imageUrl = $product['image_url'];
 
         return $obj;
 
@@ -93,7 +95,7 @@ class Product extends Model
      */
     public function getImageUrl(): string
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 
 

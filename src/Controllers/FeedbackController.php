@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Controllers;
 
 use Model\FeedbackProduct;
@@ -32,7 +34,6 @@ class FeedbackController extends BaseController
             exit;
         }
 
-//      Получаем ID из POST (при сохранении) или из GET (при просмотре)
         $productId = $request->getProductId() ?? $_GET['id'] ?? null;
         $productId = (int)$productId;
 

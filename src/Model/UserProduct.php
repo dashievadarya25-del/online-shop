@@ -1,19 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 class UserProduct extends Model
 {
     private int $id;
-    private int $user_id;
-    private int $product_id;
+    private int $userId;
+    private int $productId;
     private int $amount;
     private Product $product;
     private int $totalSum;
+
     protected static function getTableName(): string
     {
         return "user_products";
     }
+
     public static function getAllUserProductsByUserId (int $userId): array|null
     {
         $tableName = static::getTableName();
@@ -28,6 +32,7 @@ class UserProduct extends Model
         return $products;
 
     }
+
     public function getByProductIdUserId(int $productId, int $userId): self|null
     {
         $tableName = static::getTableName();
@@ -41,18 +46,14 @@ class UserProduct extends Model
 
             $obj = new self();
             $obj->id = $userProduct['id'];
-            $obj->user_id = $userProduct['user_id'];
-            $obj->product_id = $userProduct['product_id'];
+            $obj->userId = $userProduct['user_id'];
+            $obj->productId = $userProduct['product_id'];
             $obj->amount = $userProduct['amount'];
 
-
         return $obj;
-
-
-
     }
 
-    public function insertByUserproducts(int $userId, int $productId, int $amount): void
+    public function insertByUserProducts(int $userId, int $productId, int $amount): void
     {
         $stmt = static::getPDO()->prepare(
             "INSERT INTO user_products (user_id, product_id, amount) VALUES (:userId, :productId, :amount)"
@@ -64,7 +65,7 @@ class UserProduct extends Model
         ]);
     }
 
-    public function updateByUserproducts(int $productId, int $amount, int $userId): void
+    public function updateByUserProducts(int $productId, int $amount, int $userId): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
@@ -95,7 +96,6 @@ class UserProduct extends Model
 
     }
 
-
     public static function getAllByUserId($userId): array|null
     {
         $tableName = static::getTableName();
@@ -109,6 +109,7 @@ class UserProduct extends Model
         }
         return $products;
     }
+
     public function deleteByUserId(int $userId): void
     {
         $tableName = static::getTableName();
@@ -116,16 +117,16 @@ class UserProduct extends Model
         $stmt->execute([':userId' => $userId]);
     }
 
-    public function deleteByUserproducts(int $productId, int $userId): void
+    public function deleteByUserProducts(int $productId, int $userId): void
     {
         $tableName = static::getTableName();
-        $stmt =  static::getPDO()->prepare("DELETE FROM $tableName WHERE product_id = :product_id AND user_id = :user_id");
+        $stmt = static::getPDO()->prepare("DELETE FROM $tableName WHERE product_id = :product_id AND user_id = :user_id");
         $stmt->execute([
             'product_id' => $productId,
             'user_id'    => $userId
         ]);
-
     }
+
     private static function createObj(array $userProduct): self|null
     {
         if (!$userProduct) {
@@ -134,8 +135,8 @@ class UserProduct extends Model
 
         $obj = new self();
         $obj->id = $userProduct['id'];
-        $obj->user_id = $userProduct['user_id'];
-        $obj->product_id = $userProduct['product_id'];
+        $obj->userId = $userProduct['user_id'];
+        $obj->productId = $userProduct['product_id'];
         $obj->amount = $userProduct['amount'];
         return $obj;
     }
@@ -146,12 +147,11 @@ class UserProduct extends Model
             return null;
         }
 
-         $obj = static::createObj($userProduct);
+        $obj = static::createObj($userProduct);
 
         $product = Product::createObj($userProduct, $userProduct['product_id']);
         $obj->setProduct($product);
         return $obj;
-
 
     }
 
@@ -168,7 +168,7 @@ class UserProduct extends Model
      */
     public function getProductId(): int
     {
-        return $this->product_id;
+        return $this->productId;
     }
 
     /**
@@ -176,7 +176,7 @@ class UserProduct extends Model
      */
     public function getUserId(): int
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     /**

@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 class FeedbackProduct extends Model
 {
     private int $id;
     private string $name;
-    private int $product_id;
+    private int $productId;
     private string $review;
-    private string $created_at;
+    private string $createdAt;
     private int $estimation;
-    private float $averagegrade;
+    private float $averageGrade;
 
     protected static function getTableName(): string
     {
         return 'feedback_products';
     }
-
 
     public function saveFeedbackProductByAll(string $name, int $productId, string $review, int $estimation): void
     {
@@ -79,7 +80,7 @@ class FeedbackProduct extends Model
      */
     public function getProductId(): int
     {
-        return $this->product_id;
+        return $this->productId;
     }
 
     /**
@@ -103,14 +104,14 @@ class FeedbackProduct extends Model
      */
     public function getCreatedAt(): string
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
      * @return mixed
      */
-    public function getAveragegrade(): float
+    public function getAverageGrate(): float
     {
-        return $this->averagegrade;
+        return $this->averageGrade;
     }
 }

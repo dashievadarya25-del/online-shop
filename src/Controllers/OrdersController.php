@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Controllers;
 
 use DTO\OrderCreateDTO;
@@ -16,14 +18,12 @@ class OrdersController extends BaseController
     private CartService $cartService;
     private OrderService $orderService;
 
-
     public function __construct()
     {
         parent::__construct();
         $this->cartService = new CartService();
         $this->orderService = new OrderService();
     }
-
 
     public function getCheckoutForm()
     {
@@ -40,7 +40,6 @@ class OrdersController extends BaseController
 
         require_once './../Views/order_form.php';
     }
-
 
     public function handleCheckout(OrderRequest $request)
     {
@@ -67,7 +66,6 @@ class OrdersController extends BaseController
 
         require_once './../Views/order_form.php';
     }
-
 
     public function getAllOrders()
     {
@@ -122,5 +120,3 @@ class OrdersController extends BaseController
         require_once './../Views/user_orders.php';
     }
 }
-
-

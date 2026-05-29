@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Request;
 
 class OrderRequest
@@ -18,6 +20,7 @@ class OrderRequest
     {
         return $this->data['address'];
     }
+
     public function getContactPhone(): string
     {
         return $this->data['contact_phone'];
@@ -33,8 +36,8 @@ class OrderRequest
         $errors = [];
 
         if (isset($this->data['contact_name'])) {
-            $contact_name = $this->data['contact_name'];
-            if (strlen($contact_name) < 2) {
+            $contactName = $this->data['contact_name'];
+            if (strlen($contactName) < 2) {
                 $errors['contact_name'] = "Name must be at least 2 characters";
             }
         } else {
@@ -52,9 +55,9 @@ class OrderRequest
         }
 
         if (isset($this->data['contact_phone'])) {
-            $contact_phone = $this->data['contact_phone'];
+            $contactPhone = $this->data['contact_phone'];
 
-            if (strlen($contact_phone) < 11) {
+            if (strlen($contactPhone) < 11) {
                 $errors['phone'] = 'должно содержать не меньше 11 символов';
             }
         } else {

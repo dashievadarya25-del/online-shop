@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core;
 
 class Autoloader
 {
     public static function register(string $dir)
     {
-        $autoload = function (string $classname) use ($dir)
-        {
+        $autoload = function (string $classname) use ($dir) {
             //  ./../Core/App.php
-            $path = str_replace('\\', '/', $classname); //Core/App
+            $path = str_replace('\\', '/', $classname);
             $path = "$dir/$path.php";
             if (file_exists($path)) {
                 require_once $path;

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service;
 
 class LoggerService
 {
-    public function error(\Throwable $exception): void {
+    public function error(\Throwable $exception): void
+    {
         $message = sprintf(
             "[%s] Ошибка: \n %s в файле %s на строке %d" . PHP_EOL,
             date('Y-m-d H:i:s'),

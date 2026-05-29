@@ -1,12 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Core;
 
 use Service\LoggerService;
 
-
 class App
 {
     private array $routes = [];
+
     public function run()
     {
         $requestUri = $_SERVER['REQUEST_URI'];
@@ -25,18 +28,17 @@ class App
                 $requestClass = $handler['request'];
                 try {
                     if ($requestClass !== null) {
-                    $request = new $requestClass($_POST);
-                    $controller->$method($request);
+                        $request = new $requestClass($_POST);
+                        $controller->$method($request);
                     } else {
-                    $controller->$method();
+                        $controller->$method();
                     }
 
                 } catch (\Throwable $exception) {
                     $logger = new LoggerService();
                     $logger->error($exception);
-                   require_once '../Views/500.php';
+                    require_once '../Views/500.php';
                 }
-
             } else {
                 echo "$requestMethod не поддерживается для $requestUri";
             }
@@ -44,11 +46,11 @@ class App
             http_response_code(404);
             require_once '../Views/404.php';
         }
-
     }
+
     public function addRoute(string $route, string $routeMethod, string $className, string $method): void
     {
-        $this->routes[$route][$routeMethod]= [
+        $this->routes[$route][$routeMethod] = [
                 'class' => $className,
                 'method' => $method,
                 'request' => null,
@@ -57,33 +59,35 @@ class App
 
     public function get(string $route, string $className, string $method, ?string $requestClass = null)
     {
-        $this->routes[$route]['GET']= [
+        $this->routes[$route]['GET'] = [
             'class' => $className,
             'method' => $method,
             'request' => $requestClass
         ];
-
     }
+
     public function post(string $route, string $className, string $method, ?string $requestClass = null)
     {
-        $this->routes[$route]['POST']= [
+        $this->routes[$route]['POST'] = [
             'class' => $className,
             'method' => $method,
             'request' => $requestClass
         ];
 
     }
+
     public function put(string $route, string $className, string $method): void
     {
-        $this->routes[$route]['PUT']= [
+        $this->routes[$route]['PUT'] = [
             'class' => $className,
             'method' => $method,
             'request' => null,
         ];
     }
+
     public function delete(string $route, string $className, string $method): void
     {
-        $this->routes[$route]['DELETE']= [
+        $this->routes[$route]['DELETE'] = [
             'class' => $className,
             'method' => $method,
             'request' => null,

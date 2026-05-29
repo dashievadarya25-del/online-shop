@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Controllers;
 
 use DTO\CartCreateDTO;
@@ -17,6 +19,7 @@ class CartController extends BaseController
 
         $this->cartService = new CartService();
     }
+
     public function getCart()
     {
         if (!$this->authService->check()) {

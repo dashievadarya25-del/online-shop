@@ -58,3 +58,23 @@
  Для оформления заказа сумма корзины должна быть больше 1000 в файле /var/www/html/src/Service/OrderService.php на строке 34
 [2026-05-14 14:30:33] Ошибка: 
  Для оформления заказа сумма корзины должна быть больше 1000 в файле /var/www/html/src/Service/OrderService.php на строке 34
+[2026-05-29 03:34:33] Ошибка: 
+ Для оформления заказа сумма корзины должна быть больше 1000 в файле /var/www/html/src/Service/OrderService.php на строке 34
+[2026-05-29 04:13:41] Ошибка: 
+ Cannot assign string to property Model\Product::$price of type int в файле /var/www/html/src/Model/Product.php на строке 59
+[2026-05-29 04:26:44] Ошибка: 
+ Для оформления заказа сумма корзины должна быть больше 1000 в файле /var/www/html/src/Service/OrderService.php на строке 34
+[2026-05-29 04:34:25] Ошибка: 
+ Model\Product::getOneById(): Argument #1 ($productId) must be of type int, string given, called in /var/www/html/src/Request/AddProductRequest.php on line 33 в файле /var/www/html/src/Model/Product.php на строке 35
+[2026-05-29 04:35:43] Ошибка: 
+ Request\AddProductRequest::getProductId(): Return value must be of type int, string returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 18
+[2026-05-29 04:37:32] Ошибка: 
+ Model\Product::getOneById(): Argument #1 ($productId) must be of type int, string given, called in /var/www/html/src/Request/AddProductRequest.php on line 33 в файле /var/www/html/src/Model/Product.php на строке 35
+[2026-05-29 04:39:04] Ошибка: 
+ Request\AddProductRequest::getAmount(): Return value must be of type int, string returned в файле /var/www/html/src/Request/AddProductRequest.php на строке 23
+[2026-05-29 04:41:52] Ошибка: 
+ Model\Product::getOneById(): Argument #1 ($productId) must be of type int, string given, called in /var/www/html/src/Request/DecreaseRequest.php on line 33 в файле /var/www/html/src/Model/Product.php на строке 35
+[2026-05-29 04:53:45] Ошибка: 
+ Request\FeedbackRequest::getProductId(): Return value must be of type int, string returned в файле /var/www/html/src/Request/FeedbackRequest.php на строке 20
+[2026-05-29 05:22:28] Ошибка: 
+ Для оформления заказа сумма корзины должна быть больше 1000 в файле /var/www/html/src/Service/OrderService.php на строке 34

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service\Auth;
 
 use Model\User;
@@ -7,6 +9,7 @@ use Model\User;
 class AuthSessionService implements AuthInterface
 {
     protected User $userModel;
+
     public function __construct()
     {
         $this->userModel = new User();
@@ -37,7 +40,7 @@ class AuthSessionService implements AuthInterface
         session_destroy();
     }
 
-    private function startSession()
+    private function startSession(): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();

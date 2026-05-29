@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service;
 
 use DTO\OrderCreateDTO;
@@ -18,6 +20,7 @@ class OrderService
     private Order $orderModel;
     private AuthInterface $authService;
     private CartService $cartService;
+
     public function __construct()
     {
         $this->userProduct = new UserProduct();
@@ -27,7 +30,7 @@ class OrderService
         $this->cartService = new CartService();
     }
 
-    public function placeOrder(OrderCreateDTO $data)
+    public function placeOrder(OrderCreateDTO $data): int
     {
         $sum = $this->cartService->getSum();
         if ($sum < 1000) {

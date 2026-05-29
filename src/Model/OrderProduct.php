@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 class OrderProduct extends Model
 {
     private int $id;
-    private int $order_id;
-    private int $product_id;
+    private int $orderId;
+    private int $productId;
     private int $amount;
     private Product $product;
 
@@ -42,6 +44,7 @@ class OrderProduct extends Model
         }
         return $newOrderProducts;
     }
+
     public static function getAllByOrderIdWithProducts(int $orderId): array|null
     {
         $tableName = static::getTableName();
@@ -70,11 +73,12 @@ class OrderProduct extends Model
         }
         $obj = new self();
         $obj->id = $orderProduct['id'];
-        $obj->order_id = $orderProduct['order_id'];
-        $obj->product_id = $orderProduct['product_id'];
+        $obj->orderId = $orderProduct['order_id'];
+        $obj->productId = $orderProduct['product_id'];
         $obj->amount = $orderProduct['amount'];
         return $obj;
     }
+
     private static function createObjWithProducts(array $orderProduct): self|null
     {
         if (!$orderProduct) {
@@ -100,7 +104,7 @@ class OrderProduct extends Model
      */
     public function getOrderId(): int
     {
-        return $this->order_id;
+        return $this->orderId;
     }
 
     /**
@@ -108,7 +112,7 @@ class OrderProduct extends Model
      */
     public function getProductId(): int
     {
-        return $this->product_id;
+        return $this->productId;
     }
 
     /**
@@ -123,9 +127,9 @@ class OrderProduct extends Model
     {
         $this->product = $product;
     }
+
     public function getProduct(): Product
     {
         return $this->product;
     }
-
 }

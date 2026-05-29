@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service;
 
 use DTO\CartCreateDTO;
@@ -42,11 +44,11 @@ class CartService
         $userProduct = $this->userProduct->getByProductIdUserId($data->getProductId(), $user->getId());
 
         if (!$userProduct) {
-            $this->userProduct->insertByUserproducts($user->getId(), $data->getProductId(), $data->getAmount());
+            $this->userProduct->insertByUserProducts($user->getId(), $data->getProductId(), $data->getAmount());
         } else {
             $newAmount = $userProduct->getAmount() + $data->getAmount();
 
-            $this->userProduct->updateByUserproducts($data->getProductId(), $newAmount, $user->getId());
+            $this->userProduct->updateByUserProducts($data->getProductId(), $newAmount, $user->getId());
 
         }
     }
@@ -61,9 +63,9 @@ class CartService
             $newAmount = $userProduct->getAmount() - $data->getAmount();
 
             if ($newAmount > 0) {
-                $this->userProduct->updateByUserproducts($data->getProductId(), $newAmount, $user->getId());
+                $this->userProduct->updateByUserProducts($data->getProductId(), $newAmount, $user->getId());
             } else {
-                $this->userProduct->deleteByUserproducts($data->getProductId(), $user->getId());
+                $this->userProduct->deleteByUserProducts($data->getProductId(), $user->getId());
             }
         }
 
