@@ -1,37 +1,34 @@
 <div class="container">
     <a href="/profile">My profile</a>
-    <a href="/cart">Перейти в корзину</a>
+    <a href="/cart">Корзина: <span id="js-cart-total"><?php echo $cartTotal; ?></span> руб.</a>
     <h2>Каталог</h2>
     <div class="card-deck">
         <?php foreach ($products as $product) : ?>
             <div class="card text-center">
-                <a href="#">
-                    <img class="card-img-top" src="<?php echo $product->getImageUrl()?>" alt="Card image" height="480" width="480">
-                    <div class="card-body">
-                        <p class="card-text text-muted"><?php echo $product->getName()?></p>
-                        <a href="#"><h5 class="card-title"><?php echo $product->getDescription()?></h5></a>
-                        <div class="card-footer">
-                            <?php echo $product->getPrice()?>
-                        </div>
+                <img class="card-img-top" src="<?php echo $product->getImageUrl()?>" alt="Card image" height="480" width="480">
+                <div class="card-body">
+                    <p class="card-text text-muted"><?php echo $product->getName()?></p>
+                    <h5 class="card-title"><?php echo $product->getDescription()?></h5>
+                    <div class="card-footer">
+                        <?php echo $product->getPrice()?>
                     </div>
-                </a>
+                </div>
             </div>
-        <form method="post" action="/add-product" class="js-cart-form">
-            <div class="container">
-                <input type="hidden" name="product_id" value="<?php echo $product->getId()?>" required>
+            <form method="post" action="/add-product" class="js-cart-form">
+                <div class="container">
+                    <input type="hidden" name="product_id" value="<?php echo $product->getId()?>" required>
 
-                <label for="amount"><b>Корзина</b></label>
-                <?php if (isset($errors['amount'])): ?>
-                    <span style="color: red"><?php echo $errors['amount']; ?></span>
-                <?php endif; ?>
+                    <label for="amount-<?php echo $product->getId()?>"><b>Корзина</b></label>
+                    <?php if (isset($errors['amount'])): ?>
+                        <span style="color: red"><?php echo $errors['amount']; ?></span>
+                    <?php endif; ?>
 
-                <input type="text" name="amount" id="amount" value="1" required>
+                    <input type="number" name="amount" id="amount-<?php echo $product->getId()?>" value="1" min="1" required>
 
-                <button type="submit" class="registerbtn">+</button>
-
-                <button type="submit" class="registerbtn" formaction="/decrease-product">-</button>
-            </div>
-        </form>
+                    <button type="submit" class="registerbtn">+</button>
+                    <button type="submit" class="registerbtn" formaction="/decrease-product">-</button>
+                </div>
+            </form>
             <form method="post" action="/feedback-product">
                 <div class="container">
                     <input type="hidden" name="product_id" value="<?php echo $product->getId()?>" required>
@@ -42,35 +39,39 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // Вешаем событие на форму
-        $('.js-cart-form').on('submit', function(e) {
+    $(document).ready(function () {
+        $('.js-cart-form').on('submit', function (e) {
             e.preventDefault();
 
             var $form = $(this);
-
-            var targetUrl = $(e.originalEvent.submitter).attr('formaction') || $form.attr('action');
+            var $submitter = $(e.originalEvent.submitter);
+            var targetUrl = $submitter.attr('formaction') || $form.attr('action');
 
             $.ajax({
-                type: "POST",
+                type: 'POST',
                 url: targetUrl,
                 data: $form.serialize(),
-                dataType: 'json',
                 success: function (response) {
-                    console.log('Успешно выполнено для:', targetUrl);
-                    // Здесь обновляйте количество в корзине, если сервер прислал его
-                    // $('.badge').text(response.count);
+                    if (response.success) {
+                        $('#js-cart-total').text(response.cartTotal);
+
+                        var $btn = $submitter;
+                        var origText = $btn.text();
+                        $btn.text('✓').prop('disabled', true);
+                        setTimeout(function () {
+                            $btn.text(origText).prop('disabled', false);
+                        }, 800);
+                    }
                 },
-                error: function(xhr, status, error) {
-                    console.error('Ошибка при запросе:', error);
+                error: function() {
+                    console.error('Ошибка при обновлении корзины');
                 }
             });
         });
     });
-
 </script>
-
 
 <style>
     body {
@@ -108,7 +109,7 @@
         font-size: 11px;
     }
 
-    .card-footer{
+    .card-footer {
         font-weight: bold;
         font-size: 18px;
         background-color: white;

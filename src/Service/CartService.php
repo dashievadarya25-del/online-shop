@@ -80,4 +80,14 @@ class CartService
         return $total;
     }
 
+    public function getProductAmount(int $productId): int
+    {
+        $user = $this->authService->getCurrentUser();
+        if ($user === null) {
+            return 0;
+        }
+        $userProduct = $this->userProduct->getByProductIdUserId($productId, $user->getId());
+        return $userProduct ? $userProduct->getAmount() : 0;
+    }
+
 }

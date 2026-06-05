@@ -27,6 +27,7 @@ class CartController extends BaseController
             exit;
         }
         $userProducts = $this->cartService->getUserProducts();
+        $cartTotal = $this->cartService->getSum();
 
         require_once '../Views/cart.php';
     }
@@ -38,11 +39,14 @@ class CartController extends BaseController
 
     public function addProduct(AddProductRequest $request)
     {
-
         if (!($this->authService->check())) {
+            if ($this->isAjax()) {
+                $this->jsonResponse(['success' => false, 'message' => 'Not authenticated'], 401);
+            }
             header('Location: /login');
             exit;
         }
+
         $errors = $request->addProductValidate();
 
         if (empty($errors)) {
@@ -50,8 +54,16 @@ class CartController extends BaseController
             $this->cartService->addProduct($dto);
         }
 
-        header('Location: /catalog');
+        if ($this->isAjax()) {
+            $this->jsonResponse([
+                'success' => empty($errors),
+                'errors' => $errors,
+                'newAmount' => $this->cartService->getProductAmount($request->getProductId()),
+                'cartTotal' => $this->cartService->getSum(),
+            ]);
+        }
 
+        header('Location: /catalog');
     }
 
     public function getDecreaseProducts()
@@ -62,6 +74,9 @@ class CartController extends BaseController
     public function decreaseProducts(DecreaseRequest $request)
     {
         if (!$this->authService->check()) {
+            if ($this->isAjax()) {
+                $this->jsonResponse(['success' => false, 'message' => 'Not authenticated'], 401);
+            }
             header('Location: /login');
             exit;
         }
@@ -69,12 +84,22 @@ class CartController extends BaseController
         $errors = $request->removeProductValidate();
         if (empty($errors)) {
             $dto = new CartCreateDTO($request->getProductId(), $request->getAmount());
-
             $this->cartService->decreaseProducts($dto);
+
+            if ($this->isAjax()) {
+                $this->jsonResponse([
+                    'success' => true,
+                    'newAmount' => $this->cartService->getProductAmount($request->getProductId()),
+                    'cartTotal' => $this->cartService->getSum(),
+                ]);
+            }
 
             header('Location: /catalog');
             exit;
         } else {
+            if ($this->isAjax()) {
+                $this->jsonResponse(['success' => false, 'errors' => $errors], 422);
+            }
             require_once '../Views/decrease_product.php';
         }
     }

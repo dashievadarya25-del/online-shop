@@ -2,55 +2,138 @@
     <a href="edit-profile">My profile</a>
     <a href="/user-orders">Мои заказы</a>
     <h3>Моя корзина</h3>
-    <div class="card-deck">
-        <?php if (empty($userProducts)): ?>
-            <!-- Сообщение, если корзина пуста -->
-            <div class="empty-cart-message">
-                <p style="color: #ee962b">Корзина пуста.</p>
-                <a href="/catalog" class="btn">Перейти к покупкам</a>
-            </div>
-        <?php else: ?>
-        <!-- Список товаров, если они есть -->
-        <?php foreach ($userProducts as &$userProduct) : ?>
-        <div class="card text-center">
-            <a href="#">
-                <img class="card-img-top" src="<?php echo $userProduct->getProduct()->getImageUrl();?>" alt="Card image" height="480" width="480">
-                <div class="card-body">
-                    <p class="card-text text-muted"><?php echo $userProduct->getProduct()->getName();?></p>
-                    <a href="#"><h5 class="card-title"><?php echo $userProduct->getProduct()->getDescription();?></h5></a>
-                    <div class="card-footer">
-                       Стоимость <?php echo $userProduct->getProduct()->getPrice();?> рублей
-                    </div>
-                    <div>
-                        Общее количество: <?php echo $userProduct->getAmount();?>
-                    </div>
-                </div>
-            </a>
+
+    <?php if (empty($userProducts)): ?>
+        <div class="empty-cart-message" id="js-empty-cart">
+            <p style="color: #ee962b">Корзина пуста.</p>
+            <a href="/catalog" class="btn">Перейти к покупкам</a>
         </div>
-        <form method="post" action="/add-product"> <!-- По умолчанию идет на добавление -->
-            <div class="container">
-                <!-- ID продукта (один на обе кнопки) -->
-                <input type="hidden" name="product_id" value="<?php echo $userProduct->getProduct()->getId()?>" required>
+    <?php else: ?>
 
-                <label for="amount"><b>количество</b></label>
-                <?php if (isset($errors['amount'])): ?>
-                    <span style="color: red"><?php echo $errors['amount']; ?></span>
-                <?php endif; ?>
+    <div class="cart-total">
+        Итого: <strong><span id="js-cart-total"><?php echo $cartTotal; ?></span> руб.</strong>
+    </div>
 
-                <!-- Поле ввода количества -->
-                <input type="text" name="amount" id="amount" value="1" required>
-
-                <!-- Кнопка ПЛЮС (использует action формы по умолчанию) -->
-                <button type="submit" class="registerbtn">+</button>
-
-                <!-- Кнопка МИНУС (переопределяет action на другой путь) -->
-                <button type="submit" class="registerbtn" formaction="/decrease-product">-</button>
+    <div class="card-deck" id="js-cart-products">
+        <?php foreach ($userProducts as &$userProduct) : ?>
+        <div class="card text-center" id="js-product-card-<?php echo $userProduct->getProduct()->getId(); ?>">
+            <img class="card-img-top"
+                 src="<?php echo $userProduct->getProduct()->getImageUrl(); ?>"
+                 alt="Card image" height="480" width="480">
+            <div class="card-body">
+                <p class="card-text text-muted"><?php echo $userProduct->getProduct()->getName(); ?></p>
+                <h5 class="card-title"><?php echo $userProduct->getProduct()->getDescription(); ?></h5>
+                <div class="card-footer">
+                    Стоимость <?php echo $userProduct->getProduct()->getPrice(); ?> рублей
+                </div>
+                <div class="product-qty">
+                    Количество: <span class="js-amount"><?php echo $userProduct->getAmount(); ?></span>
+                </div>
+                <div class="product-sum">
+                    Сумма: <span class="js-product-total"><?php echo $userProduct->getTotalSum(); ?></span> руб.
+                </div>
+                <div class="cart-controls">
+                    <input type="number"
+                           class="js-qty-input"
+                           value="1"
+                           min="1"
+                           style="width:50px; text-align:center;">
+                    <button class="registerbtn js-btn-plus"
+                            data-product-id="<?php echo $userProduct->getProduct()->getId(); ?>"
+                            data-price="<?php echo $userProduct->getProduct()->getPrice(); ?>">+</button>
+                    <button class="registerbtn js-btn-minus"
+                            data-product-id="<?php echo $userProduct->getProduct()->getId(); ?>"
+                            data-price="<?php echo $userProduct->getProduct()->getPrice(); ?>">-</button>
+                </div>
             </div>
-    <?php endforeach; ?>
+        </div>
+      <?php endforeach; ?>
+    </div>
 
-<?php endif; ?>
-<a href="/create-order">Оформить заказ</a>
+    <a href="/create-order" id="js-order-link">Оформить заказ</a>
+
+   <?php endif; ?>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        function updateProductCard(productId, price, newAmount, cartTotal) {
+            var $card = $('#js-product-card-' + productId);
+
+            if (newAmount <= 0) {
+                $card.remove();
+
+                if ($('#js-cart-products .card').length === 0) {
+                    $('#js-cart-products').html(
+                        '<div class="empty-cart-message">' +
+                        '<p style="color: #ee962b">Корзина пуста.</p>' +
+                        '<a href="/catalog" class="btn">Перейти к покупкам</a>' +
+                        '</div>'
+                    );
+                    $('.cart-total').hide();
+                    $('#js-order-link').hide();
+                }
+            } else {
+                $card.find('.js-amount').text(newAmount);
+                $card.find('.js-product-total').text(newAmount * price);
+            }
+
+            $('#js-cart-total').text(cartTotal);
+        }
+
+        $(document).on('click', '.js-btn-plus', function () {
+            var $btn = $(this);
+            var productId = $btn.data('product-id');
+            var price = parseInt($btn.data('price'));
+            var amount = parseInt($btn.closest('.cart-controls').find('.js-qty-input').val()) || 1;
+
+            $btn.prop('disabled', true);
+            $.ajax({
+                type: 'POST',
+                url: '/add-product',
+                data: {product_id: productId, amount: amount},
+                success: function (response) {
+                    if (response.success) {
+                        updateProductCard(productId, price, response.newAmount, response.cartTotal);
+                    }
+                },
+                error: function () {
+                    alert('Ошибка при обновлении корзины');
+                },
+                complete: function () {
+                    $btn.prop('disabled', false);
+                }
+            });
+        });
+
+        $(document).on('click', '.js-btn-minus', function () {
+            var $btn = $(this);
+            var productId = $btn.data('product-id');
+            var price = parseInt($btn.data('price'));
+            var amount = parseInt($btn.closest('.cart-controls').find('.js-qty-input').val()) || 1;
+
+            $btn.prop('disabled', true);
+            $.ajax({
+                type: 'POST',
+                url: '/decrease-product',
+                data: {product_id: productId, amount: amount},
+                success: function (response) {
+                    if (response.success) {
+                        updateProductCard(productId, price, response.newAmount, response.cartTotal);
+                    }
+                },
+                error: function () {
+                    alert('Ошибка при обновлении корзины');
+                },
+                complete: function () {
+                    $btn.prop('disabled', false);
+                }
+            });
+        });
+    });
+</script>
 
 <style>
     body {
@@ -78,9 +161,9 @@
         transition: 0.2s;
     }
 
-    .card-header {
-        font-size: 13px;
-        color: gray;
+    .card-footer {
+        font-weight: bold;
+        font-size: 18px;
         background-color: white;
     }
 
@@ -88,9 +171,21 @@
         font-size: 11px;
     }
 
-    .card-footer{
-        font-weight: bold;
-        font-size: 18px;
-        background-color: white;
+    .cart-total {
+        margin: 16px 0;
+        font-size: 20px;
+    }
+
+    .product-qty,
+    .product-sum {
+        margin: 6px 0;
+    }
+
+    .cart-controls {
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
     }
 </style>
